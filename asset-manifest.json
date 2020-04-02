@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/learnenglish/static/css/main.849c0931.chunk.css",
+    "main.js": "/learnenglish/static/js/main.7bf0c077.chunk.js",
+    "main.js.map": "/learnenglish/static/js/main.7bf0c077.chunk.js.map",
+    "runtime-main.js": "/learnenglish/static/js/runtime-main.c94cc0ee.js",
+    "runtime-main.js.map": "/learnenglish/static/js/runtime-main.c94cc0ee.js.map",
+    "static/js/2.442cd687.chunk.js": "/learnenglish/static/js/2.442cd687.chunk.js",
+    "static/js/2.442cd687.chunk.js.map": "/learnenglish/static/js/2.442cd687.chunk.js.map",
+    "index.html": "/learnenglish/index.html",
+    "precache-manifest.a3d6c5f9d6052baed1db8acefd52997e.js": "/learnenglish/precache-manifest.a3d6c5f9d6052baed1db8acefd52997e.js",
+    "service-worker.js": "/learnenglish/service-worker.js",
+    "static/css/main.849c0931.chunk.css.map": "/learnenglish/static/css/main.849c0931.chunk.css.map",
+    "static/js/2.442cd687.chunk.js.LICENSE.txt": "/learnenglish/static/js/2.442cd687.chunk.js.LICENSE.txt",
+    "static/media/logo.svg": "/learnenglish/static/media/logo.8dad8028.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c94cc0ee.js",
+    "static/js/2.442cd687.chunk.js",
+    "static/css/main.849c0931.chunk.css",
+    "static/js/main.7bf0c077.chunk.js"
+  ]
+}
