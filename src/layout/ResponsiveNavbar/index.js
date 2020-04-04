@@ -88,7 +88,7 @@ function ResponsiveNavbar({navLinks,background,hoverBackground,linkColor}) {
   const [ hoverIndex, setHoverIndex ] = useState(-1);
   const [ navOpen, setNavOpen ] = useState(false);
   const [ width, setWidth ] = useState(window.innerWidth);
-  const [ menuVisible, setMenuVisible ] = useState(false);
+  const [ menuVisible, setMenuVisible ] = useState(window.innerWidth < 759 ? true : false);
   const updateWidth = () => {
     setWidth(window.innerWidth);
     width < 759 ? setMenuVisible(true) : setMenuVisible(false);
