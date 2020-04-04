@@ -21,7 +21,12 @@ function App() {
 ]
   return (
     <React.Fragment>
-      <ResponsiveNavbar navLinks = {navLinks}></ResponsiveNavbar>
+      <ResponsiveNavbar 
+      navLinks = {navLinks}
+      background = '#333333'
+      hoverBackground = '#888'
+      linkColor = 'palevioletred'
+      ></ResponsiveNavbar>
       <div className = "App">
       <Education/>
       </div>

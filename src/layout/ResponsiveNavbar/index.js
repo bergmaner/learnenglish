@@ -1,30 +1,33 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import Icon from '@material-ui/core/Icon';
 import styled from 'styled-components';
 
 const ResponsiveToolbar = styled.nav`
-background:#333333;
-height:60px;
-width:100%;
-position:fixed;
-
+height: 60px;
+width: 100%;
+position: fixed;
+box-shadow: 2px 2px 2px #ccc;
 `;
 const NavList =  styled.ul`
-background:#333333;
+box-shadow: 2px 2px 2px #ccc;
 display: flex;
 margin-block-start:0;
 margin-block-end:0;
 padding-inline-start:0;
 height: 100%;
 align-items: center;
+transition: 0.3s ease all;
 @media screen and (max-width: 759px)
 {
   height: 100%;
   width: 300px;
   position: fixed;
-  left: 0;
-  top: 0;
+  left: -240px;
+  top: 60px;
   flex-direction:column;
+  &.active {
+    left: 0px;
+}
 }
 `;
 const MenuIcon = styled.div`
@@ -33,6 +36,12 @@ margin-block-end:0;
 padding-inline-start: 10px;
 padding: 10px;
 cursor:pointer;
+@media screen and (max-width: 759px)
+{
+  position:fixed;
+  left: 5px;
+  top: 10px;
+}
 `;
 const Menu = styled.div`
 display:flex;
@@ -42,6 +51,7 @@ width:96%;
 @media screen and (max-width: 759px)
 {
  flex-direction:column;
+ width:100%;
 }
 `;
 
@@ -58,7 +68,6 @@ cursor:pointer;
 `;
 //in Future it will be Link
 const StyledLink = styled.div`
-  color: palevioletred;
   font-weight: bold;
   text-decoration:none;
   display: flex;
@@ -74,26 +83,36 @@ const StyledLink = styled.div`
 }
 `;
 
-function ResponsiveNavbar({navLinks,background,hoverBackground,linkColor,logo}) {
+function ResponsiveNavbar({navLinks,background,hoverBackground,linkColor}) {
 
   const [ hoverIndex, setHoverIndex ] = useState(-1);
   const [ navOpen, setNavOpen ] = useState(false);
+  const [ width, setWidth ] = useState(window.innerWidth);
+  const [ menuVisible, setMenuVisible ] = useState(false);
+  const updateWidth = () => {
+    setWidth(window.innerWidth);
+    width < 759 ? setMenuVisible(true) : setMenuVisible(false);
+    console.log(menuVisible);
+  };
+  useEffect(() => {
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+});
 
     return (
-        <ResponsiveToolbar>
-            <NavList>
-
-            <MenuIcon onClick = {() => setNavOpen(!navOpen)} className = {navOpen ? 'active' : ''}>
-              <Icon style={{color:'palevioletred'}}>menu</Icon>
-            </MenuIcon>
+        <ResponsiveToolbar style={{ background: background }}>
+            <NavList style={{ background: background }} className = {navOpen ? 'active' : ''}>
+             <MenuIcon onClick = {() => setNavOpen(!navOpen)} >
+               <Icon style={{color:linkColor}}>{menuVisible ? "menu": ''}</Icon>
+             </MenuIcon>
             <Menu>
     {navLinks.map((link,index) => 
     <ListItem
      key={index}
      onMouseEnter = {()=> setHoverIndex(index)}
      onMouseLeave = {() => setHoverIndex(-1)}
-     style = {{background: hoverIndex === index ? '#888' : '',cursor:'pointer'}}>
-        <StyledLink>{link.text }<Icon style={{fontSize:22,marginRight:10}}>{link.icon}</Icon></StyledLink>
+     style = {{background: hoverIndex === index ? hoverBackground : '',cursor:'pointer'}}>
+        <StyledLink style = {{color:linkColor}}>{link.text }<Icon style={{fontSize:22,marginRight:10}}>{link.icon}</Icon></StyledLink>
     </ListItem>)}
     </Menu>
             </NavList>
