@@ -22,7 +22,9 @@ function App() {
   return (
     <React.Fragment>
       <ResponsiveNavbar navLinks = {navLinks}></ResponsiveNavbar>
+      <div className = "App">
       <Education/>
+      </div>
     </React.Fragment>
     
   );
