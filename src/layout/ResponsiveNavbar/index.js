@@ -7,6 +7,7 @@ height: 60px;
 width: 100%;
 position: fixed;
 box-shadow: 2px 2px 2px #ccc;
+z-index:5;
 `;
 const NavList =  styled.ul`
 box-shadow: 2px 2px 2px #ccc;

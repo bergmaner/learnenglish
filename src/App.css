@@ -1,10 +1,15 @@
 .App {
-  min-height: calc(100vh - 60px);
-  padding-top: 60px;
+  min-height: calc(100vh - 80px);
+  position:absolute;
+  top:60px;
+  width:calc(100% - 20px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   text-align: center;
+  box-sizing:border-box;
+  margin:10px;
+  background:gray;
 }
