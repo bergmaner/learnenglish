@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/learnenglish/static/css/main.92c51846.chunk.css",
-    "main.js": "/learnenglish/static/js/main.74c954d5.chunk.js",
-    "main.js.map": "/learnenglish/static/js/main.74c954d5.chunk.js.map",
+    "main.css": "/learnenglish/static/css/main.c126137c.chunk.css",
+    "main.js": "/learnenglish/static/js/main.59f35fc1.chunk.js",
+    "main.js.map": "/learnenglish/static/js/main.59f35fc1.chunk.js.map",
     "runtime-main.js": "/learnenglish/static/js/runtime-main.c94cc0ee.js",
     "runtime-main.js.map": "/learnenglish/static/js/runtime-main.c94cc0ee.js.map",
-    "static/js/2.f81a8610.chunk.js": "/learnenglish/static/js/2.f81a8610.chunk.js",
-    "static/js/2.f81a8610.chunk.js.map": "/learnenglish/static/js/2.f81a8610.chunk.js.map",
+    "static/js/2.4f0a44f5.chunk.js": "/learnenglish/static/js/2.4f0a44f5.chunk.js",
+    "static/js/2.4f0a44f5.chunk.js.map": "/learnenglish/static/js/2.4f0a44f5.chunk.js.map",
     "index.html": "/learnenglish/index.html",
-    "precache-manifest.bded6ee140a59688762747e30e836c5f.js": "/learnenglish/precache-manifest.bded6ee140a59688762747e30e836c5f.js",
+    "precache-manifest.b4549337afd25e3b5e01a7dcbff7e27d.js": "/learnenglish/precache-manifest.b4549337afd25e3b5e01a7dcbff7e27d.js",
     "service-worker.js": "/learnenglish/service-worker.js",
-    "static/css/main.92c51846.chunk.css.map": "/learnenglish/static/css/main.92c51846.chunk.css.map",
-    "static/js/2.f81a8610.chunk.js.LICENSE.txt": "/learnenglish/static/js/2.f81a8610.chunk.js.LICENSE.txt"
+    "static/css/main.c126137c.chunk.css.map": "/learnenglish/static/css/main.c126137c.chunk.css.map",
+    "static/js/2.4f0a44f5.chunk.js.LICENSE.txt": "/learnenglish/static/js/2.4f0a44f5.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.c94cc0ee.js",
-    "static/js/2.f81a8610.chunk.js",
-    "static/css/main.92c51846.chunk.css",
-    "static/js/main.74c954d5.chunk.js"
+    "static/js/2.4f0a44f5.chunk.js",
+    "static/css/main.c126137c.chunk.css",
+    "static/js/main.59f35fc1.chunk.js"
   ]
 }
