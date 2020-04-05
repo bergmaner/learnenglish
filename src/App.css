@@ -1,8 +1,8 @@
 .App {
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 60px);
+  width:100%;
   position:absolute;
-  top:60px;
-  width:calc(100% - 20px);
+  top: 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,6 +10,13 @@
   font-size: calc(10px + 2vmin);
   text-align: center;
   box-sizing:border-box;
-  margin:10px;
-  background:gray;
+  background: #eee;
+ 
+}
+@media screen and (max-width: 759px)
+{
+  .App{
+  width: calc(100vw - 60px);
+  left: 60px;
+  }
 }

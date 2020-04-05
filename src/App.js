@@ -1,10 +1,11 @@
 import React from 'react';
-import Education, { Counter } from './features/education/Education';
+import Education from './features/education/Education';
 import ResponsiveNavbar from './layout/ResponsiveNavbar';
 
 import './App.css';
 
 function App() {
+
   const navLinks = [
   {
     text:"Transport",

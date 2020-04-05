@@ -11,7 +11,7 @@ const Progressbar = styled.div`
     width: 80%;`;
 
     const ProgressDone = styled.div`
-    background: palevioletred;
+    background: #CA6082;
 	box-shadow: 0 1px 1px -3px palevioletred, 0 1px 3px #333;
 	border-radius: 20px;
 	color: #fff;

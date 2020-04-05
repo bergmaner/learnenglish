@@ -37,8 +37,10 @@ margin-block-end:0;
 padding-inline-start: 10px;
 padding: 10px;
 cursor:pointer;
+visibility:hidden;
 @media screen and (max-width: 759px)
 {
+visibility:visible;
   position:fixed;
   left: 5px;
   top: 10px;
@@ -53,6 +55,7 @@ width:96%;
 {
  flex-direction:column;
  width:100%;
+ 
 }
 `;
 
@@ -88,23 +91,13 @@ function ResponsiveNavbar({navLinks,background,hoverBackground,linkColor}) {
 
   const [ hoverIndex, setHoverIndex ] = useState(-1);
   const [ navOpen, setNavOpen ] = useState(false);
-  const [ width, setWidth ] = useState(window.innerWidth);
-  const [ menuVisible, setMenuVisible ] = useState(window.innerWidth < 759 ? true : false);
-  const updateWidth = () => {
-    setWidth(window.innerWidth);
-    width < 759 ? setMenuVisible(true) : setMenuVisible(false);
-    console.log(menuVisible);
-  };
-  useEffect(() => {
-    window.addEventListener("resize", updateWidth);
-    return () => window.removeEventListener("resize", updateWidth);
-});
+ console.log(hoverIndex);
 
     return (
         <ResponsiveToolbar style={{ background: background }}>
             <NavList style={{ background: background }} className = {navOpen ? 'active' : ''}>
              <MenuIcon onClick = {() => setNavOpen(!navOpen)} >
-               <Icon style={{color:linkColor}}>{menuVisible ? "menu": ''}</Icon>
+               <Icon style={{color:linkColor}}>menu</Icon>
              </MenuIcon>
             <Menu>
     {navLinks.map((link,index) => 
@@ -112,7 +105,7 @@ function ResponsiveNavbar({navLinks,background,hoverBackground,linkColor}) {
      key={index}
      onMouseEnter = {()=> setHoverIndex(index)}
      onMouseLeave = {() => setHoverIndex(-1)}
-     style = {{background: hoverIndex === index ? hoverBackground : '',cursor:'pointer'}}>
+     style = {{background: hoverIndex === index ? hoverBackground : '', cursor:'pointer'}}>
         <StyledLink style = {{color:linkColor}}>{link.text }<Icon style={{fontSize:22,marginRight:10}}>{link.icon}</Icon></StyledLink>
     </ListItem>)}
     </Menu>

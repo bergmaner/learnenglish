@@ -17,11 +17,19 @@ export const slice = createSlice({
       {content: "nose", translation: "nos"}
         ]
       }
-    ]}
+    ]
+    }
+    ,
+    reducers: {
+      next: state => {
+        state.activeWord += 1;
+      }
+  }
 })
+export const {next} = slice.actions;
 
-export const selectWords = state => state => state.education.moduls[state.education.activeModul].words;
+export const selectWords =  state => state.education.moduls[state.education.activeModul].words;
 
-export const selectActiveWords = state => state.education.moduls[state.education.activeModul].words[state.education.activeWord];
+export const selectActiveWord = state => state.education.activeWord;
 
-   export default slice.reducer;
+export default slice.reducer;
