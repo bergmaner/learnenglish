@@ -8,6 +8,11 @@ import {Button} from '@material-ui/core'
 const WordImage = styled.img`
 width: 400px;
 height: 400px;
+@media screen and (max-width: 759px)
+{
+  width:250px;
+  height:250px;
+}
 `;
 
 const WordContent = styled.div`
@@ -20,6 +25,9 @@ const Counter = styled.div`
 margin-bottom:10px;
 `;
  
+const Progress = styled.div`
+width:80%;
+`;
 
 const Education = () =>
 {
@@ -33,12 +41,14 @@ const Education = () =>
     }
     return (
         <React.Fragment>
+          <Progress>
      <ProgressBar style ={{ width:`${((activeWord + 1) / words.length) *100}%`}}></ProgressBar>
-     
-  
-        <div >
-    <Counter>{`${activeWord + 1} / ${words.length}`}</Counter>
+     <Counter>{`${activeWord + 1} / ${words.length}`}</Counter>
+          </Progress>
+      
+    
           <WordImage src ={words[activeWord].img}/>
+          <div>
           <WordContent>{words[activeWord].content} - {words[activeWord].translation}</WordContent>
           <Button
           onClick={() => handleNext()}

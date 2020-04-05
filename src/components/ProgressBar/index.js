@@ -4,11 +4,9 @@ import styled from 'styled-components';
 const Progressbar = styled.div`
     background-color: #d8d8d8;
 	border-radius: 20px;
-    position: relative;
-    top: -10px;
 	margin: 5px 0;
 	height: 16px;
-    width: 80%;`;
+    width: 100%;`;
 
     const ProgressDone = styled.div`
     background: #CA6082;

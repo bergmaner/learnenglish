@@ -28,6 +28,7 @@ transition: 0.3s ease all;
   flex-direction:column;
   &.active {
     left: 0px;
+    width:100%;
 }
 }
 `;
