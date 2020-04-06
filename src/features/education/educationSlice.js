@@ -29,10 +29,16 @@ export const slice = createSlice({
       },
       restart: state => {
         state.activeWord = 0;
+      },
+      changeActiveModul: (state,action) => {
+        
+        console.log(`activeModul: ${state.activeModul}`)
+        state.activeModul = action.payload;
+        state.activeWord = 0;
       }
   }
 })
-export const {next,restart} = slice.actions;
+export const {next,restart,changeActiveModul} = slice.actions;
 
 export const selectWords =  state => state.education.moduls[state.education.activeModul].words;
 

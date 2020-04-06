@@ -1,5 +1,7 @@
 import React,{useState, useEffect} from 'react';
 import Icon from '@material-ui/core/Icon';
+import {useSelector, useDispatch} from 'react-redux';
+import {changeActiveModul} from '../../features/education/educationSlice';
 import styled from 'styled-components';
 
 const ResponsiveToolbar = styled.nav`
@@ -28,7 +30,6 @@ transition: 0.3s ease all;
   flex-direction:column;
   &.active {
     left: 0px;
-    width:100%;
 }
 }
 `;
@@ -91,9 +92,11 @@ const StyledLink = styled.div`
 function ResponsiveNavbar({navLinks,background,hoverBackground,linkColor}) {
 
   const [ hoverIndex, setHoverIndex ] = useState(-1);
+  const [ clickIndex, setClickindex ] = useState(0);
   const [ navOpen, setNavOpen ] = useState(false);
+  const dispatch = useDispatch();
  console.log(hoverIndex);
-
+ 
     return (
         <ResponsiveToolbar style={{ background: background }}>
             <NavList style={{ background: background }} className = {navOpen ? 'active' : ''}>
@@ -103,7 +106,8 @@ function ResponsiveNavbar({navLinks,background,hoverBackground,linkColor}) {
             <Menu>
     {navLinks.map((link,index) => 
     <ListItem
-     key={index}
+     key = {index}
+     onClick = { () => dispatch(changeActiveModul(Number(index))) }
      onMouseEnter = {()=> setHoverIndex(index)}
      onMouseLeave = {() => setHoverIndex(-1)}
      style = {{background: hoverIndex === index ? hoverBackground : '', cursor:'pointer'}}>
