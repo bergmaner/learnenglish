@@ -1,5 +1,7 @@
 import React from 'react';
+import Counter from './features/counter/Counter'
 import Education from './features/education/Education';
+import Excercise from './features/excercise/Excercise';
 import ResponsiveNavbar from './layout/ResponsiveNavbar';
 
 import './App.css';
@@ -29,7 +31,7 @@ function App() {
       linkColor = 'palevioletred'
       ></ResponsiveNavbar>
       <div className = "App">
-      <Education/>
+      <Excercise/>
       </div>
     </React.Fragment>
     
