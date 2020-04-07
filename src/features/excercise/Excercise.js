@@ -38,12 +38,15 @@ const Word = styled.span`
    
 `;
 const WordsContent = styled.div`
-    width:80vw;
+    width:60vw;
     display:flex;
     align-items:center;
     justify-content:center;
     flex-wrap: wrap;
-    
+    @media screen and (max-width: 759px)
+    {
+        width:80vw;
+    }
 `;
 
 const Excercise = () =>
@@ -60,7 +63,16 @@ const Excercise = () =>
 
     const onClick = () =>
     {
-        questions[activeQuestion+1] ? dispatch(nextQuestion()) : dispatch(nextInteractiveQuestion());
+       if(questions[activeQuestion+1])  
+        dispatch(nextQuestion()) 
+        else
+        {
+          
+           if(interactiveQuestions[activeInteractiveQuestion + 1])
+           {
+            dispatch(nextInteractiveQuestion());
+           }
+        }   
     }
    
     return (

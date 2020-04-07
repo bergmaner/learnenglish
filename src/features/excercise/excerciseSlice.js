@@ -28,7 +28,22 @@ export const excerciseSlice = createSlice({
         {content: "have", checked:false},
         {content: "cat", checked:false}
       ]
-      }
+      },
+      {
+        content : "Ala ma kota",
+        slices : [
+          {content: "Alice", checked:false},
+          {content: "plane", checked:false},
+          {content: "have", checked:false},
+          {content: "Alice", checked:false},
+          {content: "plane", checked:false},
+          {content: "have", checked:false},
+          {content: "cat", checked:false},
+          {content: "plane", checked:false},
+          {content: "have", checked:false},
+          {content: "cat", checked:false}
+        ]
+        }
     ],
       questions: [
 
