@@ -8,7 +8,8 @@ import {
     nextQuestion,
     nextInteractiveQuestion,
     selectQuestionsVisible,
-    pushToSentence} from './excerciseSlice';
+    toggleToSentence,
+    selectActiveSlices} from './excerciseSlice';
 import ProgressBar from '../../components/ProgressBar';
 import styled from 'styled-components';
 import {Button} from '@material-ui/core';
@@ -18,6 +19,17 @@ width:80%;
 `;
 const Title = styled.div`
 margin:20px;
+`;
+
+const WordSlice = styled.span`
+border-radius: 16px;
+background:#c7c7c7;
+color:transparent;
+padding:5px;
+font-size:18px;
+margin:10px;
+border: solid 2px #c7c7c7;
+user-select: none;
 `;
 
 const Word = styled.span`
@@ -49,6 +61,11 @@ const WordsContent = styled.div`
     }
 `;
 
+const SliceContainer = styled.div`
+border-bottom: solid 2px #c7c7c7;
+height:50px;
+margin-bottom:32px;
+`;
 const Excercise = () =>
 {
 
@@ -57,7 +74,9 @@ const Excercise = () =>
     const interactiveQuestions = useSelector(selectInteractiveQuestions);
     const activeInteractiveQuestion = useSelector(selectActiveInteractiveQuestion);
     const questionsVisible = useSelector(selectQuestionsVisible);
+    const activeSlices = useSelector(selectActiveSlices);
     const [ hoverIndex, setHoverIndex ] = useState(-1);
+    
 
     const dispatch = useDispatch();
 
@@ -67,14 +86,17 @@ const Excercise = () =>
         dispatch(nextQuestion()) 
         else
         {
-          
            if(interactiveQuestions[activeInteractiveQuestion + 1])
            {
             dispatch(nextInteractiveQuestion());
            }
         }   
     }
-   
+   const toggleSentence = (index) =>
+   {
+    dispatch(toggleToSentence(Number(index)));
+    setHoverIndex(-1);
+   }
     return (
        <React.Fragment>
     <Progress>
@@ -89,18 +111,26 @@ const Excercise = () =>
 : 
 <div>
     <Title>{interactiveQuestions[activeInteractiveQuestion].content}</Title>
+    <SliceContainer>{
+    activeSlices.map((id) => 
+    interactiveQuestions[activeInteractiveQuestion].slices[id].checked ? <Word 
+     className = {hoverIndex === id ? 'active' : ''} 
+     onClick = {() => toggleSentence(id)}
+     onMouseEnter = {() => setHoverIndex(id)}
+     onMouseLeave = { () => setHoverIndex(-1) } 
+     key={id}>{ interactiveQuestions[activeInteractiveQuestion].slices[id].content}</Word> : '')}
+     </SliceContainer>
     <WordsContent>{interactiveQuestions[activeInteractiveQuestion].slices.map((slice,index) => 
-    <Word className = {hoverIndex === index ? 'active' : ''} 
-     onClick = {() => dispatch(pushToSentence(Number(index)))}
+    
+     !slice.checked ? <Word className = {hoverIndex === index ? 'active' : ''}
+     onClick = {() => toggleSentence(index)}
      onMouseEnter = {() => setHoverIndex(index)}
      onMouseLeave = { () => setHoverIndex(-1) } 
-     key={index}>{slice.content}</Word>)}
+    key={index}>{slice.content}</Word> : <WordSlice key={index}>{slice.content}</WordSlice>)}
      </WordsContent>
     </div>
 }
-    <Button
-          onClick = { () => onClick()}
-          >Next</Button>
+    <Button onClick = { () => onClick()} >Next</Button>
        </React.Fragment>
       );
  
