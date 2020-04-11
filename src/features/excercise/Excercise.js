@@ -1,25 +1,29 @@
 import React, {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {
+    selectQuestionsVisible,
     selectQuestions,
     selectActiveQuestion,
     selectInteractiveQuestions,
     selectActiveInteractiveQuestion,
+    selectActiveSlices,
+    selectFinished,
+    selectPoints,
     nextQuestion,
     nextInteractiveQuestion,
-    selectQuestionsVisible,
     toggleToSentence,
-    selectActiveSlices} from './excerciseSlice';
+    toggleCheckbox,
+    finishQuiz
+     } from './excerciseSlice';
 import ProgressBar from '../../components/ProgressBar';
 import styled from 'styled-components';
-import {Button} from '@material-ui/core';
+import {Button, List, ListItem, ListItemIcon, Checkbox} from '@material-ui/core';
 
 const Progress = styled.div`
-width:80%;
-`;
+width:80%;`;
+
 const Title = styled.div`
-margin:20px;
-`;
+margin:20px;`;
 
 const WordSlice = styled.span`
 border-radius: 16px;
@@ -29,8 +33,7 @@ padding:5px;
 font-size:18px;
 margin:10px;
 border: solid 2px #c7c7c7;
-user-select: none;
-`;
+user-select: none;`;
 
 const Word = styled.span`
     background: none;
@@ -46,9 +49,7 @@ const Word = styled.span`
         background: #ddd;
         border: solid 2px #b6b6b6;
         color: #b6b6b6;
-    }
-   
-`;
+    }`;
 const WordsContent = styled.div`
     width:60vw;
     display:flex;
@@ -58,14 +59,42 @@ const WordsContent = styled.div`
     @media screen and (max-width: 759px)
     {
         width:80vw;
-    }
-`;
+    }`;
+const Check = styled(Checkbox)`
+svg{
+    color: palevioletred;
+  }`;
+
+const AnswersContent = styled.div`
+width: 350px;
+height: 300px`;
+
+const InteractiveContent = styled.div`
+display:flex;
+flex-direction: column;
+align-items: center;
+justify-content: space-evenly;
+height: 300px`;
+
+const Answer = styled.div`
+text-align : center;
+width : 60%;`;
 
 const SliceContainer = styled.div`
+min-width:80%;
 border-bottom: solid 2px #c7c7c7;
-height:50px;
-margin-bottom:32px;
+height: 50px;
+margin-bottom: 32px;
 `;
+const NextBtn = styled(Button)`
+&&
+{
+    color: #c7c7c7;
+    font-size: 14px;
+    border : solid 2px #c7c7c7; 
+    border-radius : 16px;
+}`;
+
 const Excercise = () =>
 {
 
@@ -75,6 +104,8 @@ const Excercise = () =>
     const activeInteractiveQuestion = useSelector(selectActiveInteractiveQuestion);
     const questionsVisible = useSelector(selectQuestionsVisible);
     const activeSlices = useSelector(selectActiveSlices);
+    const finished = useSelector(selectFinished);
+    const points = useSelector(selectPoints);
     const [ hoverIndex, setHoverIndex ] = useState(-1);
     
 
@@ -82,34 +113,61 @@ const Excercise = () =>
 
     const onClick = () =>
     {
-       if(questions[activeQuestion+1])  
-        dispatch(nextQuestion()) 
-        else
+       if(activeQuestion <= questions.length - 1 && questionsVisible)  
+       {
+        console.log(`activeQuestion : ${activeQuestion} QuestionsLength : ${questions.length}`);
+        dispatch(nextQuestion()) ;
+
+       }
+        
+       if(activeQuestion >= questions.length - 1) 
         {
-           if(interactiveQuestions[activeInteractiveQuestion + 1])
-           {
-            dispatch(nextInteractiveQuestion());
-           }
+           activeInteractiveQuestion < interactiveQuestions.length-1 ? 
+           dispatch(nextInteractiveQuestion()) : dispatch(finishQuiz());
+        
         }   
     }
-   const toggleSentence = (index) =>
-   {
+    
+    const toggleSentence = (index) =>
+    {
     dispatch(toggleToSentence(Number(index)));
     setHoverIndex(-1);
-   }
+    }
+
+    const handleToggle = (index) => () => {
+        dispatch(toggleCheckbox(index));
+        
+    }
+
     return (
+        
        <React.Fragment>
+           {!finished && <>
     <Progress>
      <ProgressBar style ={{ width:`${((activeQuestion + activeInteractiveQuestion + (questionsVisible ? 1 :2))/(questions.length + interactiveQuestions.length)) *100}%`}}></ProgressBar>
     </Progress>
-    {
-    questionsVisible ?
-    <div>
+    {questionsVisible && <>
+    <AnswersContent>
     <Title>{questions[activeQuestion].content}</Title>
-    <div>{questions[activeQuestion].answers.map((answer,index) => <div key={index}>{answer.content}</div>)}</div>
-    </div>
-: 
-<div>
+    <List >
+    {questions[activeQuestion].answers.map((answer,index) =>
+          <ListItem key = {index} dense button onClick={handleToggle(index)}>
+            <ListItemIcon>
+              <Check
+                checked = {answer.checked}
+                tabIndex = {-1}
+                disableRipple
+                onClick = { () => handleToggle(index) }
+              />
+            </ListItemIcon>
+            <Answer key={index}>{answer.content}</Answer>
+          </ListItem>)}
+    </List>
+   
+    </AnswersContent>
+    </> }
+    {!questionsVisible && <>
+<InteractiveContent>
     <Title>{interactiveQuestions[activeInteractiveQuestion].content}</Title>
     <SliceContainer>{
     activeSlices.map((id) => 
@@ -128,9 +186,15 @@ const Excercise = () =>
      onMouseLeave = { () => setHoverIndex(-1) } 
     key={index}>{slice.content}</Word> : <WordSlice key={index}>{slice.content}</WordSlice>)}
      </WordsContent>
-    </div>
-}
-    <Button onClick = { () => onClick()} >Next</Button>
+    </InteractiveContent>
+ </>}
+    <NextBtn onClick = { () => onClick()} >Next</NextBtn>
+    </>}
+     { finished && <>
+       
+        {(points) / (questions.length + interactiveQuestions.length) * 100}%
+       
+     </>}
        </React.Fragment>
       );
  

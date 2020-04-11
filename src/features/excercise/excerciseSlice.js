@@ -4,9 +4,11 @@ export const excerciseSlice = createSlice({
   initialState: {
     activeModul: 0,
     activeQuestion: 0,
-    activeInteractiveQuestion: 0,
+    activeInteractiveQuestion: null,
+    checkIndex : null,
     activeSlices : [],
     points:0,
+    finished: false,
     questionsVisible: true,
     moduls:[
       {
@@ -37,20 +39,22 @@ export const excerciseSlice = createSlice({
 
         {
       content: "Jak jest auto po angielsku?",
+      correctAnswer : 0,
       answers: [
-        {id: 1, content: "car"},
-        {id: 2, content: "plane"},
-        {id: 3, content: "boat"},
-        {id: 4, content: "coat"}
+        {id: 0, content: "car", checked: false},
+        {id: 1, content: "plane", checked: false},
+        {id: 2, content: "boat", checked: false},
+        {id: 3, content: "coat", checked: false}
       ]
     },
     {
       content: "Jak jest auto po angielsku2?",
+      correctAnswer: 2, 
       answers: [
-        {id: 1, content: "caca"},
-        {id: 2, content: "plane"},
-        {id: 3, content: "boat"},
-        {id: 4, content: "coat"}
+        {id: 0, content: "caca", checked: false},
+        {id: 1, content: "plane", checked: false},
+        {id: 2, content: "car", checked: false},
+        {id: 3, content: "coat", checked: false}
       ]
     }
       ] },
@@ -81,11 +85,12 @@ export const excerciseSlice = createSlice({
         questions: [
           {
             content: "Jak jest auto po angielsku?",
+            correctAnswer: 0,
             answers: [
-              {id: 1, content: "car"},
-              {id: 2, content: "plane"},
-              {id: 3, content: "boat"},
-              {id: 4, content: "coat"}
+              {id: 0, content: "car", checked: false},
+              {id: 1, content: "plane", checked: false},
+              {id: 2, content: "boat", checked: false},
+              {id: 3, content: "coat", checked: false}
             ]
           }
         ]
@@ -95,20 +100,28 @@ export const excerciseSlice = createSlice({
     reducers:{
       nextQuestion : state =>
       {
-        state.activeQuestion += 1;
+        const question = state.moduls[state.activeModul].questions[state.activeQuestion];
+        question.answers.map( answer => answer.checked = false);
+        state.activeQuestion += state.activeQuestion === state.moduls[state.activeModul].questions.length-1 ? 0 : 1;
+        state.points += state.checkIndex === question.correctAnswer ? 1 : 0;
       },
       nextInteractiveQuestion : state =>
       {
-        
-        state.questionsVisible ? state.questionsVisible = false : state.activeInteractiveQuestion += 1;
+        state.questionsVisible = false;
+        state.activeInteractiveQuestion += state.activeInteractiveQuestion === state.moduls[state.activeModul].interactiveQuestions.length-1 || state.activeInteractiveQuestion === null ? 0 : 1;
+        console.log(`${null + 0} int :${state.activeInteractiveQuestion} length:  ${state.moduls[state.activeModul].interactiveQuestions.length}`);
+        const slices = state.moduls[state.activeModul].interactiveQuestions[state.activeInteractiveQuestion].slices;
+        slices.map( slice => slice.checked = false);
         const correctCode = state.moduls[state.activeModul].interactiveQuestions[state.activeInteractiveQuestion].winCode;
-        if(state.activeSlices.join('') === correctCode.join(''))state.points +=1;
-        
-       
-         
+        state.points += state.activeSlices.join('') === correctCode.join('') ? 1 : 0;
         state.activeSlices = [];
-        
-      
+      },
+      toggleCheckbox : (state,action) =>
+      {
+        const answers = state.moduls[state.activeModul].questions[state.activeQuestion].answers;
+        answers.map( answer => answer.checked = false);
+        state.checkIndex = action.payload;
+        answers[action.payload].checked = true;
 
       },
       toggleToSentence : (state,action) => 
@@ -116,28 +129,38 @@ export const excerciseSlice = createSlice({
       const slice = state.moduls[state.activeModul].interactiveQuestions[state.activeInteractiveQuestion].slices[action.payload]; 
       slice.checked = !slice.checked;
       slice.checked ? state.activeSlices.push(action.payload) : state.activeSlices.splice(state.activeSlices.indexOf(action.payload),1);
-       
+      
+      },
+      finishQuiz : (state) => 
+      {
+        state.finished = true;
       },
       changeActivModul: (state,action) => {
         
         console.log(`activeModul: ${state.activeModul}`)
         state.activeModul = action.payload;
         state.questionsVisible = true;
+        const answers = state.moduls[state.activeModul].questions[state.activeQuestion].answers;
+        answers.map( answer => answer.checked = false);
+        const slices = state.moduls[state.activeModul].interactiveQuestions[state.activeInteractiveQuestion].slices;
+        slices.map( slice => slice.checked = false);;
         state.activeQuestion = 0;
-        state.activeInteractiveQuestion = 0;
-        state.activeSlices = [];
-        state.moduls[state.activeModul].interactiveQuestions[state.activeInteractiveQuestion].slices.map( slice => slice.checked = false);
+        state.activeInteractiveQuestion = null;
         state.points = 0;
+        state.finished = false;
+       
       }
     }
         
 
 })
-export const {nextQuestion, nextInteractiveQuestion, toggleToSentence,changeActivModul} = excerciseSlice.actions;
+export const {nextQuestion, nextInteractiveQuestion, toggleToSentence,changeActivModul,toggleCheckbox,finishQuiz} = excerciseSlice.actions;
 export const selectQuestions = state => state.excercise.moduls[state.excercise.activeModul].questions;
 export const selectActiveQuestion = state => state.excercise.activeQuestion;
 export const selectInteractiveQuestions = state => state.excercise.moduls[state.excercise.activeModul].interactiveQuestions;
 export const selectActiveInteractiveQuestion = state => state.excercise.activeInteractiveQuestion
 export const selectQuestionsVisible = state => state.excercise.questionsVisible;
 export const selectActiveSlices = state => state.excercise.activeSlices;
+export const selectFinished = state => state.excercise.finished;
+export const selectPoints = state => state.excercise.points;
 export default excerciseSlice.reducer;

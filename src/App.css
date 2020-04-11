@@ -11,8 +11,8 @@
   text-align: center;
   box-sizing:border-box;
   background: #eee;
-  color : #c7c7c7;
- 
+  color:#c7c7c7;
+  user-select: none;
 }
 @media screen and (max-width: 759px)
 {

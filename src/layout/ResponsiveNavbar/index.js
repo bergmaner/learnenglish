@@ -11,6 +11,7 @@ width: 100%;
 position: fixed;
 box-shadow: 2px 2px 2px #ccc;
 z-index:5;
+user-select: none;
 `;
 const NavList =  styled.ul`
 box-shadow: 2px 2px 2px #ccc;
@@ -93,7 +94,6 @@ const StyledLink = styled.div`
 function ResponsiveNavbar({navLinks,background,hoverBackground,linkColor}) {
 
   const [ hoverIndex, setHoverIndex ] = useState(-1);
-  const [ clickIndex, setClickindex ] = useState(0);
   const [ navOpen, setNavOpen ] = useState(false);
   const dispatch = useDispatch();
  console.log(hoverIndex);
