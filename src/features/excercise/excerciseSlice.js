@@ -104,6 +104,7 @@ export const excerciseSlice = createSlice({
         question.answers.map( answer => answer.checked = false);
         state.activeQuestion += state.activeQuestion === state.moduls[state.activeModul].questions.length-1 ? 0 : 1;
         state.points += state.checkIndex === question.correctAnswer ? 1 : 0;
+        state.checkIndex = null;
       },
       nextInteractiveQuestion : state =>
       {

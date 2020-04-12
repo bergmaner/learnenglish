@@ -32,6 +32,7 @@ function App() {
       ></ResponsiveNavbar>
       <div className = "App">
       <Excercise/>
+      
       </div>
     </React.Fragment>
     

@@ -19,6 +19,7 @@ import ProgressBar from '../../components/ProgressBar';
 import styled from 'styled-components';
 import {Button, List, ListItem, ListItemIcon, Checkbox} from '@material-ui/core';
 import {CircularProgressbar} from 'react-circular-progressbar';
+import ProgressProvider from '../../components/ProgressProvider';
 import 'react-circular-progressbar/dist/styles.css';
 
 const Progress = styled.div`
@@ -143,15 +144,13 @@ const Excercise = () =>
 
     return (
         
-       <React.Fragment>
-           {!finished && <>
-    <Progress>
-     <ProgressBar style ={{ width:`${((activeQuestion + activeInteractiveQuestion + (questionsVisible ? 1 :2))/(questions.length + interactiveQuestions.length)) *100}%`}}></ProgressBar>
-    </Progress>
-    {questionsVisible && <>
-    <AnswersContent>
-    <Title>{questions[activeQuestion].content}</Title>
-    <List >
+   <React.Fragment>
+       {!finished && <> <Progress>
+       <ProgressBar style ={{ width:`${((activeQuestion + activeInteractiveQuestion + (questionsVisible ? 1 :2))/(questions.length + interactiveQuestions.length)) *100}%`}}/>
+     </Progress>
+    {questionsVisible && <><AnswersContent>
+      <Title>{questions[activeQuestion].content}</Title>
+        <List >
     {questions[activeQuestion].answers.map((answer,index) =>
           <ListItem key = {index} dense button onClick={handleToggle(index)}>
             <ListItemIcon>
@@ -193,17 +192,19 @@ const Excercise = () =>
     <NextBtn onClick = { () => onClick()} >Next</NextBtn>
     </>}
      { finished && <>
-       <div>
+     <div>
+       <ProgressProvider valueStart={0} valueEnd={(points) / (questions.length + interactiveQuestions.length) * 100}>
+       {value => 
         <CircularProgressbar
-        value = {(points) / (questions.length + interactiveQuestions.length) * 100} 
-        text={`${(points) / (questions.length + interactiveQuestions.length) * 100}%`} 
+        value = {value} 
+        text={`${value}%`}
         styles={{
             // Customize the root svg element
             root: {},
             // Customize the path, i.e. the "completed progress"
             path: {
               // Path color
-              stroke: 'palevioletred',
+              stroke: `palevioletred` ,
               // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
               strokeLinecap: 'butt',
               // Customize transition animation
@@ -225,9 +226,9 @@ const Excercise = () =>
             background: {
               fill: '#3e98c7',
             },
-          }}/>
+          }}/>}
+        </ProgressProvider>
         </div>
-       
      </>}
        </React.Fragment>
       );
