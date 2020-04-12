@@ -18,6 +18,8 @@ import {
 import ProgressBar from '../../components/ProgressBar';
 import styled from 'styled-components';
 import {Button, List, ListItem, ListItemIcon, Checkbox} from '@material-ui/core';
+import {CircularProgressbar} from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 const Progress = styled.div`
 width:80%;`;
@@ -191,8 +193,40 @@ const Excercise = () =>
     <NextBtn onClick = { () => onClick()} >Next</NextBtn>
     </>}
      { finished && <>
-       
-        {(points) / (questions.length + interactiveQuestions.length) * 100}%
+       <div>
+        <CircularProgressbar
+        value = {(points) / (questions.length + interactiveQuestions.length) * 100} 
+        text={`${(points) / (questions.length + interactiveQuestions.length) * 100}%`} 
+        styles={{
+            // Customize the root svg element
+            root: {},
+            // Customize the path, i.e. the "completed progress"
+            path: {
+              // Path color
+              stroke: 'palevioletred',
+              // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+              strokeLinecap: 'butt',
+              // Customize transition animation
+              transition: 'stroke-dashoffset 0.5s ease 0s',
+            },
+            // Customize the circle behind the path, i.e. the "total progress"
+            trail: {
+              // Trail color
+              stroke: '#d6d6d6',
+            },
+            // Customize the text
+            text: {
+              // Text color
+              fill: 'palevioletred',
+              // Text size
+              fontSize: '30px',
+            },
+            // Customize background - only used when the `background` prop is true
+            background: {
+              fill: '#3e98c7',
+            },
+          }}/>
+        </div>
        
      </>}
        </React.Fragment>

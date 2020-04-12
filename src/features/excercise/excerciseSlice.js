@@ -26,7 +26,7 @@ export const excerciseSlice = createSlice({
       },
       {
         content : "Ala ma kota",
-        winCode : [0,3,2],
+        winCode : [0,2,3],
         slices : [
           {content: "Alice", checked:false},
           {content: "plane", checked:false},
@@ -107,13 +107,18 @@ export const excerciseSlice = createSlice({
       },
       nextInteractiveQuestion : state =>
       {
+        if(state.activeInteractiveQuestion !== null)
+        {
+          const correctCode = state.moduls[state.activeModul].interactiveQuestions[state.activeInteractiveQuestion].winCode;
+        state.points += state.activeSlices.join('') === correctCode.join('') ? 1 : 0;
+        }
+        
         state.questionsVisible = false;
         state.activeInteractiveQuestion += state.activeInteractiveQuestion === state.moduls[state.activeModul].interactiveQuestions.length-1 || state.activeInteractiveQuestion === null ? 0 : 1;
         console.log(`${null + 0} int :${state.activeInteractiveQuestion} length:  ${state.moduls[state.activeModul].interactiveQuestions.length}`);
         const slices = state.moduls[state.activeModul].interactiveQuestions[state.activeInteractiveQuestion].slices;
         slices.map( slice => slice.checked = false);
-        const correctCode = state.moduls[state.activeModul].interactiveQuestions[state.activeInteractiveQuestion].winCode;
-        state.points += state.activeSlices.join('') === correctCode.join('') ? 1 : 0;
+       
         state.activeSlices = [];
       },
       toggleCheckbox : (state,action) =>
@@ -133,6 +138,8 @@ export const excerciseSlice = createSlice({
       },
       finishQuiz : (state) => 
       {
+        const correctCode = state.moduls[state.activeModul].interactiveQuestions[state.activeInteractiveQuestion].winCode;
+        state.points += state.activeSlices.join('') === correctCode.join('') ? 1 : 0;
         state.finished = true;
       },
       changeActivModul: (state,action) => {
@@ -143,7 +150,7 @@ export const excerciseSlice = createSlice({
         const answers = state.moduls[state.activeModul].questions[state.activeQuestion].answers;
         answers.map( answer => answer.checked = false);
         const slices = state.moduls[state.activeModul].interactiveQuestions[state.activeInteractiveQuestion].slices;
-        slices.map( slice => slice.checked = false);;
+        slices.map( slice => slice.checked = false);
         state.activeQuestion = 0;
         state.activeInteractiveQuestion = null;
         state.points = 0;
