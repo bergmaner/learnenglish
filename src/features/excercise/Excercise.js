@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Link} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import {
     selectQuestionsVisible,
@@ -26,7 +27,8 @@ const Progress = styled.div`
 width:80%;`;
 
 const Title = styled.div`
-margin:20px;`;
+margin:20px 0;
+width:100%`;
 
 const WordSlice = styled.span`
 border-radius: 16px;
@@ -53,26 +55,40 @@ const Word = styled.span`
         border: solid 2px #b6b6b6;
         color: #b6b6b6;
     }`;
+
 const WordsContent = styled.div`
-    width:60vw;
+    width:60%;
     display:flex;
     align-items:center;
     justify-content:center;
     flex-wrap: wrap;
     @media screen and (max-width: 759px)
     {
-        width:80vw;
+        width:80%;
     }`;
+
 const Check = styled(Checkbox)`
 svg{
     color: palevioletred;
   }`;
 
 const AnswersContent = styled.div`
-width: 350px;
+width:100%;
+display:flex;
+flex-direction: column;
+align-items: center;
+justify-content: space-evenly;
 height: 300px`;
 
+const AnswersList = styled(List)`
+width:80%;
+@media screen and (max-width: 759px)
+    {
+      width:100%
+    }`;
+
 const InteractiveContent = styled.div`
+width:100%;
 display:flex;
 flex-direction: column;
 align-items: center;
@@ -80,8 +96,7 @@ justify-content: space-evenly;
 height: 300px`;
 
 const Answer = styled.div`
-text-align : center;
-width : 60%;`;
+width : 100%;`;
 
 const SliceContainer = styled.div`
 min-width:80%;
@@ -89,6 +104,7 @@ border-bottom: solid 2px #c7c7c7;
 height: 50px;
 margin-bottom: 32px;
 `;
+
 const NextBtn = styled(Button)`
 &&
 {
@@ -96,6 +112,25 @@ const NextBtn = styled(Button)`
     font-size: 14px;
     border : solid 2px #c7c7c7; 
     border-radius : 16px;
+}`;
+
+const CircleBar = styled(CircularProgressbar)`
+@media screen and (max-width: 759px)
+    {
+        width:60%;
+    }
+`;
+
+const EducationBtn = styled(Button)`
+&&
+{
+    color: #fff;
+    background: #CA6082;
+    font-size: 14px;
+    border-radius : 16px;
+    &:hover {
+      background-color: #DB7093;
+    }
 }`;
 
 const Excercise = () =>
@@ -150,7 +185,7 @@ const Excercise = () =>
      </Progress>
     {questionsVisible && <><AnswersContent>
       <Title>{questions[activeQuestion].content}</Title>
-        <List >
+        <AnswersList >
     {questions[activeQuestion].answers.map((answer,index) =>
           <ListItem key = {index} dense button onClick={handleToggle(index)}>
             <ListItemIcon>
@@ -163,7 +198,7 @@ const Excercise = () =>
             </ListItemIcon>
             <Answer key={index}>{answer.content}</Answer>
           </ListItem>)}
-    </List>
+    </AnswersList>
    
     </AnswersContent>
     </> }
@@ -195,40 +230,29 @@ const Excercise = () =>
      <div>
        <ProgressProvider valueStart={0} valueEnd={(points) / (questions.length + interactiveQuestions.length) * 100}>
        {value => 
-        <CircularProgressbar
+        <CircleBar
         value = {value} 
         text={`${value}%`}
         styles={{
-            // Customize the root svg element
-            root: {},
-            // Customize the path, i.e. the "completed progress"
             path: {
-              // Path color
-              stroke: `palevioletred` ,
-              // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+              stroke: `palevioletred`,
               strokeLinecap: 'butt',
-              // Customize transition animation
               transition: 'stroke-dashoffset 0.5s ease 0s',
             },
-            // Customize the circle behind the path, i.e. the "total progress"
             trail: {
-              // Trail color
               stroke: '#d6d6d6',
             },
-            // Customize the text
             text: {
-              // Text color
               fill: 'palevioletred',
-              // Text size
               fontSize: '30px',
             },
-            // Customize background - only used when the `background` prop is true
             background: {
               fill: '#3e98c7',
             },
           }}/>}
         </ProgressProvider>
         </div>
+        <Link style = {{textDecoration : 'none'}} to = '/'><EducationBtn>Go Educate</EducationBtn></Link>
      </>}
        </React.Fragment>
       );

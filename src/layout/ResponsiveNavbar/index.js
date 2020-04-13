@@ -13,6 +13,7 @@ box-shadow: 2px 2px 2px #ccc;
 z-index:5;
 user-select: none;
 `;
+
 const NavList =  styled.ul`
 box-shadow: 2px 2px 2px #ccc;
 display: flex;
@@ -35,6 +36,7 @@ transition: 0.3s ease all;
 }
 }
 `;
+
 const MenuIcon = styled.div`
 margin-block-start:0;
 margin-block-end:0;
@@ -50,6 +52,7 @@ visibility:visible;
   top: 10px;
 }
 `;
+
 const Menu = styled.div`
 display:flex;
 align-items: center;
@@ -74,7 +77,7 @@ cursor:pointer;
  width:100%;
 }
 `;
-//in Future it will be Link
+
 const StyledLink = styled.div`
   font-weight: bold;
   text-decoration:none;

@@ -148,10 +148,6 @@ export const excerciseSlice = createSlice({
         console.log(`activeModul: ${state.activeModul}`)
         state.activeModul = action.payload;
         state.questionsVisible = true;
-        const answers = state.moduls[state.activeModul].questions[state.activeQuestion].answers;
-        answers.map( answer => answer.checked = false);
-        const slices = state.moduls[state.activeModul].interactiveQuestions[state.activeInteractiveQuestion].slices;
-        slices.map( slice => slice.checked = false);
         state.activeQuestion = 0;
         state.activeInteractiveQuestion = null;
         state.points = 0;
@@ -159,8 +155,6 @@ export const excerciseSlice = createSlice({
        
       }
     }
-        
-
 })
 export const {nextQuestion, nextInteractiveQuestion, toggleToSentence,changeActivModul,toggleCheckbox,finishQuiz} = excerciseSlice.actions;
 export const selectQuestions = state => state.excercise.moduls[state.excercise.activeModul].questions;

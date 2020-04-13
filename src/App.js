@@ -1,4 +1,10 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import Counter from './features/counter/Counter'
 import Education from './features/education/Education';
 import Excercise from './features/excercise/Excercise';
@@ -31,8 +37,12 @@ function App() {
       linkColor = 'palevioletred'
       ></ResponsiveNavbar>
       <div className = "App">
-      <Excercise/>
-      
+      <Router basename={`${process.env.PUBLIC_URL}/`}>
+        <Switch>
+        <Route exact path = "/" component = {Education}></Route>
+        <Route path = "/excercise/" component = {Excercise}></Route>
+      </Switch>
+    </Router>      
       </div>
     </React.Fragment>
     

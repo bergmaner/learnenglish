@@ -1,6 +1,8 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import {selectActiveWord, selectWords, next ,restart} from './educationSlice';
+import Icon from '@material-ui/core/Icon';
 import ProgressBar from '../../components/ProgressBar';
 import styled from 'styled-components';
 import {Button} from '@material-ui/core'
@@ -21,6 +23,19 @@ font-weight: bold;
 margin:5px;
 `;
 
+const ExcerciseBtn = styled(Button)`
+&&
+{
+    color: #fff;
+    display:inline-block;
+    background: #CA6082;
+    font-size: 14px;
+    border-radius : 16px;
+    &:hover {
+      background-color: #DB7093;
+    }
+}`;
+
 const Counter = styled.div`
 margin-bottom:10px;
 `;
@@ -28,6 +43,50 @@ margin-bottom:10px;
 const Progress = styled.div`
 width:80%;
 `;
+
+const ArrowNavigation = styled.div`
+width:100%;
+display:flex;
+flex-direction: row;
+justify-content: center;
+align-items: center
+`;
+
+const Prev = styled.div`
+background-color: #ddd;
+cursor:pointer;
+color: #888;
+width : 20px;
+border-radius : 100%;
+padding :5px 16px 9px 16px;
+font-size:24px;
+margin : 0 20px;
+&:hover
+{
+  background-color: #ccc;
+  color: #222;
+}`;
+
+const Item = styled.div`
+flex: 1 0 21%;
+display:flex;
+justify-content: center;
+margin: 5px;`;
+
+const Next = styled.div`
+background-color: #ddd;
+cursor:pointer;
+color: #888;
+width : 20px;
+border-radius : 100%;
+padding :5px 16px 9px 16px;
+font-size:24px;
+margin : 0 20px;
+&:hover
+{
+  background-color: #ccc;
+  color: #222;
+}`;
 
 const Education = () =>
 {
@@ -42,18 +101,19 @@ const Education = () =>
     return (
         <React.Fragment>
           <Progress>
-     <ProgressBar style ={{ width:`${((activeWord + 1) / words.length) *100}%`}}></ProgressBar>
-     <Counter>{`${activeWord + 1} / ${words.length}`}</Counter>
+          <Counter>{`${activeWord + 1} / ${words.length}`}</Counter>
+            <ProgressBar style ={{ width:`${((activeWord + 1) / words.length) *100}%`}}></ProgressBar>
+           
           </Progress>
       
     
           <WordImage src ={words[activeWord].img}/>
-          <div>
           <WordContent>{words[activeWord].content} - {words[activeWord].translation}</WordContent>
-          <Button
-          onClick={() => handleNext()}
-          >Next</Button>
-        </div>
+          <ArrowNavigation>
+          <Item><Prev>&#8249;</Prev></Item>
+          <Link style = {{textDecoration : 'none'}} to = "/excercise/"><ExcerciseBtn>Excercise</ExcerciseBtn></Link>
+          <Item><Next>&#8250;</Next></Item>
+          </ArrowNavigation>
         </React.Fragment>
       );
  

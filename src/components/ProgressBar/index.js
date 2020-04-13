@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Progressbar = styled.div`
     background-color: #d8d8d8;
 	border-radius: 20px;
-	margin: 5px 0;
+	margin: 10px 0;
 	height: 16px;
     width: 100%;`;
 
@@ -16,11 +16,7 @@ const Progressbar = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	height: 100%;
-	
-	
-
-    `;
+	height: 100%; `;
     
 function ProgressBar(props) {
     return (
