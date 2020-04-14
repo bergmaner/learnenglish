@@ -16,22 +16,24 @@ export const excerciseSlice = createSlice({
     interactiveQuestions: [
       {
       content : "Ala ma kota",
-      winCode : [0,3,2],
+      winCode : [0,3,4,2],
       slices : [
         {content: "Alice", checked:false},
         {content: "plane", checked:false},
         {content: "cat", checked:false},
-        {content: "have", checked:false}
+        {content: "has", checked:false},
+        {content: "the", checked:false}
       ]
       },
       {
         content : "Ala ma kota",
-        winCode : [0,2,3],
+        winCode : [0,3,4,2],
         slices : [
           {content: "Alice", checked:false},
           {content: "plane", checked:false},
-          {content: "have", checked:false},
-          {content: "cat", checked:false}
+          {content: "cat", checked:false},
+          {content: "has", checked:false},
+          {content: "the", checked:false}
         ]
         }
     ],
@@ -48,8 +50,8 @@ export const excerciseSlice = createSlice({
       ]
     },
     {
-      content: "Jak jest auto po angielsku2?",
-      correctAnswer: 2, 
+      content: "Jak jest samolot po angielsku?",
+      correctAnswer: 1, 
       answers: [
         {id: 0, content: "caca", checked: false},
         {id: 1, content: "plane", checked: false},

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
-import {selectActiveWord, selectWords, next ,restart} from './educationSlice';
+import {selectActiveWord, selectWords, next ,prev} from './educationSlice';
 import Icon from '@material-ui/core/Icon';
 import ProgressBar from '../../components/ProgressBar';
 import styled from 'styled-components';
@@ -94,10 +94,9 @@ const Education = () =>
     const activeWord = useSelector(selectActiveWord);
     const dispatch = useDispatch();
 
-    const handleNext = () =>
-    {
-      words[activeWord + 1] ? dispatch(next()) : dispatch(restart())
-    }
+    
+        
+    
     return (
         <React.Fragment>
           <Progress>
@@ -110,9 +109,9 @@ const Education = () =>
           <WordImage src ={words[activeWord].img}/>
           <WordContent>{words[activeWord].content} - {words[activeWord].translation}</WordContent>
           <ArrowNavigation>
-          <Item><Prev>&#8249;</Prev></Item>
+          <Item><Prev onClick = { () => dispatch(prev()) }>&#8249;</Prev></Item>
           <Link style = {{textDecoration : 'none'}} to = "/excercise/"><ExcerciseBtn>Excercise</ExcerciseBtn></Link>
-          <Item><Next>&#8250;</Next></Item>
+          <Item><Next onClick = { () => dispatch(next()) }>&#8250;</Next></Item>
           </ArrowNavigation>
         </React.Fragment>
       );

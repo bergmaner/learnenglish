@@ -22,6 +22,7 @@ import {Button, List, ListItem, ListItemIcon, Checkbox} from '@material-ui/core'
 import {CircularProgressbar} from 'react-circular-progressbar';
 import ProgressProvider from '../../components/ProgressProvider';
 import 'react-circular-progressbar/dist/styles.css';
+import { useHistory } from "react-router-dom";
 
 const Progress = styled.div`
 width:80%;`;
@@ -121,17 +122,24 @@ const CircleBar = styled(CircularProgressbar)`
     }
 `;
 
-const EducationBtn = styled(Button)`
-&&
-{
+const EducationBtn = styled.button`
     color: #fff;
     background: #CA6082;
     font-size: 14px;
-    border-radius : 16px;
-    &:hover {
-      background-color: #DB7093;
+    padding: 10px 16px;
+    cursor : pointer;
+    outline: none;
+    min-width: 64px;
+    border-radius: 16px;
+    border : none;
+    letter-spacing: 0.02857em;
+    text-transform: uppercase;
+    user-select: none;
+    &:hover
+    {
+      background:#DB7093;
     }
-}`;
+    `;
 
 const Excercise = () =>
 {
@@ -144,6 +152,7 @@ const Excercise = () =>
     const activeSlices = useSelector(selectActiveSlices);
     const finished = useSelector(selectFinished);
     const points = useSelector(selectPoints);
+    let history = useHistory();
     const [ hoverIndex, setHoverIndex ] = useState(-1);
     
 
@@ -174,9 +183,11 @@ const Excercise = () =>
 
     const handleToggle = (index) => () => {
         dispatch(toggleCheckbox(index));
-        
     }
-
+    const educate = () =>
+    {
+      history.push(`/`);
+    }
     return (
         
    <React.Fragment>
@@ -234,26 +245,31 @@ const Excercise = () =>
         value = {value} 
         text={`${value}%`}
         styles={{
-            path: {
-              stroke: `palevioletred`,
-              strokeLinecap: 'butt',
-              transition: 'stroke-dashoffset 0.5s ease 0s',
-            },
-            trail: {
-              stroke: '#d6d6d6',
-            },
-            text: {
-              fill: 'palevioletred',
-              fontSize: '30px',
-            },
-            background: {
-              fill: '#3e98c7',
-            },
+          root: {
+            transition: 'all 0.5s ease 0s ',
+            transitionDelay: '0.1s'
+          },
+          path: {
+            stroke: 'palevioletred',
+            strokeLinecap: 'butt',
+            
+          },
+          trail: {
+            stroke: '#d6d6d6',
+          },
+          text: {
+            fill: 'palevioletred',
+            fontSize: '30px',
+          },
+          background: {
+            fill: '#3e98c7',
+          }
           }}/>}
         </ProgressProvider>
         </div>
-        <Link style = {{textDecoration : 'none'}} to = '/'><EducationBtn>Go Educate</EducationBtn></Link>
-     </>}
+        <EducationBtn onClick = { () => educate() }>Educate</EducationBtn>
+        
+  </>}
        </React.Fragment>
       );
  
