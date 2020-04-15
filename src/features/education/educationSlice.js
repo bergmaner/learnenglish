@@ -37,7 +37,6 @@ export const educationSlice = createSlice({
       },
       changeActiveModul: (state,action) => {
         
-        console.log(`activeModul: ${state.activeModul}`)
         state.activeModul = action.payload;
         state.activeWord = 0;
       }
@@ -46,7 +45,7 @@ export const educationSlice = createSlice({
 export const {next,prev,changeActiveModul} = educationSlice.actions;
 
 export const selectWords =  state => state.education.moduls[state.education.activeModul].words;
-
 export const selectActiveWord = state => state.education.activeWord;
+export const selectActiveModul = state =>  state.education.activeModul;
 
 export default educationSlice.reducer;

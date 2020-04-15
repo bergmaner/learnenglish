@@ -1,8 +1,12 @@
-import React,{useState, useEffect} from 'react';
+import React,{ useState, useEffect } from 'react';
 import Icon from '@material-ui/core/Icon';
 import {useSelector, useDispatch} from 'react-redux';
-import {changeActiveModul} from '../../features/education/educationSlice';
-import {changeActivModul} from '../../features/excercise/excerciseSlice';
+import { Link } from 'react-router-dom';
+import { changeActiveModul } from '../../features/education/educationSlice';
+import { changeActivModul } from '../../features/excercise/excerciseSlice';
+import useAuthUser from '../../hooks/useAuthUser';
+import { auth } from '../../services/firebase';
+import { AiOutlineLogin, AiOutlineLogout } from 'react-icons/ai'
 import styled from 'styled-components';
 
 const ResponsiveToolbar = styled.nav`
@@ -53,6 +57,23 @@ visibility:visible;
 }
 `;
 
+const SiteName = styled.div`
+font-size: 22px;
+font-weight:bold;
+margin-block-start:0;
+margin-block-end:0;
+padding-inline-start: 30px;
+padding: 10px;
+@media screen and (max-width: 759px)
+{
+  width: calc(100% - 60px);
+  text-align : center;
+  position:fixed;
+  left:60px;
+  top: 5px;
+}
+`;
+
 const Menu = styled.div`
 display:flex;
 align-items: center;
@@ -78,7 +99,7 @@ cursor:pointer;
 }
 `;
 
-const StyledLink = styled.div`
+const StyledLink = styled(Link)`
   font-weight: bold;
   text-decoration:none;
   display: flex;
@@ -97,15 +118,20 @@ const StyledLink = styled.div`
 function ResponsiveNavbar({navLinks,background,hoverBackground,linkColor}) {
 
   const [ hoverIndex, setHoverIndex ] = useState(-1);
-  const [ navOpen, setNavOpen ] = useState(false);
+  const [ navOpen, setNavOpen ] = useState(false); 
+  const currentUser = useAuthUser();
   const dispatch = useDispatch();
- console.log(hoverIndex);
 
  const onClick = (index) =>
  {
   dispatch(changeActiveModul(Number(index)));
   dispatch(changeActivModul(Number(index)))
- }
+}
+
+const handleLogOut = () =>
+{
+  auth().signOut();
+}
 
     return (
         <ResponsiveToolbar style={{ background: background }}>
@@ -113,6 +139,7 @@ function ResponsiveNavbar({navLinks,background,hoverBackground,linkColor}) {
              <MenuIcon onClick = {() => setNavOpen(!navOpen)} >
                <Icon style={{color:linkColor}}>menu</Icon>
              </MenuIcon>
+        <SiteName style={{color:linkColor}}>LearnEnglish</SiteName>
             <Menu>
     {navLinks.map((link,index) => 
     <ListItem
@@ -121,8 +148,13 @@ function ResponsiveNavbar({navLinks,background,hoverBackground,linkColor}) {
      onMouseEnter = {()=> setHoverIndex(index)}
      onMouseLeave = {() => setHoverIndex(-1)}
      style = {{background: hoverIndex === index ? hoverBackground : '', cursor:'pointer'}}>
-        <StyledLink style = {{color:linkColor}}>{link.text }<Icon style={{fontSize:22,marginRight:10}}>{link.icon}</Icon></StyledLink>
+        <StyledLink style = {{color:linkColor}} to = '/'>{link.text }<Icon style={{fontSize:22,marginRight:10}}>{link.icon}</Icon></StyledLink>
     </ListItem>)}
+    <ListItem>
+      {currentUser ?
+       <StyledLink onClick = { () => handleLogOut() } to = '/login' style = {{color:linkColor}}>Wyloguj<AiOutlineLogout style={{fontSize:22,marginRight:10}}/></StyledLink > 
+       : <StyledLink to = '/login' style = {{color:linkColor}}>Zaloguj<AiOutlineLogin style={{fontSize:22,marginRight:10}}/></StyledLink> }
+       </ListItem>
     </Menu>
             </NavList>
         </ResponsiveToolbar>

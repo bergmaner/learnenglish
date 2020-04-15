@@ -82,7 +82,7 @@ justify-content: space-evenly;
 height: 300px`;
 
 const AnswersList = styled(List)`
-width:80%;
+width: 40%;
 @media screen and (max-width: 759px)
     {
       width:100%
@@ -160,13 +160,7 @@ const Excercise = () =>
 
     const onClick = () =>
     {
-       if(activeQuestion <= questions.length - 1 && questionsVisible)  
-       {
-        console.log(`activeQuestion : ${activeQuestion} QuestionsLength : ${questions.length}`);
-        dispatch(nextQuestion()) ;
-
-       }
-        
+       if(activeQuestion <= questions.length - 1 && questionsVisible)dispatch(nextQuestion()) ;
        if(activeQuestion >= questions.length - 1) 
         {
            activeInteractiveQuestion < interactiveQuestions.length-1 ? 
@@ -238,8 +232,9 @@ const Excercise = () =>
     <NextBtn onClick = { () => onClick()} >Next</NextBtn>
     </>}
      { finished && <>
+     <div>Your score : {points} / {questions.length + interactiveQuestions.length}</div>
      <div>
-       <ProgressProvider valueStart={0} valueEnd={(points) / (questions.length + interactiveQuestions.length) * 100}>
+       <ProgressProvider valueStart={0} valueEnd={Math.floor((points) / (questions.length + interactiveQuestions.length) * 100)}>
        {value => 
         <CircleBar
         value = {value} 

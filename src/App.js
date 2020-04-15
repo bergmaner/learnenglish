@@ -2,13 +2,17 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
+  Redirect,
   Route,
   Link
 } from "react-router-dom";
-import Counter from './features/counter/Counter'
+import Counter from './features/counter/Counter';
+import Login from './features/auth/Login';
 import Education from './features/education/Education';
 import Excercise from './features/excercise/Excercise';
 import ResponsiveNavbar from './layout/ResponsiveNavbar';
+import useAuthUser from './hooks/useAuthUser';
+import Account from './features/auth/Account';
 import './App.css';
 
 function App() {
@@ -27,8 +31,33 @@ function App() {
     icon:"fastfood"
   }
 ]
+const PrivateRoute = ({ children, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        currentUser ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: location }
+            }}
+          />
+        )
+      }
+    />
+  );
+}
+
+
+const currentUser = useAuthUser();
+console.log(currentUser);
   return (
     <React.Fragment>
+       <Router basename={`${process.env.PUBLIC_URL}/`}>
+       
       <ResponsiveNavbar 
       navLinks = {navLinks}
       background = '#333333'
@@ -36,13 +65,15 @@ function App() {
       linkColor = 'palevioletred'
       ></ResponsiveNavbar>
       <div className = "App">
-      <Router basename={`${process.env.PUBLIC_URL}/`}>
-        <Switch>
+      <Switch>
         <Route exact path = "/" component = {Education}></Route>
+        <Route path = "/login" component = {Login}></Route>
+        <PrivateRoute path = "/account"><Account/></PrivateRoute>
         <Route path = "/excercise/" component = {Excercise}></Route>
       </Switch>
-    </Router>      
       </div>
+    </Router>      
+     
     </React.Fragment>
     
   );
