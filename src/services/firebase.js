@@ -1,6 +1,6 @@
 import * as firebase from 'firebase';
 import 'firebase/auth';
-
+import 'firebase/firestore';
 const firebaseConfig = {
     apiKey: "AIzaSyAawMFtv_5Sr5OZ58BFqDRw16rlsb_WHTQ",
     authDomain: "learnenglish-eb67b.firebaseapp.com",
@@ -15,10 +15,23 @@ const firebaseConfig = {
   firebase.initializeApp(firebaseConfig);
 
   const fbProvider = new firebase.auth.FacebookAuthProvider();
+  const ghProvider = new firebase.auth.GithubAuthProvider();
+  const googleProvider = new firebase.auth.GoogleAuthProvider();
 
   export const fbAuth = () =>
   {
     return firebase.auth().signInWithPopup(fbProvider);
   }
+  export const ghAuth = () =>
+  {
+    return firebase.auth().signInWithPopup(ghProvider);
+  }
+  export const googleAuth = () =>
+  {
+    return firebase.auth().signInWithPopup(googleProvider);
+  }
+  
   
   export const auth = firebase.auth;
+  export const db = firebase.firestore();
+  export const firestore = firebase.firestore;

@@ -6,7 +6,7 @@ import { changeActiveModul } from '../../features/education/educationSlice';
 import { changeActivModul } from '../../features/excercise/excerciseSlice';
 import useAuthUser from '../../hooks/useAuthUser';
 import { auth } from '../../services/firebase';
-import { AiOutlineLogin, AiOutlineLogout } from 'react-icons/ai'
+import { IoMdLogIn, IoMdLogOut } from 'react-icons/io'
 import styled from 'styled-components';
 
 const ResponsiveToolbar = styled.nav`
@@ -89,8 +89,9 @@ width:96%;
 
 const ListItem = styled.li`
 list-style-type:none;
-padding: 10px 20px;
+padding: 15px 20px;
 cursor:pointer;
+transition: all 0.4s;
 @media screen and (max-width: 759px)
 {
  padding-left: 0;
@@ -150,10 +151,13 @@ const handleLogOut = () =>
      style = {{background: hoverIndex === index ? hoverBackground : '', cursor:'pointer'}}>
         <StyledLink style = {{color:linkColor}} to = '/'>{link.text }<Icon style={{fontSize:22,marginRight:10}}>{link.icon}</Icon></StyledLink>
     </ListItem>)}
-    <ListItem>
+    <ListItem 
+      onMouseEnter = {()=> setHoverIndex(3)}
+      onMouseLeave = {() => setHoverIndex(-1)}
+      style = {{background: hoverIndex === 3 ? hoverBackground : '', cursor:'pointer'}}>
       {currentUser ?
-       <StyledLink onClick = { () => handleLogOut() } to = '/login' style = {{color:linkColor}}>Wyloguj<AiOutlineLogout style={{fontSize:22,marginRight:10}}/></StyledLink > 
-       : <StyledLink to = '/login' style = {{color:linkColor}}>Zaloguj<AiOutlineLogin style={{fontSize:22,marginRight:10}}/></StyledLink> }
+       <StyledLink onClick = { () => handleLogOut() } to = '/login' style = {{color:linkColor}}>Wyloguj<IoMdLogOut style={{fontSize:22,marginRight:10}}/></StyledLink > 
+       : <StyledLink to = '/login' style = {{color:linkColor}}>Zaloguj<IoMdLogIn style={{fontSize:22,marginRight:10}}/></StyledLink> }
        </ListItem>
     </Menu>
             </NavList>
