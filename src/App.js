@@ -48,12 +48,8 @@ const PrivateRoute = ({ children, ...rest }) => {
               state: { from: location }
             }}
           />
-        )
-      }
-    />
-  );
-}
-
+        )}
+    />);}
 const currentUser = useAuthUser();
 console.log(currentUser);
   return (
@@ -69,18 +65,20 @@ console.log(currentUser);
       <Switch>
         <Route exact path = "/" component = {Education}></Route>
         <Route path = "/login" component = {Login}></Route>
+        {
+          //3 Routy do rozbudowy bazy w przyszłości możliwe, że będzie panel Admina w którym będzie do nich dostęp tylko z poziomu administracji
+        }
+        
         <Route path = "/createEducation" component = {NewEducation}></Route>
         <Route path = "/createQuestion" component = {NewQuestion}></Route>
         <Route path = "/createInteractiveQuestion" component = {NewInteractiveQuestion}></Route>
+       
         <PrivateRoute path = "/account"><Account/></PrivateRoute>
         <Route path = "/excercise/" component = {Excercise}></Route>
       </Switch>
       </div>
-    </Router>      
-     
+    </Router>
     </React.Fragment>
-    
   );
 }
-
 export default App;

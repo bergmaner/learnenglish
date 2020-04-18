@@ -2,7 +2,7 @@ import React from 'react';
 import { Input, Button } from '@material-ui/core/';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
-import { db , firestore } from '../../services/firebase';
+import { db } from '../../services/firebase';
 
 export default () => {
 

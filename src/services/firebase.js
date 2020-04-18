@@ -1,6 +1,8 @@
 import * as firebase from 'firebase';
 import 'firebase/auth';
 import 'firebase/firestore';
+import 'firebase/storage';
+
 const firebaseConfig = {
     apiKey: "AIzaSyAawMFtv_5Sr5OZ58BFqDRw16rlsb_WHTQ",
     authDomain: "learnenglish-eb67b.firebaseapp.com",
@@ -34,4 +36,4 @@ const firebaseConfig = {
   
   export const auth = firebase.auth;
   export const db = firebase.firestore();
-  export const firestore = firebase.firestore;
+  export const storage = firebase.storage();

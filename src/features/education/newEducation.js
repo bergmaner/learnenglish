@@ -1,51 +1,50 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Input, Button } from '@material-ui/core/';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
-import { db , firestore } from '../../services/firebase';
+import { db, storage } from '../../services/firebase';
 
 export default () => {
 
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit} = useForm();
 
-  const initialQuestion = {
+  const initialEducation = {
     content: '',
-    correctAnswer: '',
-    answers: [
-      { content: ''},
-      { content: ''},
-      { content: ''},
-      { content: ''},
-    ]
+    translation: '',
+    image:'ss'
+    
   }
  
-  const [questions, setQuestions] = React.useState([initialQuestion]);
-  const [exists, setExists] = React.useState(false);
-  const [tempQuestions, setTempQuestions] = React.useState([]);
-  const [tempInteractiveQuestions, setTempInteractiveQuestions] = React.useState([]);
-  const [modul, setModul] = React.useState('');
-  
+  const [ education, setEducation ] = useState([initialEducation]);
+  const [ exists, setExists ] = useState(false);
+  const [ tempEducation, setTempEducation ] = useState([]);
+  const [ modul, setModul ] = useState('');
+  const [ image, setImage ] = useState(null);
+  const [ url, setUrl ] = useState('');
+  const [ progress, setProgress ] = useState(0);
 
-  const addQuestion = () => {
-    setQuestions([...questions, initialQuestion])
+
+
+
+  const addEducation = () => {
+    setEducation([...education, initialEducation])
   }
 
-  const removeQuestion = () => {
-    const newArr = [...questions];
-    newArr.splice(questions.length-1, 1);
-    setQuestions(newArr);
+  const removeEducation = () => {
+    const newArr = [...education];
+    newArr.splice(education.length-1, 1);
+    setEducation(newArr);
   }
   
   const onChange = async (e) => 
   {
     const mdl = e.target.value;
     setModul(mdl);
-    await db.collection("excercise").doc(mdl).get().then(function(doc) {
+    await db.collection("education").doc(mdl).get().then(function(doc) {
     if (doc.exists) {
-        setTempQuestions(doc.data().questions);
-        setTempInteractiveQuestions(doc.data().interactiveQuestions);
+        setTempEducation(doc.data().education);
         setExists(true);
-        console.log("Document data:", doc.data().questions);
+        console.log("Document data:", doc.data().education);
     } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -61,28 +60,74 @@ export default () => {
     if(exists)
     {
       console.log(`if`);
-      const tmp = values.questions;
-    Array.prototype.push.apply(tempQuestions,tmp);
-    await db.collection('excercise').doc(modul).update({
-      questions : tempQuestions,
-      interactiveQuestions : tempInteractiveQuestions
+      const tmp = values.education;
+      tmp[0].image = url;
+      console.log(tmp);
+    Array.prototype.push.apply(tempEducation,tmp);
+    await db.collection('education').doc(modul).update({
+      education : tempEducation
     });
     }
     else
     {
       console.log(`else`);
-      await db.collection('excercise').doc(modul).set({
-        questions : values.questions,
-        interactiveQuestions : tempInteractiveQuestions
+      const tmp = values.education;
+      tmp[0].image = url;
+      await db.collection('education').doc(modul).set({
+        education : tmp
       });
     }
   };
 
 const clear = () =>
 {
-  setQuestions([]);
+  setEducation([]);
 }
-
+const handleChange = (e) =>
+{
+  const file = e.target.files[0];
+  if(file)
+  { 
+    const fileType = file['type'];
+    const validImageTypes = ['image/gif','image/jpeg','image/png'];
+    if(validImageTypes.includes(fileType))
+    {
+      setImage(e.target.files[0]);
+    }
+  }
+}
+const handleUpdate = (index) => {
+    if (image) {
+      const uploadTask = storage.ref(`images/${image.name}`).put(image);
+  
+      uploadTask.on(
+        "state_changed",
+        snapshot => {
+          const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          setProgress(progress);
+        },
+        error => {
+          
+          console.log(error);
+        },
+        () => {
+       
+          storage
+            .ref("images")
+            .child(image.name) 
+            .getDownloadURL() 
+            .then(url => {
+              console.log(url);
+              setUrl(url);
+              let newArr = [...education];
+              newArr[index].image = url;
+              setEducation(newArr);
+              setProgress(0);
+            });
+        }
+      );
+    } 
+  };
   return(
     <div>
       <p>Utwórz nowe pytanie</p>
@@ -95,27 +140,43 @@ const clear = () =>
               placeholder={`Moduł`} 
               inputProps={{ 'aria-label': `modul` }}
             />
-        {questions.map((question, q) =>
-          <div key={`questions${q}`}>
+        {education.map((edc, index) =>
+          <div key={`education${index}`}>
             <Input
               fullWidth
-              name={`questions[${q}].content`}
+              name={`education[${index}].content`}
               inputRef={register()}
-              placeholder={`Słowo ${q+1}`}
-              inputProps={{ 'aria-label': `słowo ${q+1}` }}
+              placeholder={`Słowo ${index+1}`}
+              inputProps={{ 'aria-label': `słowo ${index+1}` }}
             />
              <Input
-          name={`questions[${q}].translation`}
+          fullWidth
+          name={`education[${index}].translation`}
           inputRef={register()}
-          placeholder="tłumaczenie"
+          placeholder="Tłumaczenie"
           inputProps={{ 'aria-label': 'translation' }}
         />
+        <div >
+          {
+          //it will be progressbar when i am gonna style it 
+
+}
+        <input
+        name={`education[${index}].image`}
+        type ='file'
+        onChange = {(e) => handleChange(e)}
+        />
+        <Button onClick ={() => handleUpdate(index)}>update</Button>
+        {
+          url ? <img width='200px' height = '200px' src = {edc.image}  /> : <img width='200' height = '200'/>
+        }
+        </div>
           </div>
         )}
-        <Button onClick={ () => addQuestion() }>Dodaj pytanie</Button>
-        <Button onClick={ () => removeQuestion() }>Usuń pytanie</Button>
+        <Button onClick={ () => addEducation() }>Dodaj słowo</Button>
+        <Button onClick={ () => removeEducation() }>Usuń słowo</Button>
         <Button onClick={ () => clear() }>Wyczyść</Button>
-        <Button type="submit">Utwórz pytania</Button>
+        <Button type="submit">Utwórz słowa</Button>
       </form>
     </div>
   )

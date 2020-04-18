@@ -1,6 +1,6 @@
 import React,{ useState, useEffect } from 'react';
 import Icon from '@material-ui/core/Icon';
-import {useSelector, useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { changeActiveModul } from '../../features/education/educationSlice';
 import { changeActivModul } from '../../features/excercise/excerciseSlice';
@@ -152,9 +152,9 @@ const handleLogOut = () =>
         <StyledLink style = {{color:linkColor}} to = '/'>{link.text }<Icon style={{fontSize:22,marginRight:10}}>{link.icon}</Icon></StyledLink>
     </ListItem>)}
     <ListItem 
-      onMouseEnter = {()=> setHoverIndex(3)}
+      onMouseEnter = {()=> setHoverIndex(navLinks.length)}
       onMouseLeave = {() => setHoverIndex(-1)}
-      style = {{background: hoverIndex === 3 ? hoverBackground : '', cursor:'pointer'}}>
+      style = {{background: hoverIndex === navLinks.length ? hoverBackground : '', cursor:'pointer'}}>
       {currentUser ?
        <StyledLink onClick = { () => handleLogOut() } to = '/login' style = {{color:linkColor}}>Wyloguj<IoMdLogOut style={{fontSize:22,marginRight:10}}/></StyledLink > 
        : <StyledLink to = '/login' style = {{color:linkColor}}>Zaloguj<IoMdLogIn style={{fontSize:22,marginRight:10}}/></StyledLink> }
