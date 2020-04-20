@@ -1,8 +1,39 @@
 import React from 'react';
-import {Button} from '@material-ui/core';
+import { FaFacebook,FaGithub,FaGooglePlus } from "react-icons/fa";
+import styled from 'styled-components';
 import {fbAuth} from '../../services/firebase';
 import {ghAuth} from '../../services/firebase';
 import {googleAuth} from '../../services/firebase';
+import {Avatar} from '@material-ui/core';
+
+const Facebook = styled(FaFacebook)`
+font-size : 100px;
+margin : 10px;
+cursor:pointer;
+&:hover
+{
+    color : #3b5998;
+}
+
+`;
+const Github = styled(FaGithub)`
+font-size : 100px;
+margin : 10px;
+cursor:pointer;
+&:hover
+{
+    color : #24292e;
+}
+`;
+const Google = styled(FaGooglePlus)`
+font-size : 100px;
+margin : 10px;
+cursor:pointer;
+&:hover
+{
+    color : #dd4b39;
+}
+`;
 
 export default () =>
 {
@@ -23,9 +54,12 @@ export default () =>
 
     return (
         <div>
-            <Button onClick = { () => handleFbLogin() }>FLogin</Button>
-            <Button onClick = { () => handleGoogleLogin() }>GoogleLogin</Button>
-            <Button onClick = { () => handleGhLogin() }>GhLogin</Button>
+            
+        <Facebook onClick = { () => handleFbLogin() } />
+        <Google onClick = { () => handleGoogleLogin()} />
+        <Github onClick = { () => handleGhLogin() } />
+      
+           
 
         </div>
     );
