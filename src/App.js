@@ -3,10 +3,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Redirect,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
-import Counter from './features/counter/Counter';
 import Login from './features/auth/Login';
 import Education from './features/education/Education';
 import NewEducation from './features/education/newEducation';
@@ -19,7 +17,7 @@ import Account from './features/auth/Account';
 import './App.css';
 
 function App() {
-
+  const currentUser = useAuthUser();
   const navLinks = [
   {
     text:"Transport",
@@ -50,8 +48,7 @@ const PrivateRoute = ({ children, ...rest }) => {
           />
         )}
     />);}
-const currentUser = useAuthUser();
-console.log(currentUser);
+
   return (
     <React.Fragment>
        <Router basename={`${process.env.PUBLIC_URL}/`}>
@@ -63,7 +60,7 @@ console.log(currentUser);
       ></ResponsiveNavbar>
       <div className = "App">
       <Switch>
-        <Route exact path = "/" component = {Education}></Route>
+        <Route exact path = "/"></Route>
         <Route path = "/login" component = {Login}></Route>
         {
           //3 Routy do rozbudowy bazy w przyszłości możliwe, że będzie panel Admina w którym będzie do nich dostęp tylko z poziomu administracji
@@ -72,9 +69,9 @@ console.log(currentUser);
         <Route path = "/createEducation" component = {NewEducation}></Route>
         <Route path = "/createQuestion" component = {NewQuestion}></Route>
         <Route path = "/createInteractiveQuestion" component = {NewInteractiveQuestion}></Route>
-       
         <PrivateRoute path = "/account"><Account/></PrivateRoute>
-        <Route path = "/excercise/" component = {Excercise}></Route>
+        <Route path = "/excercise/:modul" component = {Excercise}></Route>
+        <Route path = "/education/:modul" component = {Education}></Route>
       </Switch>
       </div>
     </Router>

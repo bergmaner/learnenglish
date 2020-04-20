@@ -1,4 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { db } from '../../services/firebase';
+
 export const excerciseSlice = createSlice({
   name: 'excercise',
   initialState: {
@@ -9,103 +11,23 @@ export const excerciseSlice = createSlice({
     activeSlices : [],
     points:0,
     finished: false,
-    questionsVisible: true,
+    questionsVisible: null,
     moduls:[
       {
-     //0modul   
-    interactiveQuestions: [
-      {
-      content : "Ala ma kota",
-      winCode : [0,3,4,2],
-      slices : [
-        {content: "Alice", checked:false},
-        {content: "plane", checked:false},
-        {content: "cat", checked:false},
-        {content: "has", checked:false},
-        {content: "the", checked:false}
-      ]
-      },
-      {
-        content : "Ala ma kota",
-        winCode : [0,3,4,2],
-        slices : [
-          {content: "Alice", checked:false},
-          {content: "plane", checked:false},
-          {content: "cat", checked:false},
-          {content: "has", checked:false},
-          {content: "the", checked:false}
-        ]
-        }
-    ],
-      questions: [
-
-        {
-      content: "Jak jest auto po angielsku?",
-      correctAnswer : 0,
-      answers: [
-        {id: 0, content: "car", checked: false},
-        {id: 1, content: "plane", checked: false},
-        {id: 2, content: "boat", checked: false},
-        {id: 3, content: "coat", checked: false}
-      ]
-    },
-    {
-      content: "Jak jest samolot po angielsku?",
-      correctAnswer: 1, 
-      answers: [
-        {id: 0, content: "caca", checked: false},
-        {id: 1, content: "plane", checked: false},
-        {id: 2, content: "car", checked: false},
-        {id: 3, content: "coat", checked: false}
-      ]
-    }
-      ] },
-      {
-        //1 modul
-        interactiveQuestions: [
-          {
-          content : "Ala ma kota",
-          winCode : [0,2,3],
-          slices : [
-            {content: "Alice", checked:false},
-            {content: "plane", checked:false},
-            {content: "have", checked:false},
-            {content: "cat", checked:false}
-          ]
-          },
-          {
-            content : "Ala ma kota",
-            winCode : [0,2,3],
-            slices : [
-              {content: "Alice", checked:false},
-              {content: "plane", checked:false},
-              {content: "have", checked:false},
-              {content: "cat", checked:false}
-            ]
-            }
-        ],
-        questions: [
-          {
-            content: "Jak jest auto po angielsku?",
-            correctAnswer: 0,
-            answers: [
-              {id: 0, content: "car", checked: false},
-              {id: 1, content: "plane", checked: false},
-              {id: 2, content: "boat", checked: false},
-              {id: 3, content: "coat", checked: false}
-            ]
-          }
-        ]
+        questions:[],
+        interactiveQuestions:[]
       }
     ]
    },
     reducers:{
       nextQuestion : state =>
       {
+        
         const question = state.moduls[state.activeModul].questions[state.activeQuestion];
         question.answers.map( answer => answer.checked = false);
-        state.activeQuestion += state.activeQuestion === state.moduls[state.activeModul].questions.length-1 ? 0 : 1;
         state.points += state.checkIndex === question.correctAnswer ? 1 : 0;
+        state.activeQuestion += state.activeQuestion === state.moduls[state.activeModul].questions.length-1 ? 0 : 1;
+
         state.checkIndex = null;
       },
       nextInteractiveQuestion : state =>
@@ -113,7 +35,7 @@ export const excerciseSlice = createSlice({
         if(state.activeInteractiveQuestion !== null)
         {
           const correctCode = state.moduls[state.activeModul].interactiveQuestions[state.activeInteractiveQuestion].winCode;
-        state.points += state.activeSlices.join('') === correctCode.join('') ? 1 : 0;
+          state.points += state.activeSlices.join('') === correctCode ? 1 : 0;
         }
         
         state.questionsVisible = false;
@@ -141,23 +63,31 @@ export const excerciseSlice = createSlice({
       finishQuiz : (state) => 
       {
         const correctCode = state.moduls[state.activeModul].interactiveQuestions[state.activeInteractiveQuestion].winCode;
-        state.points += state.activeSlices.join('') === correctCode.join('') ? 1 : 0;
+        state.points += state.activeSlices.join('') === correctCode ? 1 : 0;
         state.finished = true;
       },
-      changeActivModul: (state,action) => {
+      restart: (state) => {
         
-        state.activeModul = action.payload;
-        state.questionsVisible = true;
+        state.questionsVisible = null;
         state.activeQuestion = 0;
         state.activeInteractiveQuestion = null;
         state.points = 0;
         state.finished = false;
        
+      },
+      updateExcercise : (state,action) =>
+      {
+        state.moduls[state.activeModul].questions = action.payload.questions;
+        state.moduls[state.activeModul].interactiveQuestions = action.payload.interactiveQuestions;
+        state.moduls[state.activeModul].questions.map( question => question.answers.map(answer => answer.checked = false));
+        state.questionsVisible = true;
       }
     }
 })
-export const {nextQuestion, nextInteractiveQuestion, toggleToSentence,changeActivModul,toggleCheckbox,finishQuiz} = excerciseSlice.actions;
+export const {nextQuestion, nextInteractiveQuestion, toggleToSentence,restart,toggleCheckbox,finishQuiz,updateExcercise} = excerciseSlice.actions;
 export const selectQuestions = state => state.excercise.moduls[state.excercise.activeModul].questions;
+export const selectModuls = state => state.excercise.moduls;
+export const selectCheckIndex = state => state.excercise.checkIndex;
 export const selectActiveQuestion = state => state.excercise.activeQuestion;
 export const selectInteractiveQuestions = state => state.excercise.moduls[state.excercise.activeModul].interactiveQuestions;
 export const selectActiveInteractiveQuestion = state => state.excercise.activeInteractiveQuestion
@@ -165,4 +95,9 @@ export const selectQuestionsVisible = state => state.excercise.questionsVisible;
 export const selectActiveSlices = state => state.excercise.activeSlices;
 export const selectFinished = state => state.excercise.finished;
 export const selectPoints = state => state.excercise.points;
+export const fetchExcerciseAsync = modul => async dispatch => {
+  console.log(modul);
+  const result = await db.collection('excercise').doc(modul).get();
+  dispatch(updateExcercise(result.data()));
+};
 export default excerciseSlice.reducer;

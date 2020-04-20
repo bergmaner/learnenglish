@@ -2,8 +2,6 @@ import React,{ useState, useEffect } from 'react';
 import Icon from '@material-ui/core/Icon';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { changeActiveModul } from '../../features/education/educationSlice';
-import { changeActivModul } from '../../features/excercise/excerciseSlice';
 import useAuthUser from '../../hooks/useAuthUser';
 import { auth } from '../../services/firebase';
 import { IoMdLogIn, IoMdLogOut } from 'react-icons/io'
@@ -123,11 +121,6 @@ function ResponsiveNavbar({navLinks,background,hoverBackground,linkColor}) {
   const currentUser = useAuthUser();
   const dispatch = useDispatch();
 
- const onClick = (index) =>
- {
-  dispatch(changeActiveModul(Number(index)));
-  dispatch(changeActivModul(Number(index)))
-}
 
 const handleLogOut = () =>
 {
@@ -145,11 +138,10 @@ const handleLogOut = () =>
     {navLinks.map((link,index) => 
     <ListItem
      key = {index}
-     onClick = { () => onClick(index) }
      onMouseEnter = {()=> setHoverIndex(index)}
      onMouseLeave = {() => setHoverIndex(-1)}
      style = {{background: hoverIndex === index ? hoverBackground : '', cursor:'pointer'}}>
-        <StyledLink style = {{color:linkColor}} to = '/'>{link.text }<Icon style={{fontSize:22,marginRight:10}}>{link.icon}</Icon></StyledLink>
+        <StyledLink style = {{color:linkColor}} to = {`/education/${link.text}`}>{link.text }<Icon style={{fontSize:22,marginRight:10}}>{link.icon}</Icon></StyledLink>
     </ListItem>)}
     <ListItem 
       onMouseEnter = {()=> setHoverIndex(navLinks.length)}

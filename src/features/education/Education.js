@@ -1,12 +1,12 @@
-import React from 'react';
-import {useHistory} from 'react-router-dom';
-import {useSelector, useDispatch} from 'react-redux';
-import {selectActiveWord,selectActiveModul, selectWords, next ,prev} from './educationSlice';
-import {changeActivModul} from '../excercise/excerciseSlice';
-import Icon from '@material-ui/core/Icon';
+import React,{ useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectActiveWord,selectActiveModul, selectWords, next ,prev,fetchEducationAsync } from './educationSlice';
+import { restart } from '../excercise/excerciseSlice';
 import ProgressBar from '../../components/ProgressBar';
 import styled from 'styled-components';
-import {Button} from '@material-ui/core'
+import { Button } from '@material-ui/core';
+import{ useParams } from "react-router-dom";
 
 const WordImage = styled.img`
 width: 400px;
@@ -19,7 +19,6 @@ height: 400px;
 `;
 
 const WordContent = styled.div`
-
 color : #c7c7c7;
 font-size:21px;
 margin:5px;
@@ -97,34 +96,37 @@ const Education = () =>
     const activeModul = useSelector(selectActiveModul);
     const history = useHistory();
     const dispatch = useDispatch();
+    const {modul} = useParams();
+
+    React.useEffect( () => {
+      console.log(modul);
+      dispatch(fetchEducationAsync(modul));
+    },[modul] )
 
     const excercise = () =>
     {
-      dispatch(changeActivModul(activeModul));
-      history.push('/excercise');
+      dispatch(restart());
+      history.push(`/excercise/${modul}`);
     }
     
     
     return (
         <React.Fragment>
+          {words.length > 0 && <>
           <Progress>
           <Counter>{`${activeWord + 1} / ${words.length}`}</Counter>
             <ProgressBar style ={{ width:`${((activeWord + 1) / words.length) *100}%`}}></ProgressBar>
-           
           </Progress>
-      
-    
-          <WordImage src ={words[activeWord].img}/>
+          <WordImage src ={words[activeWord].image}/>
           <WordContent>{words[activeWord].content} - {words[activeWord].translation}</WordContent>
           <ArrowNavigation>
           <Item><Prev onClick = { () => dispatch(prev()) }>&#8249;</Prev></Item>
           <ExcerciseBtn onClick = { () => excercise() }>Excercise</ExcerciseBtn>
           <Item><Next onClick = { () => dispatch(next()) }>&#8250;</Next></Item>
           </ArrowNavigation>
+          </>}
         </React.Fragment>
       );
- 
-
 }
 
 export default Education;

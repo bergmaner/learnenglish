@@ -159,9 +159,8 @@ const handleUpdate = (index) => {
         <div >
           {
           //it will be progressbar when i am gonna style it 
-
 }
-        <input
+        <Input
         name={`education[${index}].image`}
         type ='file'
         onChange = {(e) => handleChange(e)}

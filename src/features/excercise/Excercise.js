@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import {
+    selectModuls,
     selectQuestionsVisible,
     selectQuestions,
     selectActiveQuestion,
@@ -14,7 +15,9 @@ import {
     nextInteractiveQuestion,
     toggleToSentence,
     toggleCheckbox,
-    finishQuiz
+    finishQuiz,
+    fetchExcerciseAsync,
+    selectCheckIndex
      } from './excerciseSlice';
 import ProgressBar from '../../components/ProgressBar';
 import styled from 'styled-components';
@@ -23,6 +26,7 @@ import {CircularProgressbar} from 'react-circular-progressbar';
 import ProgressProvider from '../../components/ProgressProvider';
 import 'react-circular-progressbar/dist/styles.css';
 import { useHistory } from "react-router-dom";
+import{ useParams } from "react-router-dom";
 
 const Progress = styled.div`
 width:80%;`;
@@ -143,7 +147,7 @@ const EducationBtn = styled.button`
 
 const Excercise = () =>
 {
-
+    const moduls = useSelector(selectModuls);
     const questions = useSelector(selectQuestions);
     const activeQuestion = useSelector(selectActiveQuestion);
     const interactiveQuestions = useSelector(selectInteractiveQuestions);
@@ -152,11 +156,20 @@ const Excercise = () =>
     const activeSlices = useSelector(selectActiveSlices);
     const finished = useSelector(selectFinished);
     const points = useSelector(selectPoints);
+    const checkIndex = useSelector(selectCheckIndex);
     let history = useHistory();
+    const { modul } = useParams();
     const [ hoverIndex, setHoverIndex ] = useState(-1);
-    
-
     const dispatch = useDispatch();
+
+    React.useEffect( () => {
+      console.log(modul);
+      dispatch(fetchExcerciseAsync(modul));
+    },[modul] )
+
+    const handleToggle = (index) => () => {
+      if( checkIndex !== index ) dispatch(toggleCheckbox(index));
+  }
 
     const onClick = () =>
     {
@@ -165,7 +178,6 @@ const Excercise = () =>
         {
            activeInteractiveQuestion < interactiveQuestions.length-1 ? 
            dispatch(nextInteractiveQuestion()) : dispatch(finishQuiz());
-        
         }   
     }
     
@@ -175,30 +187,31 @@ const Excercise = () =>
     setHoverIndex(-1);
     }
 
-    const handleToggle = (index) => () => {
-        dispatch(toggleCheckbox(index));
-    }
+    
     const educate = () =>
     {
-      history.push(`/`);
+      history.push(`/education/${modul}`);
     }
     return (
         
    <React.Fragment>
-       {!finished && <> <Progress>
+       
+       {!finished && <> 
+       <Progress>
        <ProgressBar style ={{ width:`${((activeQuestion + activeInteractiveQuestion + (questionsVisible ? 1 :2))/(questions.length + interactiveQuestions.length)) *100}%`}}/>
      </Progress>
-    {questionsVisible && <><AnswersContent>
-      <Title>{questions[activeQuestion].content}</Title>
+    {questionsVisible === true && <>
+    <AnswersContent>
+     <Title>{questions[activeQuestion].content}</Title>
         <AnswersList >
-    {questions[activeQuestion].answers.map((answer,index) =>
-          <ListItem key = {index} dense button onClick={handleToggle(index)}>
+    {questions[activeQuestion]?.answers?.map((answer,index) =>
+          <ListItem key = {`question-${activeQuestion}-answer-${index}`} dense button onClick = { handleToggle(index) } >
             <ListItemIcon>
               <Check
                 checked = {answer.checked}
                 tabIndex = {-1}
                 disableRipple
-                onClick = { () => handleToggle(index) }
+                onClick = { handleToggle(index) }
               />
             </ListItemIcon>
             <Answer key={index}>{answer.content}</Answer>
@@ -207,7 +220,16 @@ const Excercise = () =>
    
     </AnswersContent>
     </> }
-    {!questionsVisible && <>
+    {questionsVisible === null && <>
+      <AnswersContent>
+      Loading...
+      {
+      //it will be loader
+       }
+      </AnswersContent>
+
+    </>}
+    {questionsVisible === false && <>
 <InteractiveContent>
     <Title>{interactiveQuestions[activeInteractiveQuestion].content}</Title>
     <SliceContainer>{

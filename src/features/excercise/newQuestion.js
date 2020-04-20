@@ -106,6 +106,7 @@ const clear = () =>
             />
              <Input
           name={`questions[${q}].correctAnswer`}
+          type = 'number'
           inputRef={register()}
           placeholder="Prawidłowa odpowiedź"
           inputProps={{ 'aria-label': 'correctAnswer' }}

@@ -23,9 +23,9 @@ export default () =>
 
     return (
         <div>
-            <Button onClick = { () => handleFbLogin()}>FLogin</Button>
-            <Button onClick = { () => handleGoogleLogin()}>GoogleLogin</Button>
-            <Button onClick = { () => handleGhLogin()}>GhLogin</Button>
+            <Button onClick = { () => handleFbLogin() }>FLogin</Button>
+            <Button onClick = { () => handleGoogleLogin() }>GoogleLogin</Button>
+            <Button onClick = { () => handleGhLogin() }>GhLogin</Button>
 
         </div>
     );
