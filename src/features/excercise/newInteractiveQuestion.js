@@ -6,11 +6,12 @@ import { db } from '../../services/firebase';
 
 export default () => {
 
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const initialInteractiveQuestion = {
     content: '',
     correctAnswer: '',
+    difficulty : 0,
     answers: [
       { content: ''},
       { content: ''},
@@ -19,18 +20,20 @@ export default () => {
     ]
   }
  
-  const [interactiveQuestions, setInteractiveQuestions] = React.useState([initialInteractiveQuestion]);
-  const [exists, setExists] = React.useState(false);
-  const [tempInteractiveQuestions, setTempInteractiveQuestions] = React.useState([]);
-  const [tempQuestions, setTempQuestions] = React.useState([]);
-  const [modul, setModul] = React.useState('');
+  const [ interactiveQuestions, setInteractiveQuestions ] = React.useState([initialInteractiveQuestion]);
+  const [ exists, setExists ] = React.useState(false);
+  const [ tempInteractiveQuestions, setTempInteractiveQuestions ] = React.useState([]);
+  const [ tempQuestions, setTempQuestions ] = React.useState([]);
+  const [ modul, setModul ] = React.useState('');
   
 
-  const addInteractiveQuestion = () => {
+  const addInteractiveQuestion = () => 
+  {
     setInteractiveQuestions([...interactiveQuestions, initialInteractiveQuestion])
   }
 
-  const removeInteractiveQuestion = () => {
+  const removeInteractiveQuestion = () => 
+  {
     const newArr = [...interactiveQuestions];
     newArr.splice(interactiveQuestions.length-1, 1);
     setInteractiveQuestions(newArr);
@@ -41,28 +44,33 @@ export default () => {
     const mdl = e.target.value;
     setModul(mdl);
     await db.collection("excercise").doc(mdl).get().then(function(doc) {
-    if (doc.exists) {
+    if (doc.exists)
+     {
         setTempInteractiveQuestions(doc.data().interactiveQuestions);
         setTempQuestions(doc.data().questions);
         setExists(true);
         console.log("Document data:", doc.data().interactiveQuestions);
-    } else {
+    }
+     else 
+     {
         // doc.data() will be undefined in this case
         console.log("No such document!");
         setExists(false);
     }
-}).catch(function(error) {
+}).catch(function(error) 
+{
     console.log("Error getting document:", error);
 });
      
   }
 
   const onSubmit = async values => {
-      console.log(exists);
+
+   values.interactiveQuestions.map(int => {int.difficulty = Number(int.difficulty)});
+
     if(exists)
     {
-      const tmp = values.interactiveQuestions;
-    Array.prototype.push.apply(tempInteractiveQuestions,tmp);
+    Array.prototype.push.apply(tempInteractiveQuestions,values.interactiveQuestions);
     await db.collection('excercise').doc(modul).update({
       interactiveQuestions : tempInteractiveQuestions,
       questions : tempQuestions
@@ -103,6 +111,13 @@ const clear = () =>
               placeholder={`Pytanie ${q+1}`}
               inputProps={{ 'aria-label': `pytanie ${q+1}` }}
             />
+              <Input
+          inputRef={register()}
+          name={`questions[${q}].difficulty`}
+          placeholder={`Trudność`} 
+          type = 'number'
+          inputProps={{ 'aria-label': `difficulty` }}
+        />
              <Input
           name={`interactiveQuestions[${q}].winCode`}
           inputRef={register()}

@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
-import {useSelector, useDispatch} from 'react-redux';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import {
-    selectModuls,
     selectQuestionsVisible,
     selectQuestions,
     selectActiveQuestion,
@@ -21,8 +20,8 @@ import {
      } from './excerciseSlice';
 import ProgressBar from '../../components/ProgressBar';
 import styled from 'styled-components';
-import {Button, List, ListItem, ListItemIcon, Checkbox} from '@material-ui/core';
-import {CircularProgressbar} from 'react-circular-progressbar';
+import { Button, List, ListItem, ListItemIcon, Checkbox } from '@material-ui/core';
+import { CircularProgressbar } from 'react-circular-progressbar';
 import ProgressProvider from '../../components/ProgressProvider';
 import 'react-circular-progressbar/dist/styles.css';
 import { useHistory } from "react-router-dom";
@@ -147,7 +146,6 @@ const EducationBtn = styled.button`
 
 const Excercise = () =>
 {
-    const moduls = useSelector(selectModuls);
     const questions = useSelector(selectQuestions);
     const activeQuestion = useSelector(selectActiveQuestion);
     const interactiveQuestions = useSelector(selectInteractiveQuestions);
@@ -162,14 +160,16 @@ const Excercise = () =>
     const [ hoverIndex, setHoverIndex ] = useState(-1);
     const dispatch = useDispatch();
 
-    React.useEffect( () => {
+    React.useEffect( () => 
+    {
       console.log(modul);
       dispatch(fetchExcerciseAsync(modul));
     },[modul] )
 
-    const handleToggle = (index) => () => {
+    const handleToggle = (index) => () => 
+    {
       if( checkIndex !== index ) dispatch(toggleCheckbox(index));
-  }
+    }
 
     const onClick = () =>
     {

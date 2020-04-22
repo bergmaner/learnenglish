@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import { Input, Button } from '@material-ui/core/';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
@@ -11,7 +11,10 @@ export default () => {
   const initialEducation = {
     content: '',
     translation: '',
-    image:'ss'
+    image:'',
+    example:'',
+    exampleTranslation: '',
+    difficulty:0
     
   }
  
@@ -57,24 +60,21 @@ export default () => {
   }
 
   const onSubmit = async values => {
+    values.education.map(edc => {edc.difficulty = Number(edc.difficulty)});
+    values.education.map((edc, index) => edc.image = education[index].image);
+    console.log(values.education);
     if(exists)
     {
-      console.log(`if`);
-      const tmp = values.education;
-      tmp[0].image = url;
-      console.log(tmp);
-    Array.prototype.push.apply(tempEducation,tmp);
+    Array.prototype.push.apply(tempEducation,values.education);
     await db.collection('education').doc(modul).update({
       education : tempEducation
     });
     }
     else
     {
-      console.log(`else`);
-      const tmp = values.education;
-      tmp[0].image = url;
+
       await db.collection('education').doc(modul).set({
-        education : tmp
+        education : values.education
       });
     }
   };
@@ -130,7 +130,7 @@ const handleUpdate = (index) => {
   };
   return(
     <div>
-      <p>Utwórz nowe pytanie</p>
+      <p>Utwórz nowe słowa</p>
      
       <form onSubmit={handleSubmit(onSubmit)} >
       <Input
@@ -153,8 +153,29 @@ const handleUpdate = (index) => {
           fullWidth
           name={`education[${index}].translation`}
           inputRef={register()}
+          placeholder={`Tłumaczenie ${index+1}`}
+          inputProps={{ 'aria-label': `translation ${index+1}` }}
+        />
+        <Input
+              fullWidth
+              name={`education[${index}].example`}
+              inputRef={register()}
+              placeholder={`Przykład `}
+              inputProps={{ 'aria-label': `example` }}
+            />
+             <Input
+          fullWidth
+          name={`education[${index}].exampleTranslation`}
+          inputRef={register()}
           placeholder="Tłumaczenie"
-          inputProps={{ 'aria-label': 'translation' }}
+          inputProps={{ 'aria-label': 'exampleTranslation' }}
+        />
+           <Input
+          type = 'number'
+          name={`education[${index}].difficulty`}
+          inputRef={register()}
+          placeholder="Trudność"
+          inputProps={{ 'aria-label': 'difficulty' }}
         />
         <div >
           {
@@ -167,7 +188,7 @@ const handleUpdate = (index) => {
         />
         <Button onClick ={() => handleUpdate(index)}>update</Button>
         {
-          url ? <img width='200px' height = '200px' src = {edc.image}  /> : <img width='200' height = '200'/>
+          url ? <img width='350px' src = {edc.image}  /> : <img width='350' height = '200'/>
         }
         </div>
           </div>
