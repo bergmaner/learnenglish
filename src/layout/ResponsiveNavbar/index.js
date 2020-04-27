@@ -55,19 +55,21 @@ visibility:visible;
 }
 `;
 
-const SiteName = styled.div`
+const SiteName = styled(Link)`
 font-size: 22px;
 font-weight:bold;
+text-decoration: none;
 margin-block-start:0;
 margin-block-end:0;
 padding-inline-start: 30px;
 padding: 10px;
 @media screen and (max-width: 759px)
 {
-  width: calc(100% - 60px);
+  padding: 10px 0px;
   text-align : center;
-  position:fixed;
-  left:60px;
+  position: fixed;
+  width: 130px;
+  left: calc(50% - 30px);
   top: 5px;
 }
 `;
@@ -131,21 +133,21 @@ const handleLogOut = () =>
         <ResponsiveToolbar style={{ background: background }}>
             <NavList style={{ background: background }} className = {navOpen ? 'active' : ''}>
              <MenuIcon onClick = {() => setNavOpen(!navOpen)} >
-               <Icon style={{color:linkColor}}>menu</Icon>
+               <Icon style={{color: linkColor}}>menu</Icon>
              </MenuIcon>
-        <SiteName style={{color:linkColor}}>LearnEnglish</SiteName>
+        <SiteName style={{color: linkColor}} to = {`/`}>LearnEnglish</SiteName>
             <Menu>
     {navLinks.map((link,index) => 
     <ListItem
-     key = {index}
-     onMouseEnter = {()=> setHoverIndex(index)}
-     onMouseLeave = {() => setHoverIndex(-1)}
+     key = { index }
+     onMouseEnter = { ()=> setHoverIndex(index) }
+     onMouseLeave = { () => setHoverIndex(-1) }
      style = {{background: hoverIndex === index ? hoverBackground : '', cursor:'pointer'}}>
-        <StyledLink style = {{color:linkColor}} to = {`/education/${link.text}`}>{link.text }<Icon style={{fontSize:22,marginRight:10}}>{link.icon}</Icon></StyledLink>
+        <StyledLink style = {{color: linkColor}} to = {`/education/${link.text}`}>{link.text }<Icon style={{fontSize:22,marginRight:10}}>{link.icon}</Icon></StyledLink>
     </ListItem>)}
     <ListItem 
-      onMouseEnter = {()=> setHoverIndex(navLinks.length)}
-      onMouseLeave = {() => setHoverIndex(-1)}
+      onMouseEnter = { () => setHoverIndex(navLinks.length) }
+      onMouseLeave = { () => setHoverIndex(-1) }
       style = {{background: hoverIndex === navLinks.length ? hoverBackground : '', cursor:'pointer'}}>
       {currentUser ?
        <StyledLink onClick = { () => handleLogOut() } to = '/login' style = {{color:linkColor}}>Wyloguj<IoMdLogOut style={{fontSize:22,marginRight:10}}/></StyledLink > 

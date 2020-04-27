@@ -14,6 +14,8 @@ import NewInteractiveQuestion from './features/excercise/newInteractiveQuestion'
 import ResponsiveNavbar from './layout/ResponsiveNavbar';
 import useAuthUser from './hooks/useAuthUser';
 import Account from './features/auth/Account';
+import Home from './pages/Home';
+import ChangeModul from './pages/ChangeModul';
 import './App.css';
 
 function App() {
@@ -55,23 +57,27 @@ const PrivateRoute = ({ children, ...rest }) => {
       <ResponsiveNavbar 
       navLinks = {navLinks}
       background = '#333333'
-      hoverBackground = '#888'
+      hoverBackground = 'rgba(219, 112, 147,0.2)'
       linkColor = 'palevioletred'
       ></ResponsiveNavbar>
       <div className = "App">
       <Switch>
-        <Route exact path = "/"></Route>
-        <Route path = "/login" component = {Login}></Route>
+        <Route exact path = "/" component = { Home }></Route>
+        <Route path = "/login">
+        {currentUser ? <Redirect to={{pathname: "/"}} /> : <Login/>}
+        </Route>
         {
           //3 Routy do rozbudowy bazy w przyszłości możliwe, że będzie panel Admina w którym będzie do nich dostęp tylko z poziomu administracji
         }
         
-        <Route path = "/createEducation" component = {NewEducation}></Route>
-        <Route path = "/createQuestion" component = {NewQuestion}></Route>
-        <Route path = "/createInteractiveQuestion" component = {NewInteractiveQuestion}></Route>
+        <Route path = "/createEducation" component = { NewEducation }></Route>
+        <Route path = "/createQuestion" component = { NewQuestion }></Route>
+        <Route path = "/createInteractiveQuestion" component = { NewInteractiveQuestion }></Route>
         <PrivateRoute path = "/account"><Account/></PrivateRoute>
-        <Route path = "/excercise/:modul" component = {Excercise}></Route>
-        <Route path = "/education/:modul" component = {Education}></Route>
+        <Route exact path = "/excercise/"> <ChangeModul navLinks = {navLinks} type = "excercise"/> </Route>
+        <Route exact path = "/education/"> <ChangeModul navLinks = {navLinks} type = "education"/> </Route>
+        <Route path = "/excercise/:modul" component = { Excercise }></Route>
+        <Route path = "/education/:modul" component = { Education }></Route>
       </Switch>
       </div>
     </Router>

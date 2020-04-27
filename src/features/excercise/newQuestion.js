@@ -66,7 +66,7 @@ export default () => {
 
   const onSubmit = async values =>
    {
-    values.questions.map( question => {question.correctAnswer = Number(question.correctAnswer)}).correctAnswer = Number(values.questions[0].correctAnswer);
+    values.questions.map( question => {question.correctAnswer = Number(question.correctAnswer)});
     values.questions.map(question => {question.difficulty = Number(question.difficulty)});
     if(exists)
     {

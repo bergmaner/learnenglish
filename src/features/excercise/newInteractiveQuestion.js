@@ -66,7 +66,7 @@ export default () => {
 
   const onSubmit = async values => {
 
-   values.interactiveQuestions.map(int => {int.difficulty = Number(int.difficulty)});
+   values.interactiveQuestions.map(int => { int.difficulty= Number(int.difficulty) });
 
     if(exists)
     {
@@ -112,8 +112,8 @@ const clear = () =>
               inputProps={{ 'aria-label': `pytanie ${q+1}` }}
             />
               <Input
+          name={`interactiveQuestions[${q}].difficulty`}
           inputRef={register()}
-          name={`questions[${q}].difficulty`}
           placeholder={`Trudność`} 
           type = 'number'
           inputProps={{ 'aria-label': `difficulty` }}

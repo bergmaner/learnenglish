@@ -8,23 +8,31 @@ export const educationSlice = createSlice({
     }
     ,
     reducers: {
-      next: state => {
+      goTo : (state,action) => 
+      {
+        console.log(`payload : ${action.payload}`);
+        state.activeWord = action.payload;
+      },
+      next: state =>
+      {
       state.activeWord = state.activeWord === state.words.length -1
        ? 0
        : state.activeWord += 1 ;
-        
       },
-      prev: state => {
+      prev: state => 
+      {
        state.activeWord = state.activeWord === 0 
        ? state.words.length-1  
        : state.activeWord -= 1;
       },
-      updateEducation : (state,action) => {
+      updateEducation : (state,action) => 
+      {
+        state.activeWord = 0;
         state.words = action.payload;
       }
   }
 })
-export const {next,prev,updateEducation} = educationSlice.actions;
+export const { next, prev, updateEducation,reset, goTo } = educationSlice.actions;
 export const selectWords =  state => state.education.words;
 export const selectActiveWord = state => state.education.activeWord;
 export const fetchEducationAsync = modul => async dispatch => {
