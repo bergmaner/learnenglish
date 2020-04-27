@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "/learnenglish/static/css/main.2cd6f127.chunk.css",
-    "main.js": "/learnenglish/static/js/main.8f902c44.chunk.js",
-    "main.js.map": "/learnenglish/static/js/main.8f902c44.chunk.js.map",
+    "main.js": "/learnenglish/static/js/main.68884205.chunk.js",
+    "main.js.map": "/learnenglish/static/js/main.68884205.chunk.js.map",
     "runtime-main.js": "/learnenglish/static/js/runtime-main.c94cc0ee.js",
     "runtime-main.js.map": "/learnenglish/static/js/runtime-main.c94cc0ee.js.map",
     "static/css/2.f524894f.chunk.css": "/learnenglish/static/css/2.f524894f.chunk.css",
-    "static/js/2.7be9d367.chunk.js": "/learnenglish/static/js/2.7be9d367.chunk.js",
-    "static/js/2.7be9d367.chunk.js.map": "/learnenglish/static/js/2.7be9d367.chunk.js.map",
+    "static/js/2.30031388.chunk.js": "/learnenglish/static/js/2.30031388.chunk.js",
+    "static/js/2.30031388.chunk.js.map": "/learnenglish/static/js/2.30031388.chunk.js.map",
     "index.html": "/learnenglish/index.html",
-    "precache-manifest.0f45e277bc13ca7d2d2539a1f2730820.js": "/learnenglish/precache-manifest.0f45e277bc13ca7d2d2539a1f2730820.js",
+    "precache-manifest.ced825c1aafa5ef8f27198857272f2f3.js": "/learnenglish/precache-manifest.ced825c1aafa5ef8f27198857272f2f3.js",
     "service-worker.js": "/learnenglish/service-worker.js",
     "static/css/2.f524894f.chunk.css.map": "/learnenglish/static/css/2.f524894f.chunk.css.map",
     "static/css/main.2cd6f127.chunk.css.map": "/learnenglish/static/css/main.2cd6f127.chunk.css.map",
-    "static/js/2.7be9d367.chunk.js.LICENSE.txt": "/learnenglish/static/js/2.7be9d367.chunk.js.LICENSE.txt"
+    "static/js/2.30031388.chunk.js.LICENSE.txt": "/learnenglish/static/js/2.30031388.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.c94cc0ee.js",
     "static/css/2.f524894f.chunk.css",
-    "static/js/2.7be9d367.chunk.js",
+    "static/js/2.30031388.chunk.js",
     "static/css/main.2cd6f127.chunk.css",
-    "static/js/main.8f902c44.chunk.js"
+    "static/js/main.68884205.chunk.js"
   ]
 }
