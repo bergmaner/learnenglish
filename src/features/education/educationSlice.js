@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { db } from '../../services/firebase';
+import { selectCurrentUser } from '../auth/authSlice';
+
 export const educationSlice = createSlice({
   name: 'education',
   initialState: {
@@ -28,16 +30,26 @@ export const educationSlice = createSlice({
       updateEducation : (state,action) => 
       {
         state.activeWord = 0;
-        state.words = action.payload;
+         
+        console.log(`userLev : ${action.payload.user?.level}`);
+        if(!action.payload.user || action.payload?.user.level === -1)
+        {
+          const education = action.payload.education.filter(edc => { if(edc.difficulty === 0) return true });
+          state.words = education;
+        }
+   
       }
   }
 })
 export const { next, prev, updateEducation,reset, goTo } = educationSlice.actions;
-export const selectWords =  state => state.education.words;
-export const selectActiveWord = state => state.education.activeWord;
-export const fetchEducationAsync = modul => async dispatch => {
+export const selectWords =  state => state.rootReducer.education.words;
+export const selectActiveWord = state => state.rootReducer.education.activeWord;
+export const fetchEducationAsync = (modul,user) => async dispatch => {
   const result = await db.collection('education').doc(modul).get();
-  dispatch(updateEducation(result.data().education));
+  const obj = {};
+  obj.education = result.data().education;
+  obj.user = (user) ? user : null;
+  dispatch(updateEducation(obj));
 };
 
 export default educationSlice.reducer;

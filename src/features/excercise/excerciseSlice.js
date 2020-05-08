@@ -80,15 +80,15 @@ export const excerciseSlice = createSlice({
     }
 })
 export const {nextQuestion, nextInteractiveQuestion, toggleToSentence,restart,toggleCheckbox,finishQuiz,updateExcercise} = excerciseSlice.actions;
-export const selectQuestions = state => state.excercise.questions;
-export const selectCheckIndex = state => state.excercise.checkIndex;
-export const selectActiveQuestion = state => state.excercise.activeQuestion;
-export const selectInteractiveQuestions = state => state.excercise.interactiveQuestions;
-export const selectActiveInteractiveQuestion = state => state.excercise.activeInteractiveQuestion
-export const selectQuestionsVisible = state => state.excercise.questionsVisible;
-export const selectActiveSlices = state => state.excercise.activeSlices;
-export const selectFinished = state => state.excercise.finished;
-export const selectPoints = state => state.excercise.points;
+export const selectQuestions = state => state.rootReducer.excercise.questions;
+export const selectCheckIndex = state => state.rootReducer.excercise.checkIndex;
+export const selectActiveQuestion = state => state.rootReducer.excercise.activeQuestion;
+export const selectInteractiveQuestions = state => state.rootReducer.excercise.interactiveQuestions;
+export const selectActiveInteractiveQuestion = state => state.rootReducer.excercise.activeInteractiveQuestion
+export const selectQuestionsVisible = state => state.rootReducer.excercise.questionsVisible;
+export const selectActiveSlices = state => state.rootReducer.excercise.activeSlices;
+export const selectFinished = state => state.rootReducer.excercise.finished;
+export const selectPoints = state => state.rootReducer.excercise.points;
 export const fetchExcerciseAsync = modul => async dispatch => {
   console.log(modul);
   const result = await db.collection('excercise').doc(modul).get();

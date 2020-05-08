@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { 
   selectActiveWord,
@@ -9,18 +9,34 @@ import {
   fetchEducationAsync,
   goTo
   } from './educationSlice';
+import { selectCurrentUser } from '../auth/authSlice';
 import { restart } from '../excercise/excerciseSlice';
 import ProgressBar from '../../components/ProgressBar';
 import styled from 'styled-components';
 import { Button } from '@material-ui/core';
 import { Pagination, PaginationItem } from '@material-ui/lab';
 import{ useParams } from "react-router-dom";
+const StyledLink = styled(Link)`
+  font-weight: bold;
+  text-decoration: none;
+  color : #c7c7c7;
+  font-size: 14px;`;
+
+
+const Container = styled.div`
+width: 100%;
+min-height: calc(100vh - 60px);
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: space-between;`;
 
 const ImageWithPagination = styled.div`
   
 display: flex;
 flex-direction: row;
 align-items: center;
+height: 420px;
 @media screen and (max-width: 959px)
 {
 height: 380px;
@@ -36,9 +52,9 @@ width:100%;
 }
 @media screen and (max-width: 559px)
 {
-  height:300px;
-}
-`;
+  height:340px;
+}`;
+
 const StyledPaginationItem = styled.div`
   margin: 2px 10px;
   width: 200px;
@@ -49,9 +65,7 @@ const StyledPaginationItem = styled.div`
 {
   width: auto;
   margin: 0;
-} 
-  
-`;
+} `;
 
 const CirclePagination = styled(Pagination)`
 &&
@@ -112,8 +126,7 @@ const CirclePagination = styled(Pagination)`
     font-weight : 700;
     font-size : 18px; 
   }
-}
-`;
+}`;
 
 const PaginationText = styled.div`
 margin: 0 5px;
@@ -138,11 +151,10 @@ padding-bottom: 5px;
   min-height:440px;
   width: 100%;
   justify-content: space-around;
-}
-`;
+}`;
 
 const Examples = styled.div`
-font-size : 17px;
+font-size : 18px;
 text-align : left;
 padding: 0 15px;
 padding-top:60px;
@@ -167,8 +179,7 @@ box-sizing: border-box;
 {
   font-size:14px;
   height: 120px;
-}
-`;
+}`;
 
 const WordImage = styled.img`
 width: 350px;
@@ -193,28 +204,26 @@ margin:5px;
 @media screen and (max-width: 759px)
 {
   font-size:16px;
-}
-`;
+}`;
 
 const WordContent = styled.div`
 width:400px;
-@media screen and (max-width: 959px)
-{
-  display: flex;
+height: 410px;
+display: flex;
   flex-direction: column;
   align-items:center;
-  padding:top: 50px;
   justify-content: space-between;
-  height: 340px;
+@media screen and (max-width: 959px)
+{
+  padding:top: 50px;
+  height: 350px;
   width: 100%;
   box-sizing: border-box;
 }
 @media screen and (max-width: 559px)
 {
   height:268px;
-}
-
-`;
+}`;
 
 const ExcerciseBtn = styled(Button)`
 &&
@@ -233,21 +242,18 @@ const ExcerciseBtn = styled(Button)`
 }`;
 
 const Counter = styled.div`
-margin-bottom:10px;
-`;
+margin-bottom:10px;`;
  
 const Progress = styled.div`
 width: 90%;
-font-size: 20px;
-`;
+font-size: 20px;`;
 
 const ArrowNavigation = styled.div`
 width: 100%;
 display: flex;
 align-items: center;
 flex-direction: row;
-justify-content: space-around;
-`;
+justify-content: space-around;`;
 
 const Prev = styled.div`
 background-color: #ddd;
@@ -291,15 +297,17 @@ margin : 0 20px;
 const Education = () =>
 {
     const words = useSelector(selectWords);
+    const user = useSelector(selectCurrentUser);
     const activeWord = useSelector(selectActiveWord);
     const history = useHistory();
     const dispatch = useDispatch();
     const { modul } = useParams();
+    
     useEffect( () =>
      {
       console.log(modul);
-      dispatch(fetchEducationAsync(modul));
-    },[modul] )
+      dispatch(fetchEducationAsync(modul,user));
+    },[modul,user] )
 
     const excercise = () =>
     {
@@ -314,8 +322,8 @@ const Education = () =>
     
     
     return (
-        <div style = {{width: '100%',minHeight: 'calc(100vh - 60px)',display:'flex',flexDirection:'column',alignItems: 'center',justifyContent: 'space-between'}}>
-         {words.length > 0 && <>
+        <Container>
+         { ((words.length > 0 && user && user.level !== -1) ||(words.length > 0 &&  !user)) &&  <>
           <Progress>
           <Counter>{`${activeWord + 1} / ${words.length}`}</Counter>
             <ProgressBar style ={{ width:`${((activeWord + 1) / words.length) *100}%`}}></ProgressBar>
@@ -344,14 +352,31 @@ const Education = () =>
           </Examples>
           
           </Content>
-          <ArrowNavigation>
-          <Item><Prev onClick = { () => dispatch(prev()) }>&#8249;</Prev></Item>
-          <ExcerciseBtn onClick = { () => excercise() }>Excercise</ExcerciseBtn>
-          <Item><Next onClick = { () => dispatch(next()) }>&#8250;</Next></Item>
-          </ArrowNavigation>
-          </>}
+          
+               <ArrowNavigation>
+               <Item><Prev onClick = { () => dispatch(prev()) }>&#8249;</Prev></Item>
+               {(user) && <>
+               <ExcerciseBtn onClick = { () => excercise() }>Excercise</ExcerciseBtn>
+               </>}
+               { (!user) && <>
+               <StyledLink to = '/login'>Zaloguj się aby wykonać ćwiczenia</StyledLink> 
+               </>
+              }
+               <Item><Next onClick = { () => dispatch(next()) }>&#8250;</Next></Item>
+               </ArrowNavigation>
+              
+             
          
-        </div>
+          </>}
+         {
+           (words.length > 0 && user && user.level === -1) &&  <>
+           <div style = {{minHeight: 'calc(100vh - 60px)',display : 'flex', justifyContent: 'center', flexDirection : 'column'}}>
+          <div style = {{margin: '10px'}}> Sprawdź swój poziom poprzez test </div>
+       <div style = {{margin: '10px'}}><ExcerciseBtn onClick = { () => excercise() }>Check your level</ExcerciseBtn></div>
+           </div>
+           </>
+         }
+        </Container>
       );
 }
 

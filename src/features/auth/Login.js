@@ -54,7 +54,7 @@ export default () =>
 
     return (
         <div>
-            
+            zzz
         <Facebook onClick = { () => handleFbLogin() } />
         <Google onClick = { () => handleGoogleLogin()} />
         <Github onClick = { () => handleGhLogin() } />

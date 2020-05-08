@@ -103,11 +103,13 @@ const Answer = styled.div`
 width : 100%;`;
 
 const SliceContainer = styled.div`
-min-width:80%;
-border-bottom: solid 2px #c7c7c7;
-height: 50px;
-margin-bottom: 32px;
-`;
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-wrap: wrap;
+    min-height:120px;
+    `;
 
 const NextBtn = styled(Button)`
 &&

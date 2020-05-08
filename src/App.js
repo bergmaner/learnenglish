@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Switch,
   Redirect,
   Route
@@ -20,13 +20,14 @@ import './App.css';
 
 function App() {
   const currentUser = useAuthUser();
+  console.log(currentUser);
   const navLinks = [
   {
     text:"Transport",
     icon:"flight"
   },
   {
-    text:"Parts of the body",
+    text:"Body",
     icon:"emoji_people"
   },
   {
@@ -53,7 +54,7 @@ const PrivateRoute = ({ children, ...rest }) => {
 
   return (
     <React.Fragment>
-       <Router basename={`${process.env.PUBLIC_URL}/`}>
+       <Router >
       <ResponsiveNavbar 
       navLinks = {navLinks}
       background = '#333333'

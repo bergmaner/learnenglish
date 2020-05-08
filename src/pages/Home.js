@@ -1,7 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
+import { selectCurrentUser } from '../features/auth/authSlice';
+import { useSelector } from 'react-redux';
+
+const StyledLink = styled(Link)`
+text-decoration: none;
+color: #c7c7c7;`;
 
 const MainButton = styled(Button)`
 &&
@@ -26,15 +32,19 @@ const Home = () =>
 {
 
     const history = useHistory();
-
+    const user = useSelector(selectCurrentUser);
     const historyPush = (path) =>
     {
         history.push(path);
     } 
     return(
-        <div>
+        <div style = {{display : 'flex',justifyContent: 'center', flexDirection: 'column',alignItems: 'center'}}>
+           
+            {(!user) && <div style ={{paddingBottom: '100px'}}><StyledLink to = '/login'>By uzyskać dostęp do większej ilośći opcji zaloguj się</StyledLink></div>}
             <MainButton onClick = { () => historyPush('/education') }>Educate</MainButton>
-            <MainButton onClick = { () => historyPush('/excercise') }>Excercise</MainButton>
+            
+            {user && user.level === -1 && <><MainButton onClick = { () => historyPush('/excercise') }>Check Your Level</MainButton></>}
+            {user && user.level !== -1 && <><MainButton onClick = { () => historyPush('/excercise') }>Excercise</MainButton></>}
         </div>
     );
 }
