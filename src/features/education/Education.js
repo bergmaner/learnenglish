@@ -11,7 +11,7 @@ import {
   } from './educationSlice';
 import { selectCurrentUser } from '../auth/authSlice';
 import { restart } from '../excercise/excerciseSlice';
-import ProgressBar from '../../components/ProgressBar';
+import ProgressBar from '../../components/ProgressBar.js';
 import styled from 'styled-components';
 import { Button } from '@material-ui/core';
 import { Pagination, PaginationItem } from '@material-ui/lab';

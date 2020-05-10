@@ -22,11 +22,11 @@ import {
     updateStats
     
      } from './excerciseSlice';
-import ProgressBar from '../../components/ProgressBar';
+import ProgressBar from '../../components/ProgressBar.js';
 import styled from 'styled-components';
 import { Button, List, ListItem, ListItemIcon, Checkbox } from '@material-ui/core';
 import { CircularProgressbar } from 'react-circular-progressbar';
-import ProgressProvider from '../../components/ProgressProvider';
+import ProgressProvider from '../../components/ProgressProvider.js';
 import 'react-circular-progressbar/dist/styles.css';
 import { useHistory } from "react-router-dom";
 import{ useParams } from "react-router-dom";
@@ -193,8 +193,8 @@ const Excercise = () =>
            }
            else
            {
-            dispatch( finishQuiz() );
-            dispatch( setLevel(score) );
+             dispatch( finishQuiz() );
+             dispatch( setLevel(score) );
            
            } 
         }   

@@ -14,7 +14,8 @@ export const slice = createSlice({
     logout: (state) => {
       state.user = null;
     },
-    setLevel:(state,action) => {
+    setLevel: (state,action) =>{
+      console.log(action.payload);
       if(state.user.level === -1)
       { 
        if (action.payload >= 0 && action.payload <= 20)  state.user.level = 0;
@@ -43,19 +44,24 @@ export const slice = createSlice({
       {
         state.comunicat = `Nice,Is the highest possible level. Your current level: ${state.difficulties[state.user.level]}`;
       }
+      else if(  action.payload < 75 && action.payload > 25 )
+      {
+        state.comunicat = `Nice,Is the highest possible level. Your current level: ${state.difficulties[state.user.level]}`;
       }
+      }
+      const now = new Date( Date.now() ).toLocaleString();
      const stats = {
         score: action.payload,
-        date: Date.now()};
+        date:   now.slice(0,now.indexOf(','))};
        
       
       state.user.stats.push(stats) ;
      
-        
+        console.log(...state.user.stats);
     
       db.collection("users").doc(state.user.uid).update({
-        level : state.user.level,
-        stats: state.user.stats });
+        level: state.user.level,
+        stats: state.user.stats});
     }
   },
 });

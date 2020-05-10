@@ -10,14 +10,20 @@ export default () => {
     const currentUser = useSelector(selectCurrentUser);
     React.useEffect(() => {
         const setUser = async(user) => {
+          let exist = false;
             if(user)  
             {
                let level = -1;
               await db.collection("users").doc(user.uid).get().then(function(doc) {
+                console.log('docdata',doc.data())
                 level = doc.exists ? doc.data().level : Number(-1);
-                dispatch(login({ uid: user.uid, email: user.email, name: user.displayName, level : level, stats: doc.data().stats }));
-              });
-              await db.collection("users").doc(user.uid).set({ email: user.email, name: user.displayName, level : level, stats:[] }, {merge: true});
+               if(doc.exists) 
+               {
+                 exist = true;
+                 dispatch(login({ uid: user.uid, email: user.email, name: user.displayName, level : level, stats: doc.data().stats }));
+               }
+                });
+              if(exist === false) await db.collection("users").doc(user.uid).set({ email: user.email, name: user.displayName, level : level, stats:[] }, {merge: true});
           }
             else dispatch( logout() );
      }
