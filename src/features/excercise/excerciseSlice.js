@@ -9,11 +9,14 @@ export const excerciseSlice = createSlice({
     activeInteractiveQuestion: null,
     checkIndex : null,
     activeSlices : [],
-    points:0,
+    points: 0,
+    score: 0,
     finished: false,
     questionsVisible: null,
     questions:[],
-    interactiveQuestions:[]
+    questionsNums: [],
+    interactiveQuestions:[],
+    interactiveQuestionsNums: [],
    },
     reducers:{
       nextQuestion : state =>
@@ -48,7 +51,7 @@ export const excerciseSlice = createSlice({
         answers[action.payload].checked = true;
 
       },
-      toggleToSentence : (state,action) => 
+      toggleToSentence: (state,action) => 
       {
       const slice = state.interactiveQuestions[state.activeInteractiveQuestion].slices[action.payload]; 
       slice.checked = !slice.checked;
@@ -59,6 +62,7 @@ export const excerciseSlice = createSlice({
       {
         const correctCode = state.interactiveQuestions[state.activeInteractiveQuestion].winCode;
         state.points += state.activeSlices.join('') === correctCode ? 1 : 0;
+        state.score = Math.floor((state.points) / (state.questions.length + state.interactiveQuestions.length) * 100);
         state.finished = true;
       },
       restart: (state) => {
@@ -67,13 +71,66 @@ export const excerciseSlice = createSlice({
         state.activeQuestion = 0;
         state.activeInteractiveQuestion = null;
         state.points = 0;
+        state.score = 0;
         state.finished = false;
        
       },
       updateExcercise : (state,action) =>
       {
-        state.questions = action.payload.questions;
-        state.interactiveQuestions = action.payload.interactiveQuestions;
+        const level = action.payload.user.level;
+        let questionNums = [],
+        interactiveQuestionNums = [];
+    
+        if(!action.payload.user || level === -1)
+        {
+          state.questions = action.payload.questions.filter(question => { return (question.difficulty === 0) ? true : ''});
+          state.interactiveQuestions = action.payload.interactiveQuestions.filter(interactiveQuestion => { return (interactiveQuestion.difficulty === 0) ? true : ''});
+         
+       }
+       else if(action.payload.user && level !== -1)
+        {
+          state.questions = action.payload.questions.filter(question => { return (question.difficulty === level) ? true : '' });
+          state.interactiveQuestions = action.payload.interactiveQuestions.filter(interactiveQuestion => { return (interactiveQuestion.difficulty === level) ? true : '' });
+       }
+
+       if( state.questionsNums.includes(undefined) || state.questionsNums.length === 0 )
+       {
+         state.questionsNums = [];
+         state.interactiveQuestionsNums = [];
+        
+         for( let i = 0; i<state.questions.length; i++)
+         {
+           questionNums.push(i);
+         }
+
+         for( let i = 0; i<state.interactiveQuestions.length; i++)
+         {
+           interactiveQuestionNums.push(i);
+         }
+       }
+      
+       let questionsLength = questionNums.length -1,
+        interactiveQuestionsLength = interactiveQuestionNums.length -1,
+       j = 0;
+     
+   while (questionsLength > state.questions.length-5-1) {
+       j = Math.floor(Math.random() * (questionsLength+1));
+       state.questionsNums.push(questionNums[j]);
+       questionNums.splice(j,1);
+       questionsLength--;
+   }
+   while (interactiveQuestionsLength > state.interactiveQuestions.length-5-1) {
+     j = Math.floor(Math.random() * (interactiveQuestionsLength+1));
+     state.interactiveQuestionsNums.push(interactiveQuestionNums[j]);
+     interactiveQuestionNums.splice(j,1);
+     interactiveQuestionsLength--;
+ }
+   
+
+        const questions = state.questions.filter( (question,index) => { return(state.questionsNums.includes(index)) ? question : '' });
+        if(questions.length > 0) state.questions = questions;
+        const interactiveQuestions = state.interactiveQuestions.filter( (interactiveQuestion,index) => { return(state.interactiveQuestionsNums.includes(index)) ? interactiveQuestion : '' });
+        if(interactiveQuestions.length > 0) state.interactiveQuestions = interactiveQuestions;
         state.questions.map( question => question.answers.map(answer => answer.checked = false));
         state.questionsVisible = true;
       }
@@ -89,9 +146,12 @@ export const selectQuestionsVisible = state => state.rootReducer.excercise.quest
 export const selectActiveSlices = state => state.rootReducer.excercise.activeSlices;
 export const selectFinished = state => state.rootReducer.excercise.finished;
 export const selectPoints = state => state.rootReducer.excercise.points;
-export const fetchExcerciseAsync = modul => async dispatch => {
-  console.log(modul);
+export const selectScore = state => state.rootReducer.excercise.score;
+export const fetchExcerciseAsync = (modul,user) => async dispatch => {
   const result = await db.collection('excercise').doc(modul).get();
-  dispatch(updateExcercise(result.data()));
+  const obj = { ...result.data(),
+    user: user
+  };
+  await dispatch( updateExcercise(obj) );
 };
 export default excerciseSlice.reducer;

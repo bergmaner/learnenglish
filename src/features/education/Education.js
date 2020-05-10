@@ -306,7 +306,11 @@ const Education = () =>
     useEffect( () =>
      {
       console.log(modul);
-      dispatch(fetchEducationAsync(modul,user));
+      if( user )
+      {
+        dispatch(fetchEducationAsync(modul,user));
+      }
+     
     },[modul,user] )
 
     const excercise = () =>

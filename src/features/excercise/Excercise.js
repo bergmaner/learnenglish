@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { selectCurrentUser, selectComunicat, setLevel } from '../auth/authSlice';
 import {
     selectQuestionsVisible,
     selectQuestions,
@@ -10,13 +11,16 @@ import {
     selectActiveSlices,
     selectFinished,
     selectPoints,
+    selectScore,
+    selectCheckIndex,
     nextQuestion,
     nextInteractiveQuestion,
     toggleToSentence,
     toggleCheckbox,
     finishQuiz,
     fetchExcerciseAsync,
-    selectCheckIndex
+    updateStats
+    
      } from './excerciseSlice';
 import ProgressBar from '../../components/ProgressBar';
 import styled from 'styled-components';
@@ -156,6 +160,9 @@ const Excercise = () =>
     const activeSlices = useSelector(selectActiveSlices);
     const finished = useSelector(selectFinished);
     const points = useSelector(selectPoints);
+    const score = useSelector(selectScore);
+    const user = useSelector(selectCurrentUser);
+    const comunicat = useSelector(selectComunicat);
     const checkIndex = useSelector(selectCheckIndex);
     let history = useHistory();
     const { modul } = useParams();
@@ -164,36 +171,46 @@ const Excercise = () =>
 
     React.useEffect( () => 
     {
-      console.log(modul);
-      dispatch(fetchExcerciseAsync(modul));
-    },[modul] )
+      if(user)
+      {
+        dispatch(fetchExcerciseAsync(modul,user));
+      }
+    },[user] );
 
     const handleToggle = (index) => () => 
     {
       if( checkIndex !== index ) dispatch(toggleCheckbox(index));
-    }
+    };
 
     const onClick = () =>
     {
-       if(activeQuestion <= questions.length - 1 && questionsVisible)dispatch(nextQuestion()) ;
+       if(activeQuestion <= questions.length - 1 && questionsVisible) dispatch( nextQuestion() ) ;
        if(activeQuestion >= questions.length - 1) 
         {
-           activeInteractiveQuestion < interactiveQuestions.length-1 ? 
-           dispatch(nextInteractiveQuestion()) : dispatch(finishQuiz());
+           if( activeInteractiveQuestion < interactiveQuestions.length-1 ) 
+           {
+            dispatch( nextInteractiveQuestion() );
+           }
+           else
+           {
+            dispatch( finishQuiz() );
+            dispatch( setLevel(score) );
+           
+           } 
         }   
-    }
+    };
     
     const toggleSentence = (index) =>
     {
     dispatch(toggleToSentence(Number(index)));
     setHoverIndex(-1);
-    }
+    };
 
     
     const educate = () =>
     {
       history.push(`/education/${modul}`);
-    }
+    };
     return (
         
    <React.Fragment>
@@ -204,7 +221,7 @@ const Excercise = () =>
      </Progress>
     {questionsVisible === true && <>
     <AnswersContent>
-     <Title>{questions[activeQuestion].content}</Title>
+     <Title>{questions[activeQuestion]?.content}</Title>
         <AnswersList >
     {questions[activeQuestion]?.answers?.map((answer,index) =>
           <ListItem key = {`question-${activeQuestion}-answer-${index}`} dense button onClick = { handleToggle(index) } >
@@ -257,8 +274,9 @@ const Excercise = () =>
     </>}
      { finished && <>
      <div>Your score : {points} / {questions.length + interactiveQuestions.length}</div>
+     <div>{comunicat}</div>
      <div>
-       <ProgressProvider valueStart={0} valueEnd={Math.floor((points) / (questions.length + interactiveQuestions.length) * 100)}>
+       <ProgressProvider valueStart={0} valueEnd={score}>
        {value => 
         <CircleBar
         value = {value} 

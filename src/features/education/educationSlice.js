@@ -12,7 +12,6 @@ export const educationSlice = createSlice({
     reducers: {
       goTo : (state,action) => 
       {
-        console.log(`payload : ${action.payload}`);
         state.activeWord = action.payload;
       },
       next: state =>
@@ -30,14 +29,17 @@ export const educationSlice = createSlice({
       updateEducation : (state,action) => 
       {
         state.activeWord = 0;
-         
-        console.log(`userLev : ${action.payload.user?.level}`);
-        if(!action.payload.user || action.payload?.user.level === -1)
+        const level = action.payload.user.level;
+        if(!action.payload.user || level === -1)
         {
-          const education = action.payload.education.filter(edc => { if(edc.difficulty === 0) return true });
+          const education = action.payload.education.filter(edc => { return(edc.difficulty === 0) ? true : '' });
           state.words = education;
         }
-   
+        else if( action.payload.user && level !== -1 )
+        {
+          const education = action.payload.education.filter(edc => { return( edc.difficulty === level ) ? true : '' });
+          state.words = education;
+        }
       }
   }
 })
@@ -46,9 +48,9 @@ export const selectWords =  state => state.rootReducer.education.words;
 export const selectActiveWord = state => state.rootReducer.education.activeWord;
 export const fetchEducationAsync = (modul,user) => async dispatch => {
   const result = await db.collection('education').doc(modul).get();
-  const obj = {};
-  obj.education = result.data().education;
-  obj.user = (user) ? user : null;
+  const obj = {education: result.data().education,
+  user: user
+  };
   dispatch(updateEducation(obj));
 };
 
