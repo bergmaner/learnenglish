@@ -28,7 +28,7 @@ export const slice = createSlice({
       else if( state.user.level >= 0 && state.user.level <= 4)  {
         if( action.payload <= 25 && ( state.user.level !==0  && state.user.level !== 4 ) ) 
         {
-          state.user.level--;
+          state.user.level--; 
           state.comunicat = `Wrrr,You are downgrade. Your current level: ${state.difficulties[state.user.level]}`;
         }
         else if( action.payload >= 75 && ( state.user.level !==0  && state.user.level !== 4 ) ) 
@@ -37,17 +37,17 @@ export const slice = createSlice({
           state.comunicat = `Congrats,You are level up. Your current level: ${state.difficulties[state.user.level]}`;
         }
         else if(  action.payload <= 25 &&  state.user.level === 0 )
-      {
-        state.comunicat = `Wrrr,Isn't possibly downgrade more :(. Your current level: ${state.difficulties[state.user.level]}`;
-      }
-      else if(  action.payload >= 75 &&  state.user.level === 4 )
-      {
-        state.comunicat = `Nice,Is the highest possible level. Your current level: ${state.difficulties[state.user.level]}`;
-      }
-      else if(  action.payload < 75 && action.payload > 25 )
-      {
-        state.comunicat = `Nice,Is the highest possible level. Your current level: ${state.difficulties[state.user.level]}`;
-      }
+        {
+          state.comunicat = `Wrrr,Isn't possibly downgrade more :(`;
+        }
+        else if(  action.payload >= 75 &&  state.user.level === 4 )
+        {
+          state.comunicat = `Nice,Is the highest possible level.`;
+        }
+        else if(  action.payload < 75 && action.payload > 25 )
+        {
+          state.comunicat = `Isn't bad.`;
+        }
       }
       const now = new Date( Date.now() ).toLocaleString();
      const stats = {

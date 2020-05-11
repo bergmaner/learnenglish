@@ -6,7 +6,7 @@ export const excerciseSlice = createSlice({
   name: 'excercise',
   initialState: {
     activeQuestion: 0,
-    activeInteractiveQuestion: null,
+    activeInteractiveQuestion: 0,
     checkIndex : null,
     activeSlices : [],
     points: 0,
@@ -25,25 +25,26 @@ export const excerciseSlice = createSlice({
         const question = state.questions[state.activeQuestion];
         question.answers.map( answer => answer.checked = false);
         state.points += state.checkIndex === question.correctAnswer ? 1 : 0;
-        state.activeQuestion += state.activeQuestion === state.questions.length-1 ? 0 : 1;
+        state.activeQuestion += 1;
 
         state.checkIndex = null;
       },
       nextInteractiveQuestion : state =>
       {
-        if(state.activeInteractiveQuestion !== null)
-        {
-          const correctCode = state.interactiveQuestions[state.activeInteractiveQuestion].winCode;
-          state.points += state.activeSlices.join('') === correctCode ? 1 : 0;
-        }
-        
-        state.questionsVisible = false;
-        state.activeInteractiveQuestion += state.activeInteractiveQuestion === state.interactiveQuestions.length-1 || state.activeInteractiveQuestion === null ? 0 : 1;
-        const slices = state.interactiveQuestions[state.activeInteractiveQuestion].slices;
-        slices.map( slice => slice.checked = false);
-        state.activeSlices = [];
+      
+        const correctCode = state.interactiveQuestions[state.activeInteractiveQuestion].winCode;
+        state.points += state.activeSlices.join('') === correctCode ? 1 : 0;
+        state.score = Math.floor(((state.points) / (state.questions.length + state.interactiveQuestions.length) * 100));
+        state.activeInteractiveQuestion += 1;
+        if(state.activeInteractiveQuestion <= 4)
+          {
+            const slices = state.interactiveQuestions[state.activeInteractiveQuestion].slices;
+            slices.map( slice => slice.checked = false);
+           
+          }
+          state.activeSlices = [];
       },
-      toggleCheckbox : (state,action) =>
+      toggleCheckbox : ( state, action ) =>
       {
         const answers = state.questions[state.activeQuestion].answers;
         answers.map( answer => answer.checked = false);
@@ -51,31 +52,34 @@ export const excerciseSlice = createSlice({
         answers[action.payload].checked = true;
 
       },
-      toggleToSentence: (state,action) => 
+      toggleToSentence: ( state, action ) => 
       {
       const slice = state.interactiveQuestions[state.activeInteractiveQuestion].slices[action.payload]; 
       slice.checked = !slice.checked;
       slice.checked ? state.activeSlices.push(action.payload) : state.activeSlices.splice(state.activeSlices.indexOf(action.payload),1);
       
       },
-      finishQuiz : (state) => 
+      finishQuiz : ( state ) => 
       {
-        const correctCode = state.interactiveQuestions[state.activeInteractiveQuestion].winCode;
-        state.points += state.activeSlices.join('') === correctCode ? 1 : 0;
-        state.score = Math.floor(((state.points) / (state.questions.length + state.interactiveQuestions.length) * 100));
+        state.questionsVisible = undefined;
         state.finished = true;
       },
-      restart: (state) => {
+
+      setQuestionsVisible: ( state, action ) =>
+      {
+        state.questionsVisible = action.payload;
+      },
+      restart: ( state ) => {
         
         state.questionsVisible = null;
         state.activeQuestion = 0;
-        state.activeInteractiveQuestion = null;
+        state.activeInteractiveQuestion = 0;
         state.points = 0;
         state.score = 0;
         state.finished = false;
        
       },
-      updateExcercise : (state,action) =>
+      updateExcercise : ( state, action ) =>
       {
         const level = action.payload.user.level;
         let questionNums = [],
@@ -136,7 +140,16 @@ export const excerciseSlice = createSlice({
       }
     }
 })
-export const {nextQuestion, nextInteractiveQuestion, toggleToSentence,restart,toggleCheckbox,finishQuiz,updateExcercise} = excerciseSlice.actions;
+export const {
+  nextQuestion,
+  nextInteractiveQuestion,
+  toggleToSentence,
+  setQuestionsVisible,
+  restart,
+  toggleCheckbox,
+  finishQuiz,
+  updateExcercise
+              } = excerciseSlice.actions;
 export const selectQuestions = state => state.rootReducer.excercise.questions;
 export const selectCheckIndex = state => state.rootReducer.excercise.checkIndex;
 export const selectActiveQuestion = state => state.rootReducer.excercise.activeQuestion;
