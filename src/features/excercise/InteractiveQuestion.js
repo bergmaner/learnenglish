@@ -52,8 +52,8 @@ import NextBtn from '../../components/NextBtn';
         display:flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-evenly;
-        height: 300px`;
+        justify-content: space-between;
+        height: 520px`;
 
     const SliceContainer = styled.div`
         width:100%;
@@ -64,6 +64,7 @@ import NextBtn from '../../components/NextBtn';
         min-height:120px;
     `;
     const Title = styled.div`
+        padding-top: 50px;
         margin:20px 0;
         width:100%`;
 
@@ -92,10 +93,12 @@ const InteractiveQuestion = (props) => {
     }
 
     return (
+        <>
+        <div style = {{width: '80%' }}>
+        <ProgressBar style ={{ width: props.progress }}/>
+        </div>
         <InteractiveContent>
-            <div style = {{width: '80%' }}>
-                <ProgressBar style ={{ width: props.progress }}/>
-            </div>
+           
             <Title>{interactiveQuestions[activeInteractiveQuestion].content}</Title>
                 <SliceContainer>{
                     activeSlices.map((id) => 
@@ -115,6 +118,7 @@ const InteractiveQuestion = (props) => {
             </WordsContent>
             <NextBtn onClick = { onClick } />
         </InteractiveContent>
+        </>
     )
 }
 

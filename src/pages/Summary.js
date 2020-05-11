@@ -2,22 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from "react-router-dom";
-import { CircularProgressbar } from 'react-circular-progressbar';
+import Circular from '../components/Circular';
 import { selectPoints, selectScore, selectQuestions, selectInteractiveQuestions } from '../features/excercise/excerciseSlice';
 import { selectComunicat } from '../features/auth/authSlice';
 import ProgressProvider from '../components/ProgressProvider.js';
-
-
-    const CircleBar = styled(CircularProgressbar)`
-    text
-    {
-        transform: translateX(5px)
-    }
-    
-        @media screen and (max-width: 759px)
-        {
-            width:60%;
-        }`;
 
     const EducationBtn = styled.button`
         color: #fff;
@@ -36,6 +24,14 @@ import ProgressProvider from '../components/ProgressProvider.js';
         {
             background:#DB7093;
         }`;
+
+        const Content = styled.div`
+      width:100%;
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      height: 575px`;
 
 const Summary = (props) => {
 
@@ -57,42 +53,20 @@ const Summary = (props) => {
         return null;
     }
     return (
-        <div>
+        <>
+        <Content>
             <div>Your score : {points} / {questions.length + interactiveQuestions.length}</div>
-      <div>{comunicat}</div>
-      <div>
-          {score}
+      <div>{comunicat}</div> 
        <ProgressProvider valueStart={0} valueEnd={score}>
        {value => 
-        <CircleBar
-        value = {value} 
-        text = {`${value}%`}
-        styles = {{
-          root: {
-            transition: 'all 0.5s ease 0s ',
-            transitionDelay: '0.1s'
-          },
-          path: {
-            stroke: 'palevioletred',
-            strokeLinecap: 'butt',
-            
-          },
-          trail: {
-            stroke: '#d6d6d6',
-          },
-          text: {
-            fill: 'palevioletred',
-            fontSize: '30px',
-         
-          },
-          background: {
-            fill: '#3e98c7',
-          }
-          }}/>}
+            <Circular
+                strokeWidth="20"
+                sqSize="300"
+                percentage={value}/>}
         </ProgressProvider>
-        </div>
         <EducationBtn onClick = { () => educate() }>Educate</EducationBtn> 
-        </div>
+        </Content>
+        </>
     )
 }
 

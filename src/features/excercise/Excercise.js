@@ -15,22 +15,11 @@ import {
     setQuestionsVisible
     
      } from './excerciseSlice';
-import ProgressBar from '../../components/ProgressBar.js';
 import Question from './Question';
 import InteractiveQuestion from './InteractiveQuestion';
 import Summary from '../../pages/Summary';
 import styled from 'styled-components';
 import{ useParams, useHistory } from "react-router-dom";
-
-  
-
-  const Content = styled.div`
-      width:100%;
-      display:flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-evenly;
-      height: 300px`;
 
   const Excercise = () =>
 {
@@ -76,7 +65,7 @@ import{ useParams, useHistory } from "react-router-dom";
    
     return (
         
-  <Content>
+      <>
     <Question visible = {questionsVisible} progress = {progress}/>
       <InteractiveQuestion 
         questionsVisible = {questionsVisible}
@@ -84,7 +73,7 @@ import{ useParams, useHistory } from "react-router-dom";
         progress = {progress}
       />
       <Summary finished = {finished}/>
-  </Content>
+      </>
       );
 }
 

@@ -7,8 +7,8 @@ const Line = () =>
 {
 
     const user = useSelector(selectCurrentUser);
-    const stats =  user.stats.map( (stat) => {return(stat.score)});
-    const dates =  user.stats.map( (stat) => {return(stat.date)});
+    const stats =  user.stats.map( (stat) => { return(stat.score) });
+    const dates =  user.stats.map( (stat) => { return(stat.date) });
     return (
         <div>
           {console.log(stats)}

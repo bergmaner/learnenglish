@@ -7,8 +7,8 @@ import Icon from '@material-ui/core/Icon';
 const Header = styled.div`
 font-size: 30px;
 color: #DB7093;
+padding-top: 100px;
 font-weight: 700;
-
 @media screen and (max-width: 559px)
 {
     font-size: 30px;
@@ -49,7 +49,7 @@ display: flex;
 align-items: center;
 flex-flow: row wrap;
 justify-content: space-around;
-margin-bottom: 60px;
+margin-bottom: 100px;
 `;
 
 const ChangeModul = ({ navLinks, type }) => 
@@ -63,7 +63,7 @@ const ChangeModul = ({ navLinks, type }) =>
     } 
     return(
         <div style = {{height: 'calc(100vh - 60px)',display: 'flex', justifyContent: 'space-around',flexDirection: 'column'}} >
-            <Header>Change modul to { type === 'education' ? "educate" : "excercise" }</Header>
+            <Header>Choose modul to { type === 'education' ? "educate" : "excercise" }</Header>
            <ModulsContainer> 
                {navLinks.map( (link,index) => 
                 <CircleButton key = { index } onClick = { () => historyPush(`/${type}/${link.text}`) }><Icon style = {{  fontSize: '50px'}}>{link.icon}</Icon></CircleButton>

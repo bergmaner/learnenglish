@@ -19,8 +19,8 @@ import NextBtn from '../../components/NextBtn';
         display:flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-evenly;
-        height: 300px`;
+        justify-content: space-between;
+        height: 520px`;
 
     const AnswersList = styled(List)`
         width: 40%;
@@ -33,6 +33,7 @@ import NextBtn from '../../components/NextBtn';
         width : 100%;`;
 
     const Title = styled.div`
+        padding-top: 50px;
         margin:20px 0;
         width:100%`;
 
