@@ -23,7 +23,7 @@ export const slice = createSlice({
        else if(action.payload > 40 && action.payload <= 60)  state.user.level = 2;
        else if(action.payload > 60 && action.payload <= 80)  state.user.level = 3;
        else if(action.payload > 80 && action.payload <= 100) state.user.level = 4;
-        console.log(state.user.level);
+       state.comunicat = `Your current Level : ${state.difficulties[state.user.level]}`;
       }
       else if( state.user.level >= 0 && state.user.level <= 4)  {
         if( action.payload <= 25 && ( state.user.level !==0  && state.user.level !== 4 ) ) 

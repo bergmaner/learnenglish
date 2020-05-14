@@ -87,8 +87,8 @@ export const excerciseSlice = createSlice({
     
         if(!action.payload.user || level === -1)
         {
-          state.questions = action.payload.questions.filter(question => { return (question.difficulty === 0) ? true : ''});
-          state.interactiveQuestions = action.payload.interactiveQuestions.filter(interactiveQuestion => { return (interactiveQuestion.difficulty === 0) ? true : ''});
+          state.questions = action.payload.questions;
+          state.interactiveQuestions = action.payload.interactiveQuestions;
          
        }
        else if(action.payload.user && level !== -1)
@@ -129,8 +129,6 @@ export const excerciseSlice = createSlice({
      interactiveQuestionNums.splice(j,1);
      interactiveQuestionsLength--;
  }
-   
-
         const questions = state.questions.filter( (question,index) => { return(state.questionsNums.includes(index)) ? question : '' });
         if(questions.length > 0) state.questions = questions;
         const interactiveQuestions = state.interactiveQuestions.filter( (interactiveQuestion,index) => { return(state.interactiveQuestionsNums.includes(index)) ? interactiveQuestion : '' });
@@ -151,9 +149,11 @@ export const {
   updateExcercise
               } = excerciseSlice.actions;
 export const selectQuestions = state => state.rootReducer.excercise.questions;
+export const selectQuestionsNums = state => state.rootReducer.excercise.questionsNums;
 export const selectCheckIndex = state => state.rootReducer.excercise.checkIndex;
 export const selectActiveQuestion = state => state.rootReducer.excercise.activeQuestion;
 export const selectInteractiveQuestions = state => state.rootReducer.excercise.interactiveQuestions;
+export const selectInteractiveQuestionsNums = state => state.rootReducer.excercise.interactiveQuestionsNums;
 export const selectActiveInteractiveQuestion = state => state.rootReducer.excercise.activeInteractiveQuestion
 export const selectQuestionsVisible = state => state.rootReducer.excercise.questionsVisible;
 export const selectActiveSlices = state => state.rootReducer.excercise.activeSlices;

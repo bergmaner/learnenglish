@@ -6,6 +6,7 @@ import {
   Route
 } from "react-router-dom";
 import Login from './features/auth/Login';
+import Register from './features/auth/Register';
 import Education from './features/education/Education';
 import NewEducation from './features/education/newEducation';
 import Excercise from './features/excercise/Excercise';
@@ -67,10 +68,12 @@ const PrivateRoute = ({ children, ...rest }) => {
         <Route path = "/login">
         {currentUser ? <Redirect to={{pathname: "/"}} /> : <Login/>}
         </Route>
+        <Route path = "/register">
+        {currentUser ? <Redirect to={{pathname: "/"}} /> : <Register/>}
+        </Route>
         {
           //3 Routy do rozbudowy bazy w przyszłości możliwe, że będzie panel Admina w którym będzie do nich dostęp tylko z poziomu administracji
         }
-        
         <Route path = "/createEducation" component = { NewEducation }></Route>
         <Route path = "/createQuestion" component = { NewQuestion }></Route>
         <Route path = "/createInteractiveQuestion" component = { NewInteractiveQuestion }></Route>

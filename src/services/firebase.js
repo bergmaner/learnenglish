@@ -32,8 +32,7 @@ const firebaseConfig = {
   {
     return firebase.auth().signInWithPopup(googleProvider);
   }
-  
-  
+
   export const auth = firebase.auth;
   export const db = firebase.firestore();
   export const storage = firebase.storage();

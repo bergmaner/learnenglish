@@ -306,10 +306,7 @@ const Education = () =>
     useEffect( () =>
      {
       console.log(modul);
-      if( user )
-      {
         dispatch(fetchEducationAsync(modul,user));
-      }
      
     },[modul,user] )
 
@@ -362,7 +359,7 @@ const Education = () =>
                {(user) && <>
                <ExcerciseBtn onClick = { () => excercise() }>Excercise</ExcerciseBtn>
                </>}
-               { (!user) && <>
+               { (user === null) && <>
                <StyledLink to = '/login'>Zaloguj się aby wykonać ćwiczenia</StyledLink> 
                </>
               }

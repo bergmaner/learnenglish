@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from "react-router-dom";
 import Circular from '../components/Circular';
-import { selectPoints, selectScore, selectQuestions, selectInteractiveQuestions } from '../features/excercise/excerciseSlice';
+import { selectPoints, selectScore, selectQuestionsNums, selectInteractiveQuestionsNums } from '../features/excercise/excerciseSlice';
 import { selectComunicat } from '../features/auth/authSlice';
 import ProgressProvider from '../components/ProgressProvider.js';
 
@@ -37,8 +37,8 @@ const Summary = (props) => {
 
     const points = useSelector(selectPoints);
     const score = useSelector(selectScore);
-    const questions = useSelector(selectQuestions);
-    const interactiveQuestions = useSelector(selectInteractiveQuestions);
+    const questionsNums = useSelector(selectQuestionsNums);
+    const interactiveQuestionsNums = useSelector(selectInteractiveQuestionsNums);
     const comunicat = useSelector(selectComunicat);
     const { modul } = useParams();
     let history = useHistory();
@@ -55,7 +55,7 @@ const Summary = (props) => {
     return (
         <>
         <Content>
-            <div>Your score : {points} / {questions.length + interactiveQuestions.length}</div>
+            <div>Your score : {points} / {questionsNums.length + interactiveQuestionsNums.length}</div>
       <div>{comunicat}</div> 
        <ProgressProvider valueStart={0} valueEnd={score}>
        {value => 

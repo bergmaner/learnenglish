@@ -13,7 +13,10 @@ const Line = () =>
         <div>
           {console.log(stats)}
         <Chart options = {{
-        
+        yaxis: {
+          min: 0,
+          max: 100,
+          },
         xaxis: {
           categories: dates
         }

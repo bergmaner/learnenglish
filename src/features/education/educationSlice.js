@@ -28,8 +28,16 @@ export const educationSlice = createSlice({
       },
       updateEducation : (state,action) => 
       {
+        let level = -1;
         state.activeWord = 0;
-        const level = action.payload.user.level;
+        if(action.payload.user)
+        {
+           level = action.payload.user.level;
+        }
+       else 
+       {
+          level = -1;
+       }
         if(!action.payload.user || level === -1)
         {
           const education = action.payload.education.filter(edc => { return(edc.difficulty === 0) ? true : '' });
