@@ -12,6 +12,7 @@ export const excerciseSlice = createSlice({
     points: 0,
     score: 0,
     finished: false,
+    correctAnswer: false,
     questionsVisible: null,
     questions:[],
     questionsNums: [],
@@ -24,9 +25,14 @@ export const excerciseSlice = createSlice({
         
         const question = state.questions[state.activeQuestion];
         question.answers.map( answer => answer.checked = false);
-        state.points += state.checkIndex === question.correctAnswer ? 1 : 0;
+        if( state.checkIndex === question.correctAnswer ) {
+          state.points += 1;
+          state.correctAnswer = true;
+        }
+        else{
+          state.correctAnswer = false;
+        }
         state.activeQuestion += 1;
-
         state.checkIndex = null;
       },
       nextInteractiveQuestion : state =>
@@ -159,6 +165,7 @@ export const selectQuestionsVisible = state => state.rootReducer.excercise.quest
 export const selectActiveSlices = state => state.rootReducer.excercise.activeSlices;
 export const selectFinished = state => state.rootReducer.excercise.finished;
 export const selectPoints = state => state.rootReducer.excercise.points;
+export const selectCorrectAnswer = state => state.rootReducer.excercise.correctAnswer;
 export const selectScore = state => state.rootReducer.excercise.score;
 export const fetchExcerciseAsync = (modul,user) => async dispatch => {
   const result = await db.collection('excercise').doc(modul).get();

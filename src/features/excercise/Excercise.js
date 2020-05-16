@@ -23,6 +23,7 @@ import{ useParams, useHistory } from "react-router-dom";
 
   const Excercise = () =>
 {
+  
     const questions = useSelector(selectQuestions);
     const activeQuestion = useSelector(selectActiveQuestion);
     const interactiveQuestions = useSelector(selectInteractiveQuestions);
@@ -33,10 +34,9 @@ import{ useParams, useHistory } from "react-router-dom";
     const score = useSelector(selectScore);
     const progress = `${((activeQuestion + activeInteractiveQuestion + 1 )/(questions.length + interactiveQuestions.length)) *100}%`;
     let history = useHistory();
+    const dispatch = useDispatch();
     const { modul } = useParams();
     
-    const dispatch = useDispatch();
-
     React.useEffect( () => 
     {
       if( user && questionsVisible !== undefined )

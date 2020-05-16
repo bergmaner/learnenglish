@@ -26,6 +26,7 @@ const CircleButton = styled(Button)`
     font-weight: 700;
     margin: 10px;
     border-radius: 100%;
+    transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     &:hover
     {
         background: #DB7093;

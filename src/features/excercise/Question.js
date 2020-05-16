@@ -7,13 +7,15 @@ import {
     selectQuestions,
     selectActiveQuestion,
     selectCheckIndex,
+    selectCorrectAnswer,
     nextQuestion,
     setQuestionsVisible,
     toggleCheckbox
         } from './excerciseSlice';
 import ProgressBar from '../../components/ProgressBar';
 import NextBtn from '../../components/NextBtn';
-
+import Message from '../../components/Message';
+     
     const AnswersContent = styled.div`
         width:100%;
         display:flex;
@@ -50,23 +52,25 @@ const Question = ( props ) => {
     const activeQuestion = useSelector(selectActiveQuestion);
     const questionsVisible = useSelector(selectQuestionsVisible);
     const checkIndex = useSelector(selectCheckIndex);
+    const correctAnswer = useSelector(selectCorrectAnswer);
     const dispatch = useDispatch();
-
-    const onClick = () =>
-    {
-        console.log(activeQuestion);
-        console.log(questions.length)
-        dispatch( nextQuestion() );
-        
-       
-    };
+    const [open, setOpen] = React.useState(false);
+    
+    const onClick = () => {
+      if(!open) dispatch( nextQuestion() );
+        setOpen(true);
+      };
+    
+    const handleClose = () => {
+        setOpen(false);
+      };
 
     const handleToggle = (index) => () => 
     {
       if( checkIndex !== index ) dispatch( toggleCheckbox(index) );
     };
 
-    if ( !props.visible) {
+    if( !props.visible) {
         return null;
       }
 
@@ -76,22 +80,23 @@ const Question = ( props ) => {
       <ProgressBar style ={{ width: props.progress }}/>
     </Progress>
     <AnswersContent>
-        <Title>{questions[activeQuestion]?.content}</Title>
+        <Title>{ questions[activeQuestion]?.content }</Title>
             <AnswersList >
             {questions[activeQuestion]?.answers?.map((answer,index) =>
             <ListItem key = {`question-${activeQuestion}-answer-${index}`} dense button onClick = { handleToggle(index) } >
                 <ListItemIcon>
                     <Check
-                    checked = {answer.checked}
+                    checked = { answer.checked }
                     tabIndex = {-1}
                     disableRipple
                     onClick = { handleToggle(index) }
                     />
                 </ListItemIcon>
-            <Answer key={index}>{answer.content}</Answer>
+            <Answer key = { index }>{ answer.content }</Answer>
             </ListItem>)}
             </AnswersList>
-            <NextBtn onClick = { onClick } />
+            <NextBtn open = { open } onClick = { onClick } />
+            <Message correct = { correctAnswer } open = { open } handleClose = { handleClose } />
     </AnswersContent>
         </>
     )

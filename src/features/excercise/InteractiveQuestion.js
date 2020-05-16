@@ -4,12 +4,14 @@ import {
     selectInteractiveQuestions,
     selectActiveSlices,
     selectActiveInteractiveQuestion,
+    selectCorrectAnswer,
     toggleToSentence,
     nextInteractiveQuestion 
         } from './excerciseSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import ProgressBar from '../../components/ProgressBar';
 import NextBtn from '../../components/NextBtn';
+import Message from '../../components/Message';
 
     const WordSlice = styled.span`
         border-radius: 16px;
@@ -71,15 +73,21 @@ import NextBtn from '../../components/NextBtn';
 const InteractiveQuestion = (props) => {
 
     const [ hoverIndex, setHoverIndex ] = useState(-1);
+    const [open, setOpen] = React.useState(true);
     const interactiveQuestions = useSelector(selectInteractiveQuestions);
     const activeInteractiveQuestion = useSelector(selectActiveInteractiveQuestion);
     const activeSlices = useSelector(selectActiveSlices);
+    const correctAnswer = useSelector(selectCorrectAnswer);
     const dispatch = useDispatch();
     
-
-    const onClick = ( ) => {
-        dispatch( nextInteractiveQuestion() );
-    }
+    const onClick = () => {
+      if(!open) dispatch( nextInteractiveQuestion() );
+        setOpen(true);
+      };
+    
+    const handleClose = () => {
+        setOpen(false);
+      };
 
     const toggleSentence = ( index ) =>
     {
@@ -117,6 +125,7 @@ const InteractiveQuestion = (props) => {
                 key={index}>{slice.content}</Word> : <WordSlice key={index}>{slice.content}</WordSlice>)}
             </WordsContent>
             <NextBtn onClick = { onClick } />
+            <Message correct = { correctAnswer } open = { open } handleClose = { handleClose } />
         </InteractiveContent>
         </>
     )
