@@ -1,11 +1,36 @@
 import React from 'react';
-import { Input, Button } from '@material-ui/core/';
+import { TextField } from '@material-ui/core/';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { db } from '../../services/firebase';
+import Submit from '../../components/forms/Submit';
+
+const Input = styled(TextField)`
+.MuiOutlinedInput-root {
+    margin-bottom:20px;
+    color: #a5a5a5;
+    fieldset {
+        
+        border-color: palevioletred; 
+    }
+    &:hover fieldset {
+        border: 2px solid palevioletred;
+      }
+      &.Mui-focused fieldset {
+        border-color: palevioletred;
+      }
+    }
+    .MuiFormLabel-root
+    {
+        color: #a5a5a5;
+    }
+    .MuiFormLabel-root.Mui-focused {
+        color: palevioletred; 
+      }
+      
+`;
 
 export default () => {
-
   const { register, handleSubmit } = useForm();
 
   const initialInteractiveQuestion = {
@@ -16,7 +41,7 @@ export default () => {
       { content: ''},
       { content: ''},
       { content: ''},
-      { content: ''},
+      { content: ''}
     ]
   }
  
@@ -30,6 +55,21 @@ export default () => {
   const addInteractiveQuestion = () => 
   {
     setInteractiveQuestions([...interactiveQuestions, initialInteractiveQuestion])
+  }
+
+  const addSlice = (index) =>
+  {
+   
+    const content = { content: ''};
+    let newArr = [...interactiveQuestions];
+    newArr[index.q].answers.push(content);
+    setInteractiveQuestions(newArr);  
+  }
+  const removeSlice = (index) => 
+  {
+    let newArr = [...interactiveQuestions];
+    newArr[index.q].answers.splice(interactiveQuestions[index.q].answers.length-1, 1);
+    setInteractiveQuestions(newArr);
   }
 
   const removeInteractiveQuestion = () => 
@@ -94,52 +134,65 @@ const clear = () =>
     <div>
       <p>Utwórz nowe pytanie</p>
      
-      <form onSubmit={handleSubmit(onSubmit)} >
+      <form onSubmit = {handleSubmit(onSubmit)} >
       <Input
               fullWidth
-              name={`modul`}
+              name = {`modul`}
               onChange = { (e) => onChange(e) }
-              placeholder={`Moduł`} 
-              inputProps={{ 'aria-label': `modul` }}
+              placeholder = {`Moduł`} 
+              inputProps = {{ 'aria-label': `modul` }}
+              variant = "outlined"
             />
-        {interactiveQuestions.map((interactiveQuestion, q) =>
-          <div key={`interactiveQuestions${q}`}>
+        { interactiveQuestions.map((interactiveQuestion, q) =>
+          <div key = {`interactiveQuestions${q}`}>
             <Input
               fullWidth
-              name={`interactiveQuestions[${q}].content`}
-              inputRef={register()}
-              placeholder={`Pytanie ${q+1}`}
-              inputProps={{ 'aria-label': `pytanie ${q+1}` }}
+              name = {`interactiveQuestions[${q}].content`}
+              inputRef = {register()}
+              placeholder = {`Pytanie ${q+1}`}
+              inputProps = {{ 'aria-label': `pytanie ${q+1}` }}
+              variant = "outlined"
             />
+            <div style = {{ width: '100%', display: 'flex', justifyContent: 'space-around' }}>
               <Input
-          name={`interactiveQuestions[${q}].difficulty`}
-          inputRef={register()}
-          placeholder={`Trudność`} 
+          name = {`interactiveQuestions[${q}].difficulty`}
+          inputRef = {register()}
+          placeholder = {`Trudność`} 
           type = 'number'
-          inputProps={{ 'aria-label': `difficulty` }}
+          inputProps = {{ 'aria-label': `difficulty` }}
+          variant = "outlined"
         />
              <Input
-          name={`interactiveQuestions[${q}].winCode`}
-          inputRef={register()}
-          placeholder="Prawidłowa sekwencja"
-          inputProps={{ 'aria-label': 'correctAnswer' }}
+          name = {`interactiveQuestions[${q}].winCode`}
+          inputRef = {register()}
+          placeholder = "Prawidłowa sekwencja"
+          inputProps = {{ 'aria-label': 'correctAnswer' }}
+          variant = "outlined"
         />
-            {interactiveQuestion.answers.map((slice, s) =>
-              <div key={`slices${s}`}>
+        </div>
+        <div style = {{ width: '100%', display: 'flex', justifyContent: 'space-around', marginBottom: '20px' }}>
+         <Submit onClick = { () => addSlice({q}) }>Add answer</Submit>
+         <Submit onClick = { () => removeSlice({q}) }>Remove answer</Submit>
+        </div>
+            { interactiveQuestion.answers.map((slice, s) =>
+              <div key = {`slices${s}`}>
                 <Input
-                  name={`interactiveQuestions[${q}].slices[${s}].content`}
-                  inputRef={register()}
-                  placeholder={`Kawałek ${s}`}
-                  inputProps={{ 'aria-label': `odp ${s}` }}
+                  name = {`interactiveQuestions[${q}].slices[${s}].content`}
+                  inputRef = {register()}
+                  placeholder = {`Kawałek ${s}`}
+                  inputProps = {{ 'aria-label': `odp ${s}` }}
+                  variant = "outlined"
                 />
               </div>
             )}
           </div>
         )}
-        <Button onClick={ () => addInteractiveQuestion() }>Dodaj pytanie</Button>
-        <Button onClick={ () => removeInteractiveQuestion() }>Usuń pytanie</Button>
-        <Button onClick={ () => clear() }>Wyczyść</Button>
-        <Button type="submit">Utwórz pytania</Button>
+         <div style = {{ width: '100%', display: 'flex', justifyContent: 'space-around'}}>
+        <Submit style = {{ margin: '0px 5px' }} onClick={ () => addInteractiveQuestion() }>Dodaj pytanie</Submit>
+        <Submit style = {{ margin: '0px 5px' }} onClick={ () => removeInteractiveQuestion() }>Usuń pytanie</Submit>
+        <Submit style = {{ margin: '0px 5px' }} onClick={ () => clear() }>Wyczyść</Submit>
+        <Submit style = {{ margin: '0px 5px' }} type="submit">Utwórz pytania</Submit>
+        </div>
       </form>
     </div>
   )

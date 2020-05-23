@@ -1,8 +1,34 @@
 import React from 'react';
-import { Input, Button } from '@material-ui/core/';
+import { TextField } from '@material-ui/core/';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { db } from '../../services/firebase';
+import Submit from '../../components/forms/Submit';
+
+const Input = styled(TextField)`
+.MuiOutlinedInput-root {
+    margin-bottom:20px;
+    color: #a5a5a5;
+    fieldset {
+        
+        border-color: palevioletred; 
+    }
+    &:hover fieldset {
+        border: 2px solid palevioletred;
+      }
+      &.Mui-focused fieldset {
+        border-color: palevioletred;
+      }
+    }
+    .MuiFormLabel-root
+    {
+        color: #a5a5a5;
+    }
+    .MuiFormLabel-root.Mui-focused {
+        color: palevioletred; 
+      }
+      
+`;
 
 export default () => {
 
@@ -93,54 +119,61 @@ const clear = () =>
   return(
     <div>
       <p>Utwórz nowe pytanie</p>
-     
       <form onSubmit={handleSubmit(onSubmit)} >
       <Input
               fullWidth
-              name={`modul`}
+              variant = 'contained'
+              name = {`modul`}
               onChange = { (e) => onChange(e) }
-              placeholder={`Moduł`} 
-              inputProps={{ 'aria-label': `modul` }}
+              placeholder = {`Moduł`} 
+              inputProps = {{ 'aria-label': `modul` }}
+              variant = "outlined"
             />
-        {questions.map((question, q) =>
-          <div key={`questions${q}`}>
+        { questions.map((question, q) =>
+          <div key = {`questions${q}`}>
             <Input
               fullWidth
-              name={`questions[${q}].content`}
-              inputRef={register()}
-              placeholder={`Pytanie ${q+1}`}
-              inputProps={{ 'aria-label': `pytanie ${q+1}` }}
+              name = {`questions[${q}].content`}
+              inputRef = {register()}
+              placeholder = {`Pytanie ${q+1}`}
+              inputProps = {{ 'aria-label': `pytanie ${q+1}` }}
+              variant = "outlined"
             />
+             <div style = {{ width: '100%', display: 'flex', justifyContent: 'space-around', marginBottom: '20px' }}>
           <Input
-          inputRef={register()}
-          name={`questions[${q}].difficulty`}
-          placeholder={`Trudność`} 
+          inputRef = {register()}
+          name = {`questions[${q}].difficulty`}
+          placeholder = {`Trudność`} 
           type = 'number'
-          inputProps={{ 'aria-label': `difficulty` }}
+          inputProps = {{ 'aria-label': `difficulty` }}
+          variant = "outlined"
         />
-             <Input
-          inputRef={register()}
-          name={`questions[${q}].correctAnswer`}
-          placeholder={`Prawidłowa odpowiedź`} 
+        <Input
+          inputRef = {register()}
+          name = {`questions[${q}].correctAnswer`}
+          placeholder = {`Prawidłowa odpowiedź`} 
           type = 'number'
-          inputProps={{ 'aria-label': `correctAnswer${q}` }}
+          inputProps = {{ 'aria-label': `correctAnswer${q}` }}
+          variant = "outlined"
         />
-            {question.answers.map((answer, a) =>
-              <div key={`answer${a}`}>
+        </div>
+            { question.answers.map((answer, a) =>
+              <div key = {`answer${a}`}>
                 <Input
-                  name={`questions[${q}].answers[${a}].content`}
-                  inputRef={register()}
-                  placeholder={`Odp ${a}`}
-                  inputProps={{ 'aria-label': `odp ${a}` }}
+                  name = {`questions[${q}].answers[${a}].content`}
+                  inputRef = {register()}
+                  placeholder = {`Odp ${a}`}
+                  inputProps = {{ 'aria-label': `odp ${a}` }}
+                  variant = "outlined"
                 />
               </div>
             )}
           </div>
         )}
-        <Button onClick={ () => addQuestion() }>Dodaj pytanie</Button>
-        <Button onClick={ () => removeQuestion() }>Usuń pytanie</Button>
-        <Button onClick={ () => clear() }>Wyczyść</Button>
-        <Button type="submit">Utwórz pytania</Button>
+        <Submit style = {{ margin: '0px 5px' }} onClick={ () => addQuestion() }>Dodaj pytanie</Submit>
+        <Submit style = {{ margin: '0px 5px' }} onClick={ () => removeQuestion() }>Usuń pytanie</Submit>
+        <Submit style = {{ margin: '0px 5px' }} onClick={ () => clear() }>Wyczyść</Submit>
+        <Submit style = {{ margin: '0px 5px' }} type="submit">Utwórz pytania</Submit>
       </form>
     </div>
   )

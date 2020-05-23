@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Input, Button } from '@material-ui/core/';
-import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { db, storage } from '../../services/firebase';
 
@@ -132,71 +131,71 @@ const handleUpdate = (index) => {
     <div>
       <p>Utwórz nowe słowa</p>
      
-      <form onSubmit={handleSubmit(onSubmit)} >
+      <form onSubmit = {handleSubmit(onSubmit)} >
       <Input
               fullWidth
-              name={`modul`}
+              name = {`modul`}
               onChange = { (e) => onChange(e) }
-              placeholder={`Moduł`} 
-              inputProps={{ 'aria-label': `modul` }}
+              placeholder = {`Moduł`} 
+              inputProps = {{ 'aria-label': `modul` }}
             />
-        {education.map((edc, index) =>
-          <div key={`education${index}`}>
+        { education.map((edc, index) =>
+          <div key = {`education${index}`}>
             <Input
               fullWidth
-              name={`education[${index}].content`}
-              inputRef={register()}
-              placeholder={`Słowo ${index+1}`}
-              inputProps={{ 'aria-label': `słowo ${index+1}` }}
+              name = {`education[${index}].content`}
+              inputRef = {register()}
+              placeholder = {`Słowo ${index+1}`}
+              inputProps = {{ 'aria-label': `słowo ${index+1}` }}
             />
              <Input
           fullWidth
-          name={`education[${index}].translation`}
-          inputRef={register()}
-          placeholder={`Tłumaczenie ${index+1}`}
-          inputProps={{ 'aria-label': `translation ${index+1}` }}
+          name = {`education[${index}].translation`}
+          inputRef = {register()}
+          placeholder = {`Tłumaczenie ${index+1}`}
+          inputProps = {{ 'aria-label': `translation ${index+1}` }}
         />
         <Input
               fullWidth
-              name={`education[${index}].example`}
-              inputRef={register()}
-              placeholder={`Przykład `}
-              inputProps={{ 'aria-label': `example` }}
+              name = {`education[${index}].example`}
+              inputRef = {register()}
+              placeholder = {`Przykład `}
+              inputProps = {{ 'aria-label': `example` }}
             />
              <Input
           fullWidth
-          name={`education[${index}].exampleTranslation`}
-          inputRef={register()}
-          placeholder="Tłumaczenie"
-          inputProps={{ 'aria-label': 'exampleTranslation' }}
+          name = {`education[${index}].exampleTranslation`}
+          inputRef = {register()}
+          placeholder = "Tłumaczenie"
+          inputProps = {{ 'aria-label': 'exampleTranslation' }}
         />
            <Input
           type = 'number'
-          name={`education[${index}].difficulty`}
-          inputRef={register()}
-          placeholder="Trudność"
-          inputProps={{ 'aria-label': 'difficulty' }}
+          name = {`education[${index}].difficulty`}
+          inputRef = {register()}
+          placeholder = "Trudność"
+          inputProps = {{ 'aria-label': 'difficulty' }}
         />
         <div >
           {
           //it will be progressbar when i am gonna style it 
 }
         <Input
-        name={`education[${index}].image`}
-        type ='file'
+        name = {`education[${index}].image`}
+        type = 'file'
         onChange = {(e) => handleChange(e)}
         />
-        <Button onClick ={() => handleUpdate(index)}>update</Button>
+        <Button onClick = {() => handleUpdate(index)}>update</Button>
         {
-          url ? <img width='350px' src = {edc.image}  /> : <img width='350' height = '200'/>
+          url ? <img width ='350px' src = {edc.image}  /> : <img width='350' height = '200'/>
         }
         </div>
           </div>
         )}
-        <Button onClick={ () => addEducation() }>Dodaj słowo</Button>
-        <Button onClick={ () => removeEducation() }>Usuń słowo</Button>
-        <Button onClick={ () => clear() }>Wyczyść</Button>
-        <Button type="submit">Utwórz słowa</Button>
+        <Button onClick= { () => addEducation() }>Dodaj słowo</Button>
+        <Button onClick= { () => removeEducation() }>Usuń słowo</Button>
+        <Button onClick= { () => clear() }>Wyczyść</Button>
+        <Button type = "submit">Utwórz słowa</Button>
       </form>
     </div>
   )

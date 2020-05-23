@@ -4,6 +4,7 @@ export const slice = createSlice({
   name: 'auth',
   initialState: {
     user: null,
+    username: '',
     comunicat: '',
     difficulties: ['beginner','pre-intermediate','intermediate','upper-intermediate','advanced']
   },
@@ -62,13 +63,16 @@ export const slice = createSlice({
       db.collection("users").doc(state.user.uid).update({
         level: state.user.level,
         stats: state.user.stats});
-    }
-  },
+    },
+    setUsername: (state, action) => {
+      state.username = action.payload;
+    },
+  }
 });
 
-export const { login, logout, setLevel } = slice.actions;
+export const { login, logout, setLevel, setUsername } = slice.actions;
 
 export const selectCurrentUser = state => state.rootReducer.auth.user;
 export const selectComunicat = state => state.rootReducer.auth.comunicat;
-
+export const selectUsername = state => state.rootReducer.auth.username;
 export default slice.reducer;

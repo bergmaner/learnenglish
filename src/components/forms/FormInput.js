@@ -8,7 +8,8 @@ const BaseInput = styled(TextField)`
     color: #a5a5a5;
     fieldset {
         
-        border-color: palevioletred; 
+        border-color: palevioletred;
+        font-size: 18px;
     }
     &:hover fieldset {
         border: 2px solid palevioletred;

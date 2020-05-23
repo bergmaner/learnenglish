@@ -4,7 +4,6 @@ import styled from 'styled-components';
 const Submit = styled.button`
     border: 1px solid palevioletred;
     border-radius: 5px;
-    margin: 5px 0px;
     color: #a5a5a5;
     padding: 18.5px 14px;
     outline:none;

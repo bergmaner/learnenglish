@@ -8,8 +8,9 @@ export default () =>
 {
     const currentUser = useSelector(selectCurrentUser);
     return (
-        <div>
-            Hey, {currentUser?.email}
+        <div style ={{display: 'flex', justifyContent: 'center', alignItems: 'center',flexDirection: 'column'}}>
+            <img style = {{display:'block',borderRadius: '100%'}} src ={currentUser.img}/>
+            {currentUser?.name}
             <Line/>
         </div>
     );
