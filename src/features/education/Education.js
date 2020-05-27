@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { 
@@ -10,12 +10,15 @@ import {
   goTo
   } from './educationSlice';
 import { selectCurrentUser } from '../auth/authSlice';
+import Slide from '../../animations/Slide';
+import Fade from '../../animations/Fade';
 import { restart } from '../excercise/excerciseSlice';
 import ProgressBar from '../../components/ProgressBar.js';
 import styled from 'styled-components';
 import { Button } from '@material-ui/core';
 import { Pagination, PaginationItem } from '@material-ui/lab';
 import{ useParams } from "react-router-dom";
+
 const StyledLink = styled(Link)`
   font-weight: bold;
   text-decoration: none;
@@ -142,7 +145,7 @@ display:flex;
 flex-direction: row;
 align-items : center;
 width:100%;
-justify-content: space-around;
+justify-content: center;
 box-sizng:border-box;
 padding-bottom: 5px;
 @media screen and (max-width: 959px)
@@ -212,7 +215,7 @@ height: 410px;
 display: flex;
   flex-direction: column;
   align-items:center;
-  justify-content: space-between;
+  justify-content: center;
 @media screen and (max-width: 959px)
 {
   padding:top: 50px;
@@ -245,7 +248,7 @@ const Counter = styled.div`
 margin-bottom:10px;`;
  
 const Progress = styled.div`
-width: 90%;
+width: 100%;
 font-size: 20px;`;
 
 const ArrowNavigation = styled.div`
@@ -302,13 +305,15 @@ const Education = () =>
     const history = useHistory();
     const dispatch = useDispatch();
     const { modul } = useParams();
-    
+    const [ on, setOn] = useState(true);
+    const [ leftSlide, setLeftSlide ] = useState(true);
+
     useEffect( () =>
      {
       console.log(modul);
         dispatch(fetchEducationAsync(modul,user));
      
-    },[modul,user] )
+    },[ modul, user ] )
 
     const excercise = () =>
     {
@@ -316,46 +321,55 @@ const Education = () =>
       history.push(`/excercise/${modul}`);
     }
 
-    const updateActualWord = (item) =>
+    const updateActualWord = (pageNumber) =>
     {
-     if(item >= 0 && item <= words.length) dispatch(goTo(item));
+     if(pageNumber >= 0 && pageNumber <= words.length) {
+      ( pageNumber > activeWord ) ? setLeftSlide(true) : setLeftSlide(false);
+       dispatch(goTo(pageNumber));
+     }
     }
+    
     
     
     return (
         <Container>
          { ((words.length > 0 && user && user.level !== -1) ||(words.length > 0 &&  !user)) &&  <>
+         <Fade width = {90}>
           <Progress>
           <Counter>{`${activeWord + 1} / ${words.length}`}</Counter>
             <ProgressBar style ={{ width:`${((activeWord + 1) / words.length) *100}%`}}></ProgressBar>
           </Progress>
-          <Content>
-          <ImageWithPagination>
-            <CirclePagination renderItem={(item) => (
-                <StyledPaginationItem onClick = { () => updateActualWord(item.page-1) }>
-                  <PaginationItem {...item} />
-                  <PaginationText>
-                    {item.page-1 !== -1 ? words[item.page-1].translation : ''}
-                  </PaginationText>
-                </StyledPaginationItem>
-              )} page = {activeWord + 1} count={words.length} hidePrevButton hideNextButton />
-          <WordContent>
-          <WordImage src ={words[activeWord].image}/>
-          <WordText>{words[activeWord].content} - {words[activeWord].translation}</WordText>
-          </WordContent>
-          </ImageWithPagination>
-          <Examples>
-            <Example>
-            <span style = {{color : 'palevioletred',fontWeight:700}}>Examples</span>
-            <br/>
-              <span style= {{fontWeight:700}}>{words[activeWord].exampleTranslation}</span> - {words[activeWord].example}
-              </Example>
-          </Examples>
-          
-          </Content>
-          
+          </Fade>
+         <Slide key = {on} leftSlide = {leftSlide}>
+          <Content >
+            <ImageWithPagination>
+              <CirclePagination renderItem = { (item) => (
+                  <StyledPaginationItem onClick = { () => ( updateActualWord(item.page-1),setOn(!on) ) }>
+                    <PaginationItem {...item} />
+                    <PaginationText>
+                      { item.page-1 !== -1 ? words[item.page-1].translation : '' }
+                    </PaginationText>
+                  </StyledPaginationItem>
+                )} page = {activeWord + 1} count={words.length} hidePrevButton hideNextButton />
+          <Fade key = {on}>
+            <WordContent>
+            <WordImage src ={words[activeWord].image}/>
+            <WordText>{words[activeWord].content} - {words[activeWord].translation}</WordText>
+            </WordContent>
+            </Fade>
+            </ImageWithPagination>
+            <Examples>
+              <Example>
+              <span style = {{ color : 'palevioletred',fontWeight:700 }}>Examples</span>
+              <br/>
+                <span style= {{ fontWeight:700 }}>{words[activeWord].exampleTranslation}</span> - {words[activeWord].example}
+                </Example>
+            </Examples>
+            </Content>
+            </Slide>
+              <Fade width = {100}>
                <ArrowNavigation>
-               <Item><Prev onClick = { () => dispatch(prev()) }>&#8249;</Prev></Item>
+               <Item><Prev onClick = { () => ( dispatch(prev()), setOn(!on), setLeftSlide(false) ) }>&#8249;</Prev></Item>
                {(user) && <>
                <ExcerciseBtn onClick = { () => excercise() }>Excercise</ExcerciseBtn>
                </>}
@@ -363,17 +377,15 @@ const Education = () =>
                <StyledLink to = '/login'>Zaloguj się aby wykonać ćwiczenia</StyledLink> 
                </>
               }
-               <Item><Next onClick = { () => dispatch(next()) }>&#8250;</Next></Item>
+               <Item><Next onClick = { () => ( dispatch(next()), setOn(!on), setLeftSlide(true) ) }>&#8250;</Next></Item>
                </ArrowNavigation>
-              
-             
-         
+              </Fade>
           </>}
          {
            (words.length > 0 && user && user.level === -1) &&  <>
-           <div style = {{minHeight: 'calc(100vh - 60px)',display : 'flex', justifyContent: 'center', flexDirection : 'column'}}>
-          <div style = {{margin: '10px'}}> Sprawdź swój poziom poprzez test </div>
-       <div style = {{margin: '10px'}}><ExcerciseBtn onClick = { () => excercise() }>Check your level</ExcerciseBtn></div>
+           <div style = {{ minHeight: 'calc(100vh - 60px)',display : 'flex', justifyContent: 'center', flexDirection : 'column' }}>
+          <div style = {{ margin: '10px' }}> Sprawdź swój poziom poprzez test </div>
+       <div style = {{ margin: '10px' }}><ExcerciseBtn onClick = { () => excercise() }>Check your level</ExcerciseBtn></div>
            </div>
            </>
          }

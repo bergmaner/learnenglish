@@ -57,13 +57,10 @@ const Summary = (props) => {
         <Content>
             <div>Your score : {points} / {questionsNums.length + interactiveQuestionsNums.length}</div>
       <div>{comunicat}</div> 
-       <ProgressProvider valueStart={0} valueEnd={score}>
-       {value => 
             <Circular
-                strokeWidth="20"
-                sqSize="300"
-                percentage={value}/>}
-        </ProgressProvider>
+                strokeWidth = "20"
+                sqSize = "300"
+                percentage = { score }/>
         <EducationBtn onClick = { () => educate() }>Educate</EducationBtn> 
         </Content>
         </>

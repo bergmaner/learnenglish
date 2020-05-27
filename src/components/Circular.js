@@ -1,14 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Spring, config } from 'react-spring/renderprops';
 
 const CircleBar = styled.svg`
 
-
-
-circle {
-    transition: all 0.5s ease 0s;
-    transition-delay: 0.1s;
-}
 .circle-background,
 .circle-progress {
   fill: none;
@@ -28,6 +23,7 @@ circle {
   font-size: 3em;
   font-weight: bold;
   fill: palevioletred;
+  animation: fadein 2s;
 }`;
 
 const Circular = ({ sqSize, strokeWidth, percentage }) => {
@@ -35,16 +31,19 @@ const Circular = ({ sqSize, strokeWidth, percentage }) => {
     const radius = (sqSize - strokeWidth) / 2;
     const viewBox = `0 0 ${sqSize} ${sqSize}`;
     const dashArray = radius * Math.PI * 2;
-    const dashOffset = dashArray - dashArray * percentage / 100;
 
     return(
-         <CircleBar
+      <Spring
+  from = {{ value: 0 }}
+  to = {{ value: percentage }}
+  config={config.molasses}>
+  { ({ value })  =>  <CircleBar
           width = { sqSize }
           height = { sqSize }
           viewBox = { viewBox }>
           <circle
             className = "circle-background"
-            cx = { sqSize / 2 }
+            cx = { sqSize  / 2 }
             cy = { sqSize / 2 }
             r = { radius }
             strokeWidth = {`${strokeWidth}px`} />
@@ -53,11 +52,11 @@ const Circular = ({ sqSize, strokeWidth, percentage }) => {
             cx = { sqSize / 2 }
             cy = { sqSize / 2 }
             r = { radius }
-            strokeWidth={`${strokeWidth}px`}
+            strokeWidth = {`${strokeWidth}px`}
             transform={`rotate(-90 ${sqSize / 2} ${sqSize / 2})`}
             style={{
               strokeDasharray: dashArray,
-              strokeDashoffset: dashOffset
+              strokeDashoffset: dashArray - dashArray * value / 100
             }} />
           <text
             className="circle-text"
@@ -65,9 +64,11 @@ const Circular = ({ sqSize, strokeWidth, percentage }) => {
             y = "50%"
             dy = ".3em"
             textAnchor = "middle">
-            {`${percentage}%`}
+            {`${ value.toFixed() }%`}
           </text>
-      </CircleBar>
+      </CircleBar>}
+</Spring>
+         
     )
 }
 export default Circular;

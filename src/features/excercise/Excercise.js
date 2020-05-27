@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import{ useParams, useHistory } from "react-router-dom";
 import { selectCurrentUser, setLevel } from '../auth/authSlice';
 import {
     selectQuestionsVisible,
@@ -13,13 +14,11 @@ import {
     fetchExcerciseAsync,
     updateStats,
     setQuestionsVisible
-    
      } from './excerciseSlice';
 import Question from './Question';
 import InteractiveQuestion from './InteractiveQuestion';
 import Summary from '../../pages/Summary';
-import styled from 'styled-components';
-import{ useParams, useHistory } from "react-router-dom";
+
 
   const Excercise = () =>
 {
@@ -64,9 +63,8 @@ import{ useParams, useHistory } from "react-router-dom";
       },[activeInteractiveQuestion] );
    
     return (
-        
       <>
-    <Question visible = {questionsVisible} progress = {progress}/>
+        <Question visible = {questionsVisible} progress = {progress}/>
       <InteractiveQuestion 
         questionsVisible = {questionsVisible}
         finished = {finished}
@@ -76,5 +74,4 @@ import{ useParams, useHistory } from "react-router-dom";
       </>
       );
 }
-
 export default Excercise;

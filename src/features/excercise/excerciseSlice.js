@@ -39,7 +39,13 @@ export const excerciseSlice = createSlice({
       {
       
         const correctCode = state.interactiveQuestions[state.activeInteractiveQuestion].winCode;
-        state.points += state.activeSlices.join('') === correctCode ? 1 : 0;
+        if( state.activeSlices.join('') === correctCode ){
+          state.points += 1;
+          state.correctAnswer = true;
+        } 
+        else {
+          state.correctAnswer = false;
+        }
         state.score = Math.floor(((state.points) / (state.questions.length + state.interactiveQuestions.length) * 100));
         state.activeInteractiveQuestion += 1;
         if(state.activeInteractiveQuestion <= 4)

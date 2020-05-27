@@ -9,6 +9,8 @@ import {
     nextInteractiveQuestion 
         } from './excerciseSlice';
 import { useSelector, useDispatch } from 'react-redux';
+import Slide from '../../animations/Slide';
+import Fade from '../../animations/Fade';
 import ProgressBar from '../../components/ProgressBar';
 import NextBtn from '../../components/NextBtn';
 import Message from '../../components/Message';
@@ -48,7 +50,12 @@ import Message from '../../components/Message';
         @media screen and (max-width: 759px)
         {
             width:80%;
+        }
+        @media screen and (max-width: 559px)
+        {
+            width:100%;
         }`;
+        
     const InteractiveContent = styled.div`
         width:100%;
         display:flex;
@@ -74,15 +81,20 @@ const InteractiveQuestion = (props) => {
 
     const [ hoverIndex, setHoverIndex ] = useState(-1);
     const [open, setOpen] = React.useState(true);
+    const [ on, setOn] = useState(true);
     const interactiveQuestions = useSelector(selectInteractiveQuestions);
     const activeInteractiveQuestion = useSelector(selectActiveInteractiveQuestion);
     const activeSlices = useSelector(selectActiveSlices);
     const correctAnswer = useSelector(selectCorrectAnswer);
     const dispatch = useDispatch();
     
-    const onClick = () => {
-      if(!open) dispatch( nextInteractiveQuestion() );
+    const handleClick = () => {
+      if(!open){
+        dispatch( nextInteractiveQuestion() );
+        setOn(!on);
+      } 
         setOpen(true);
+       
       };
     
     const handleClose = () => {
@@ -102,11 +114,11 @@ const InteractiveQuestion = (props) => {
 
     return (
         <>
-        <div style = {{width: '80%' }}>
+        <Fade width = {90}>
         <ProgressBar style ={{ width: props.progress }}/>
-        </div>
+        </Fade>
         <InteractiveContent>
-           
+           <Slide key = { on } width = { 100 }>
             <Title>{interactiveQuestions[activeInteractiveQuestion].content}</Title>
                 <SliceContainer>{
                     activeSlices.map((id) => 
@@ -117,6 +129,7 @@ const InteractiveQuestion = (props) => {
                     onMouseLeave = { () => setHoverIndex(-1) } 
                     key={id}>{ interactiveQuestions[activeInteractiveQuestion].slices[id].content}</Word> : '')}
                 </SliceContainer>
+                <div style = {{ display:'flex',alignItems:'center',justifyContent:'center' }}>
             <WordsContent>{interactiveQuestions[activeInteractiveQuestion].slices.map((slice,index) => 
                 !slice.checked ? <Word className = {hoverIndex === index ? 'active' : ''}
                 onClick = {() => toggleSentence(index)}
@@ -124,7 +137,9 @@ const InteractiveQuestion = (props) => {
                 onMouseLeave = { () => setHoverIndex(-1) } 
                 key={index}>{slice.content}</Word> : <WordSlice key={index}>{slice.content}</WordSlice>)}
             </WordsContent>
-            <NextBtn onClick = { onClick } />
+            </div>
+            </Slide>
+            <NextBtn onClick = { handleClick } />
             <Message correct = { correctAnswer } open = { open } handleClose = { handleClose } />
         </InteractiveContent>
         </>

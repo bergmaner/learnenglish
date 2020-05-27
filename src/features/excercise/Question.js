@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { List, ListItem, ListItemIcon, Checkbox } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,6 +12,8 @@ import {
     setQuestionsVisible,
     toggleCheckbox
         } from './excerciseSlice';
+import Slide from '../../animations/Slide';
+import Fade from '../../animations/Fade';
 import ProgressBar from '../../components/ProgressBar';
 import NextBtn from '../../components/NextBtn';
 import Message from '../../components/Message';
@@ -43,8 +45,6 @@ import Message from '../../components/Message';
         svg{
                 color: palevioletred;
             }`;
-    const Progress = styled.div`
-         width:80%;`;
 
 const Question = ( props ) => {
 
@@ -54,10 +54,14 @@ const Question = ( props ) => {
     const checkIndex = useSelector(selectCheckIndex);
     const correctAnswer = useSelector(selectCorrectAnswer);
     const dispatch = useDispatch();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [ on, setOn] = useState(true);
     
-    const onClick = () => {
-      if(!open) dispatch( nextQuestion() );
+    const handleClick = () => {
+      if(!open){
+        dispatch( nextQuestion() );
+        setOn(!on);
+      } 
         setOpen(true);
       };
     
@@ -76,11 +80,13 @@ const Question = ( props ) => {
 
     return (
         <>
-     <Progress>
+    <Fade width = {90}>
       <ProgressBar style ={{ width: props.progress }}/>
-    </Progress>
+    </Fade>
     <AnswersContent>
+    <Slide key = { on } width = { 100 } >
         <Title>{ questions[activeQuestion]?.content }</Title>
+        <div style = {{ display: 'flex', justifyContent: 'center' }}>
             <AnswersList >
             {questions[activeQuestion]?.answers?.map((answer,index) =>
             <ListItem key = {`question-${activeQuestion}-answer-${index}`} dense button onClick = { handleToggle(index) } >
@@ -95,7 +101,9 @@ const Question = ( props ) => {
             <Answer key = { index }>{ answer.content }</Answer>
             </ListItem>)}
             </AnswersList>
-            <NextBtn open = { open } onClick = { onClick } />
+            </div>
+            </Slide>
+            <NextBtn open = { open } onClick = { handleClick } />
             <Message correct = { correctAnswer } open = { open } handleClose = { handleClose } />
     </AnswersContent>
         </>
