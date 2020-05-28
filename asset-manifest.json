@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/learnenglish/static/css/main.2cd6f127.chunk.css",
-    "main.js": "/learnenglish/static/js/main.b6fabe0e.chunk.js",
-    "main.js.map": "/learnenglish/static/js/main.b6fabe0e.chunk.js.map",
+    "main.js": "/learnenglish/static/js/main.dbb6b53e.chunk.js",
+    "main.js.map": "/learnenglish/static/js/main.dbb6b53e.chunk.js.map",
     "runtime-main.js": "/learnenglish/static/js/runtime-main.c94cc0ee.js",
     "runtime-main.js.map": "/learnenglish/static/js/runtime-main.c94cc0ee.js.map",
-    "static/js/2.f0fc0a8c.chunk.js": "/learnenglish/static/js/2.f0fc0a8c.chunk.js",
-    "static/js/2.f0fc0a8c.chunk.js.map": "/learnenglish/static/js/2.f0fc0a8c.chunk.js.map",
+    "static/js/2.83418592.chunk.js": "/learnenglish/static/js/2.83418592.chunk.js",
+    "static/js/2.83418592.chunk.js.map": "/learnenglish/static/js/2.83418592.chunk.js.map",
     "index.html": "/learnenglish/index.html",
-    "precache-manifest.60a012a5af7f262ad67e5d51e786ec37.js": "/learnenglish/precache-manifest.60a012a5af7f262ad67e5d51e786ec37.js",
+    "precache-manifest.c6f7d9e5db9b9583d450ea08f854cdbf.js": "/learnenglish/precache-manifest.c6f7d9e5db9b9583d450ea08f854cdbf.js",
     "service-worker.js": "/learnenglish/service-worker.js",
     "static/css/main.2cd6f127.chunk.css.map": "/learnenglish/static/css/main.2cd6f127.chunk.css.map",
-    "static/js/2.f0fc0a8c.chunk.js.LICENSE.txt": "/learnenglish/static/js/2.f0fc0a8c.chunk.js.LICENSE.txt"
+    "static/js/2.83418592.chunk.js.LICENSE.txt": "/learnenglish/static/js/2.83418592.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.c94cc0ee.js",
-    "static/js/2.f0fc0a8c.chunk.js",
+    "static/js/2.83418592.chunk.js",
     "static/css/main.2cd6f127.chunk.css",
-    "static/js/main.b6fabe0e.chunk.js"
+    "static/js/main.dbb6b53e.chunk.js"
   ]
 }
