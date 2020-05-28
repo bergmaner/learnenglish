@@ -174,6 +174,7 @@ const clear = () =>
          <Submit onClick = { () => addSlice({q}) }>Add answer</Submit>
          <Submit onClick = { () => removeSlice({q}) }>Remove answer</Submit>
         </div>
+        <div style ={{ display: 'flex', flexWrap: 'wrap',justifyContent: 'center' }}>
             { interactiveQuestion.answers.map((slice, s) =>
               <div key = {`slices${s}`}>
                 <Input
@@ -185,13 +186,14 @@ const clear = () =>
                 />
               </div>
             )}
+        </div>
           </div>
         )}
          <div style = {{ width: '100%', display: 'flex', justifyContent: 'space-around'}}>
-        <Submit style = {{ margin: '0px 5px' }} onClick={ () => addInteractiveQuestion() }>Dodaj pytanie</Submit>
-        <Submit style = {{ margin: '0px 5px' }} onClick={ () => removeInteractiveQuestion() }>Usuń pytanie</Submit>
-        <Submit style = {{ margin: '0px 5px' }} onClick={ () => clear() }>Wyczyść</Submit>
-        <Submit style = {{ margin: '0px 5px' }} type="submit">Utwórz pytania</Submit>
+        <Submit type = "button" style = {{ margin: '0px 5px' }} onClick={ () => addInteractiveQuestion() }>Dodaj pytanie</Submit>
+        <Submit type = "button" style = {{ margin: '0px 5px' }} onClick={ () => removeInteractiveQuestion() }>Usuń pytanie</Submit>
+        <Submit type = "button" style = {{ margin: '0px 5px' }} onClick={ () => clear() }>Wyczyść</Submit>
+        <Submit style = {{ margin: '0px 5px' }} type = "submit">Utwórz pytania</Submit>
         </div>
       </form>
     </div>

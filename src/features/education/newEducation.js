@@ -192,10 +192,10 @@ const handleUpdate = (index) => {
         </div>
           </div>
         )}
-        <Button onClick= { () => addEducation() }>Dodaj słowo</Button>
-        <Button onClick= { () => removeEducation() }>Usuń słowo</Button>
-        <Button onClick= { () => clear() }>Wyczyść</Button>
-        <Button type = "submit">Utwórz słowa</Button>
+        <Button type = 'button' onClick= { () => addEducation() }>Dodaj słowo</Button>
+        <Button type = 'button' onClick= { () => removeEducation() }>Usuń słowo</Button>
+        <Button type = 'button' onClick= { () => clear() }>Wyczyść</Button>
+        <Button type = 'submit'>Utwórz słowa</Button>
       </form>
     </div>
   )

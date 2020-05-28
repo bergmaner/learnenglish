@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Icon from '@material-ui/core/Icon';
+import { restart } from '../features/excercise/excerciseSlice';
 
 const Header = styled.div`
 font-size: 30px;
@@ -57,6 +59,7 @@ const ChangeModul = ({ navLinks, type }) =>
 {
 
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const historyPush = (path) =>
     {
@@ -67,7 +70,7 @@ const ChangeModul = ({ navLinks, type }) =>
             <Header>Choose modul to { type === 'education' ? "educate" : "excercise" }</Header>
            <ModulsContainer> 
                {navLinks.map( (link,index) => 
-                <CircleButton key = { index } onClick = { () => historyPush(`/${type}/${link.text}`) }><Icon style = {{  fontSize: '50px'}}>{link.icon}</Icon></CircleButton>
+                <CircleButton key = { index } onClick = { () => (historyPush(`/${type}/${link.text}`), dispatch(restart()) ) }><Icon style = {{  fontSize: '50px'}}>{link.icon}</Icon></CircleButton>
             )}
             </ModulsContainer>
         </div>

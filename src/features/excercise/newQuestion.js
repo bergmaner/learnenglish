@@ -87,7 +87,7 @@ export default () => {
  {
     console.log("Error getting document:", error);
 });
-     
+     console.log(questions);
   }
 
   const onSubmit = async values =>
@@ -109,6 +109,7 @@ export default () => {
         interactiveQuestions : tempInteractiveQuestions
       });
     }
+    console.log(questions);
   };
 
 const clear = () =>
@@ -157,6 +158,7 @@ const clear = () =>
           variant = "outlined"
         />
         </div>
+        <div style = {{ display: 'flex',flexWrap: 'wrap',justifyContent: 'center' }}>
             { question.answers.map((answer, a) =>
               <div key = {`answer${a}`}>
                 <Input
@@ -168,12 +170,13 @@ const clear = () =>
                 />
               </div>
             )}
+        </div>
           </div>
         )}
-        <Submit style = {{ margin: '0px 5px' }} onClick={ () => addQuestion() }>Dodaj pytanie</Submit>
-        <Submit style = {{ margin: '0px 5px' }} onClick={ () => removeQuestion() }>Usuń pytanie</Submit>
-        <Submit style = {{ margin: '0px 5px' }} onClick={ () => clear() }>Wyczyść</Submit>
-        <Submit style = {{ margin: '0px 5px' }} type="submit">Utwórz pytania</Submit>
+        <Submit type = "button" style = {{ margin: '0px 5px' }} onClick={ () => addQuestion() }>Dodaj pytanie</Submit>
+        <Submit type ="button"style = {{ margin: '0px 5px' }} onClick={ () => removeQuestion() }>Usuń pytanie</Submit>
+        <Submit type = "button" style = {{ margin: '0px 5px' }} onClick={ () => clear() }>Wyczyść</Submit>
+        <Submit style = {{ margin: '0px 5px' }} type = "submit">Utwórz pytania</Submit>
       </form>
     </div>
   )
