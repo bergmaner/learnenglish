@@ -62,11 +62,14 @@ export default () => {
     values.education.map(edc => {edc.difficulty = Number(edc.difficulty)});
     values.education.map((edc, index) => edc.image = education[index].image);
     console.log(values.education);
+    const uniq = {};
+    const arrFiltered = tempEducation.filter(obj => !uniq[obj.content] && (uniq[obj.content] = true));
+    console.log(arrFiltered);
     if(exists)
     {
     Array.prototype.push.apply(tempEducation,values.education);
     await db.collection('education').doc(modul).update({
-      education : tempEducation
+      education : arrFiltered
     });
     }
     else

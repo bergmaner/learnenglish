@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button } from '@material-ui/core';
+import { Button, Tooltip } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Icon from '@material-ui/core/Icon';
@@ -70,7 +70,9 @@ const ChangeModul = ({ navLinks, type }) =>
             <Header>Choose modul to { type === 'education' ? "educate" : "excercise" }</Header>
            <ModulsContainer> 
                {navLinks.map( (link,index) => 
-                <CircleButton key = { index } onClick = { () => (historyPush(`/${type}/${link.text}`), dispatch(restart()) ) }><Icon style = {{  fontSize: '50px'}}>{link.icon}</Icon></CircleButton>
+               <Tooltip title = { link.text }>
+                <CircleButton key = { index } onClick = { () => (historyPush(`/${type}/${link.text}`), dispatch(restart()) ) }><Icon alt = 'Transport' style = {{  fontSize: '50px'}}>{link.icon}</Icon></CircleButton>
+               </Tooltip>
             )}
             </ModulsContainer>
         </div>

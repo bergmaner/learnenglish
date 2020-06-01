@@ -11,7 +11,6 @@ export default () => {
 
     useEffect( () => {
         const setUser = async(user) => {
-          let exist = false;
           console.log(user);
             if(user)  
             {
@@ -20,13 +19,15 @@ export default () => {
                let name = '';
                 console.log(`displayName: ${user.displayName} username: ${username}`);
                 await db.collection("users").doc(user.uid).get().then( function(doc) {
-                if(doc.exist) name = doc.data().name;
+                if(doc.exist){ name = doc.data().name; } 
                 else name = user.displayName === null ? username : user.displayName;
                 level = doc.exists ? doc.data().level : Number(-1);
                 stats = doc.exists ? doc.data().stats : [];
+                console.log(stats)
                 dispatch(login({ uid: user.uid, email: user.email, name: name , level : level, stats: stats, img: user.photoURL }));
                 });
-              if(exist === false) await db.collection("users").doc(user.uid).set({ email: user.email, name: name, level : level, stats:[], img: user.photoURL }, {merge: true});
+               
+             await db.collection("users").doc(user.uid).set({ email: user.email, name: name, level : level, stats: stats, img: user.photoURL }, {merge: true});
           }
             else dispatch( logout() );
      }

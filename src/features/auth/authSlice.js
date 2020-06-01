@@ -6,6 +6,8 @@ export const slice = createSlice({
     user: null,
     username: '',
     comunicat: '',
+    min: 30,
+    max: 70,
     difficulties: ['beginner','pre-intermediate','intermediate','upper-intermediate','advanced']
   },
   reducers: {
@@ -27,25 +29,25 @@ export const slice = createSlice({
        state.comunicat = `Your current Level : ${state.difficulties[state.user.level]}`;
       }
       else if( state.user.level >= 0 && state.user.level <= 4)  {
-        if( action.payload <= 25 && ( state.user.level !==0  && state.user.level !== 4 ) ) 
+        if( action.payload <= state.min && ( state.user.level !==0  && state.user.level !== 4 ) ) 
         {
           state.user.level--; 
           state.comunicat = `Wrrr,You are downgrade. Your current level: ${state.difficulties[state.user.level]}`;
         }
-        else if( action.payload >= 75 && ( state.user.level !==0  && state.user.level !== 4 ) ) 
+        else if( action.payload >= state.max && ( state.user.level !==0  && state.user.level !== 4 ) ) 
         {
           state.user.level++;
           state.comunicat = `Congrats,You are level up. Your current level: ${state.difficulties[state.user.level]}`;
         }
-        else if(  action.payload <= 25 &&  state.user.level === 0 )
+        else if(  action.payload <= state.min &&  state.user.level === 0 )
         {
           state.comunicat = `Wrrr,Isn't possibly downgrade more :(`;
         }
-        else if(  action.payload >= 75 &&  state.user.level === 4 )
+        else if(  action.payload >= state.max &&  state.user.level === 4 )
         {
           state.comunicat = `Nice,Is the highest possible level.`;
         }
-        else if(  action.payload < 75 && action.payload > 25 )
+        else if(  action.payload < state.max && action.payload > state.min )
         {
           state.comunicat = `Isn't bad.`;
         }
@@ -75,4 +77,5 @@ export const { login, logout, setLevel, setUsername } = slice.actions;
 export const selectCurrentUser = state => state.rootReducer.auth.user;
 export const selectComunicat = state => state.rootReducer.auth.comunicat;
 export const selectUsername = state => state.rootReducer.auth.username;
+export const selectDifficulties = state => state.rootReducer.auth.difficulties;
 export default slice.reducer;

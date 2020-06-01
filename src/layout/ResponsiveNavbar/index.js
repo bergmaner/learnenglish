@@ -1,5 +1,5 @@
 import React,{ useState, useEffect } from 'react';
-import Icon from '@material-ui/core/Icon';
+import { Icon, Tooltip } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import useAuthUser from '../../hooks/useAuthUser';
@@ -138,21 +138,22 @@ function ResponsiveNavbar({navLinks,background,hoverBackground,linkColor}) {
   const currentUser = useAuthUser();
   const dispatch = useDispatch();
 
-
-const handleLogOut = () =>
-{
-  auth().signOut();
-}
-
+  const handleLogOut = () =>
+  {
+    auth().signOut();
+  }
     return (
-        <ResponsiveToolbar style={{ background: background }}>
-            <NavList style={{ background: background }} className = {navOpen ? 'active' : ''}>
+        <ResponsiveToolbar style = {{ background: background }}>
+            <NavList style = {{ background: background }} className = {navOpen ? 'active' : ''}>
              <MenuIcon onClick = {() => setNavOpen(!navOpen)} >
-               <Icon style={{color: linkColor}}>menu</Icon>
+               <Icon style = {{ color: linkColor }}>menu</Icon>
              </MenuIcon>
-        <SiteName style={{color: linkColor}} to = {`/`}>LearnEnglish</SiteName>
+      <Tooltip title = "LearnEnglish">
+        <SiteName style = {{ color: linkColor }} to = {`/`}>LearnEnglish</SiteName>
+      </Tooltip>     
             <Menu>
-    {navLinks.map((link,index) => 
+    { navLinks.map(( link, index ) => 
+    <Tooltip title = { link.text }>
     <ListItem
      key = { index }
      onMouseEnter = { ()=> setHoverIndex(index) }
@@ -160,18 +161,23 @@ const handleLogOut = () =>
      style = {{ background: hoverIndex === index ? hoverBackground : '' }}>
         <StyledLink style = {{ color: linkColor }} to = { `/education/${ link.text }` }>{ link.text }
         <Icon style={{ fontSize:22,marginRight:10 }}>{ link.icon }</Icon></StyledLink>
-    </ListItem>)}
+    </ListItem>
+    </Tooltip>)}
     <ListItem log>
       { currentUser ?
+    <Tooltip title = "Account">
        <StyledLink account to = '/account' style = {{ color:linkColor, flexDirection: 'row' }}>
          Account<IoMdLogOut onClick = { () => handleLogOut() }/></StyledLink > 
+    </Tooltip>
        : <div>
+        <Tooltip title = "Login">
          <StyledLink log to = '/login' style = {{ color:linkColor,textDecoration: 'none' }}>
            Login<IoMdLogIn/></StyledLink>
-
+        </Tooltip>
+        <Tooltip title = "Register"> 
          <StyledLink log to = '/register' style = {{ color:linkColor,textDecoration: 'none' }}>
            Register<TiClipboard/></StyledLink>
-
+        </Tooltip> 
          </div> }
        </ListItem>
     </Menu>

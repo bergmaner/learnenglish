@@ -3,16 +3,21 @@ import Chart from "react-apexcharts";
 import { selectCurrentUser } from '../features/auth/authSlice';
 import { useSelector, useDispatch } from 'react-redux';
 
-const Line = () =>
+const Line = ({ data, width }) =>
 {
 
     const user = useSelector(selectCurrentUser);
-    const stats =  user.stats.map( (stat) => { return(stat.score) });
-    const dates =  user.stats.map( (stat) => { return(stat.date) });
+    const stats =  data.map( (item) => { return(item.score) });
+    const dates =  data.map( (item) => { return(item.date) });
     return (
         <div>
           {console.log(stats)}
         <Chart options = {{
+          chart: {
+          toolbar: {
+            show: false
+          }
+        },
         yaxis: {
           min: 0,
           max: 100,
@@ -29,7 +34,7 @@ const Line = () =>
       ]
     }
     type="line"
-              width="500"/>
+              width = { width }/>
         </div>
     )
 }

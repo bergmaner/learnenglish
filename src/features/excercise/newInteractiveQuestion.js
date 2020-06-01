@@ -107,12 +107,14 @@ export default () => {
   const onSubmit = async values => {
 
    values.interactiveQuestions.map(int => { int.difficulty= Number(int.difficulty) });
-
+   const uniq = {};
+   const arrFiltered = tempInteractiveQuestions.filter(obj => !uniq[obj.content] && (uniq[obj.content] = true));
+   console.log('f',arrFiltered);
     if(exists)
     {
     Array.prototype.push.apply(tempInteractiveQuestions,values.interactiveQuestions);
     await db.collection('excercise').doc(modul).update({
-      interactiveQuestions : tempInteractiveQuestions,
+      interactiveQuestions : arrFiltered,
       questions : tempQuestions
     });
     }
@@ -171,8 +173,8 @@ const clear = () =>
         />
         </div>
         <div style = {{ width: '100%', display: 'flex', justifyContent: 'space-around', marginBottom: '20px' }}>
-         <Submit onClick = { () => addSlice({q}) }>Add answer</Submit>
-         <Submit onClick = { () => removeSlice({q}) }>Remove answer</Submit>
+         <Submit type = 'button' onClick = { () => addSlice({q}) }>Add answer</Submit>
+         <Submit type = 'button' onClick = { () => removeSlice({q}) }>Remove answer</Submit>
         </div>
         <div style ={{ display: 'flex', flexWrap: 'wrap',justifyContent: 'center' }}>
             { interactiveQuestion.answers.map((slice, s) =>
