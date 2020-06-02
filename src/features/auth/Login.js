@@ -12,7 +12,7 @@ const Register = styled(Link)`
     text-decoration: none;
     transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     &:hover{
-        color: #838383;
+        color: #727272;
     }
 `;
 
@@ -32,15 +32,27 @@ const SocialMedia = styled.div`
     {
         color: #4267B2;
     }
+    @media screen and (max-width: 759px)
+    {
+        color: #4267B2;
+    }
 }
 .google{
     &:hover
     {
         color: #dd4b39;
     }
+    @media screen and (max-width: 759px)
+    {
+        color: #dd4b39;
+    }
 }
 .github{
     &:hover
+    {
+        color: #211F1F;
+    }
+    @media screen and (max-width: 759px)
     {
         color: #211F1F;
     }

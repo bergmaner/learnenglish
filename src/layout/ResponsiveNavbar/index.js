@@ -165,10 +165,10 @@ function ResponsiveNavbar({navLinks,background,hoverBackground,linkColor}) {
     </Tooltip>)}
     <ListItem log>
       { currentUser ?
-    <Tooltip title = "Account">
+
        <StyledLink account to = '/account' style = {{ color:linkColor, flexDirection: 'row' }}>
-         Account<IoMdLogOut onClick = { () => handleLogOut() }/></StyledLink > 
-    </Tooltip>
+       <Tooltip title = "Account"><div>Account</div></Tooltip><Tooltip title = "Logout"><div><IoMdLogOut style = {{ marginTop: '10px' }} onClick = { () => handleLogOut() }/></div></Tooltip></StyledLink > 
+    
        : <div>
         <Tooltip title = "Login">
          <StyledLink log to = '/login' style = {{ color:linkColor,textDecoration: 'none' }}>

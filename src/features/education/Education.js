@@ -22,8 +22,13 @@ import{ useParams } from "react-router-dom";
 const StyledLink = styled(Link)`
   font-weight: bold;
   text-decoration: none;
-  color : #c7c7c7;
-  font-size: 14px;`;
+  color : #a5a5a5;
+  font-size: 14px;
+  transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  &:hover{
+    color: #727272;
+  }
+  `;
 
 
 const Container = styled.div`
@@ -96,38 +101,48 @@ const CirclePagination = styled(Pagination)`
     font-weight:700;
     font-size : 18px;
   }
+  
   & .Mui-selected
   {
     opacity:1;
     background:palevioletred;
-    
+    div {
+      color: #a7a7a7;
+    }
     &:hover
     {
       cursor : default;
       background:palevioletred;
     }
   }
-
+ 
  button
   {
-   
-   background:palevioletred;
+   cursor: pointer;
+   background: palevioletred;
    color: #fff;
    opacity: 0.2;
-  
    
-   &:hover
-   {
-     opacity:1;
-   }
-  
   }
-  li > div
+  li{
+    cursor:pointer;
+  }
+ li:hover div button{
+   opacity: 1;
+ }
+  }
+  .Mui-selected + div{
+    color: #727272;
+  }
+  li > div 
   {
-    color: #c7c7c7;
+    color: #a5a5a5;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     font-weight : 700;
     font-size : 18px; 
+    &:hover{
+      color: #727272;
+    }
   }
 }`;
 
@@ -201,42 +216,43 @@ width: 350px;
 `;
 
 const WordText = styled.div`
-color : #c7c7c7;
-font-size:21px;
-margin:5px;
+color : #a5a5a5;
+font-weight: 700;
+font-size: 21px;
+margin: 5px;
 @media screen and (max-width: 759px)
 {
-  font-size:16px;
+  font-size: 16px;
 }`;
 
 const WordContent = styled.div`
-width:400px;
+width: 400px;
 height: 410px;
 display: flex;
   flex-direction: column;
-  align-items:center;
+  align-items: center;
   justify-content: center;
 @media screen and (max-width: 959px)
 {
-  padding:top: 50px;
+  padding: top: 50px;
   height: 350px;
   width: 100%;
   box-sizing: border-box;
 }
 @media screen and (max-width: 559px)
 {
-  height:268px;
+  height: 268px;
 }`;
 
 const ExcerciseBtn = styled(Button)`
 &&
 {
     color: #fff;
-    display:inline-block;
+    display: inline-block;
     background: #CA6082;
-    padding:2px;
-    height:auto;
-    padding:5px 8px;
+    padding: 2px;
+    height: auto;
+    padding: 5px 8px;
     font-size: 14px;
     border-radius : 16px;
     &:hover {
@@ -323,8 +339,9 @@ const Education = () =>
 
     const updateActualWord = (pageNumber) =>
     {
-     if(pageNumber >= 0 && pageNumber <= words.length) {
+     if(pageNumber >= 0 && pageNumber <= words.length && pageNumber !== activeWord) {
       ( pageNumber > activeWord ) ? setLeftSlide(true) : setLeftSlide(false);
+       setOn(!on)
        dispatch(goTo(pageNumber));
      }
     }
@@ -344,13 +361,13 @@ const Education = () =>
           <Content >
             <ImageWithPagination>
               <CirclePagination renderItem = { (item) => (
-                  <StyledPaginationItem onClick = { () => ( updateActualWord(item.page-1),setOn(!on) ) }>
+                  <StyledPaginationItem onClick = { () => updateActualWord(item.page-1) }>
                     <PaginationItem {...item} />
                     <PaginationText>
                       { item.page-1 !== -1 ? words[item.page-1].translation : '' }
                     </PaginationText>
                   </StyledPaginationItem>
-                )} page = {activeWord + 1} count={words.length} hidePrevButton hideNextButton />
+                )} page = {activeWord + 1} count = {words.length} hidePrevButton hideNextButton />
           <Fade key = {on}>
             <WordContent>
             <WordImage src ={words[activeWord].image}/>
@@ -360,7 +377,7 @@ const Education = () =>
             </ImageWithPagination>
             <Examples>
               <Example>
-              <span style = {{ color : 'palevioletred',fontWeight:700 }}>Examples</span>
+              <span style = {{ color: 'palevioletred',fontWeight:700 }}>Examples</span>
               <br/>
                 <span style= {{ fontWeight:700 }}>{words[activeWord].exampleTranslation}</span> - {words[activeWord].example}
                 </Example>

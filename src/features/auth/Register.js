@@ -12,7 +12,7 @@ const Login = styled(Link)`
     text-decoration: none;
     transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     &:hover{
-        color: #838383;
+        color: #727272;
     }`;
 
 const Register = () => {

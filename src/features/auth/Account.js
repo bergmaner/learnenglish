@@ -80,8 +80,12 @@ const Account = () =>
       {
         case 'day':
           const values = arr.filter( item => { if( Number(item.date[0]) === day && Number(item.date[1]) === month && Number(item.date[2]) === year ) return item;}).map( item => { return item.score });
-          let sum = values.reduce((prev, current) => current += prev);
-          setPercentage(sum / values.length);
+          let sum = 0;
+          if(values.length > 0){
+            sum = values.reduce((prev, current) => current += prev);
+            setPercentage(sum / values.length);
+          } 
+          else setPercentage(0);
           setChart(false);
           break;
 
