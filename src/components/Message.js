@@ -2,13 +2,15 @@ import React from "react";
 import { Snackbar } from "@material-ui/core";
 import styled from "styled-components";
 import Alert from "./Alert";
+import { breakpoint } from "../helpers/mediaQueries";
+
 const Snack = styled(Snackbar)`
   && {
     bottom: 10px;
     .MuiPaper-root {
       justify-content: center;
     }
-    @media screen and (max-width: 759px) {
+    @media ${breakpoint.md} {
       left: 60px;
       width: calc(100vw - 92px);
       .MuiSnackbar-anchorOriginBottomLeft {

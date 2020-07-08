@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { FaFacebook, FaGithub, FaGooglePlus } from "react-icons/fa";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { fbAuth, ghAuth, googleAuth, auth } from "../../services/firebase";
 import FormInput from "../../components/forms/FormInput";
 import Submit from "../../components/forms/Submit";
-import { Link } from "react-router-dom";
+import { breakpoint } from "../../helpers/mediaQueries";
 
 const Register = styled(Link)`
   color: #a5a5a5;
@@ -22,7 +23,7 @@ const SocialMedia = styled.div`
     cursor: pointer;
     transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
       background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    @media screen and (max-width: 759px) {
+    @media ${breakpoint.md} {
       font-size: 60px;
       margin: 10px 5px;
     }
@@ -31,7 +32,7 @@ const SocialMedia = styled.div`
     &:hover {
       color: #4267b2;
     }
-    @media screen and (max-width: 759px) {
+    @media ${breakpoint.md} {
       color: #4267b2;
     }
   }
@@ -39,7 +40,7 @@ const SocialMedia = styled.div`
     &:hover {
       color: #dd4b39;
     }
-    @media screen and (max-width: 759px) {
+    @media ${breakpoint.md} {
       color: #dd4b39;
     }
   }
@@ -47,7 +48,7 @@ const SocialMedia = styled.div`
     &:hover {
       color: #211f1f;
     }
-    @media screen and (max-width: 759px) {
+    @media ${breakpoint.md} {
       color: #211f1f;
     }
   }

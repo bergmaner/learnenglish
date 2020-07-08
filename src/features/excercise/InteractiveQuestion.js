@@ -14,6 +14,7 @@ import Fade from "../../animations/Fade";
 import ProgressBar from "../../components/ProgressBar";
 import NextBtn from "../../components/NextBtn";
 import Message from "../../components/Message";
+import { breakpoint } from "../../helpers/mediaQueries";
 
 const WordSlice = styled.span`
   border-radius: 16px;
@@ -48,10 +49,10 @@ const WordsContent = styled.div`
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  @media screen and (max-width: 759px) {
+  @media ${breakpoint.md} {
     width: 80%;
   }
-  @media screen and (max-width: 559px) {
+  @media ${breakpoint.sm} {
     width: 100%;
   }
 `;

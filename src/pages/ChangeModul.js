@@ -5,13 +5,14 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Icon from "@material-ui/core/Icon";
 import { restart } from "../features/excercise/excerciseSlice";
+import { breakpoint } from "../helpers/mediaQueries";
 
 const Header = styled.div`
   font-size: 30px;
   color: #db7093;
   padding-top: 100px;
   font-weight: 700;
-  @media screen and (max-width: 559px) {
+  @media ${breakpoint.sm} {
     font-size: 30px;
   }
 `;
@@ -30,10 +31,10 @@ const CircleButton = styled(Button)`
       background: #db7093;
       color: #fff;
     }
-    @media screen and (max-width: 759px) {
+    @media ${breakpoint.md} {
       padding: 45px;
     }
-    @media screen and (max-width: 559px) {
+    @media ${breakpoint.sm} {
       padding: 35px;
     }
   }

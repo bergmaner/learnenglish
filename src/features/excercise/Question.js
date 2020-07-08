@@ -16,6 +16,7 @@ import Fade from "../../animations/Fade";
 import ProgressBar from "../../components/ProgressBar";
 import NextBtn from "../../components/NextBtn";
 import Message from "../../components/Message";
+import { breakpoint } from "../../helpers/mediaQueries";
 
 const AnswersContent = styled.div`
   width: 100%;
@@ -28,7 +29,7 @@ const AnswersContent = styled.div`
 
 const AnswersList = styled(List)`
   width: 40%;
-  @media screen and (max-width: 759px) {
+  @media ${breakpoint.md} {
     width: 100%;
   }
 `;

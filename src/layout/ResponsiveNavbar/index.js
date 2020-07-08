@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import { Icon, Tooltip } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import useAuthUser from "../../hooks/useAuthUser";
 import { auth } from "../../services/firebase";
 import { IoMdLogIn, IoMdLogOut } from "react-icons/io";
 import { TiClipboard } from "react-icons/ti";
-import styled from "styled-components";
+import { breakpoint } from "../../helpers/mediaQueries";
 
 const ResponsiveToolbar = styled.nav`
   height: 60px;
@@ -25,7 +26,7 @@ const NavList = styled.ul`
   height: 100%;
   align-items: center;
   transition: 0.3s ease all;
-  @media screen and (max-width: 759px) {
+  @media ${breakpoint.md} {
     height: 100%;
     width: 300px;
     position: fixed;
@@ -45,7 +46,7 @@ const MenuIcon = styled.div`
   padding: 10px;
   cursor: pointer;
   visibility: hidden;
-  @media screen and (max-width: 759px) {
+  @media ${breakpoint.md} {
     visibility: visible;
     position: fixed;
     left: 5px;
@@ -61,7 +62,7 @@ const SiteName = styled(Link)`
   margin-block-end: 0;
   padding-inline-start: 30px;
   padding: 10px;
-  @media screen and (max-width: 759px) {
+  @media ${breakpoint.md} {
     padding: 10px 0px;
     text-align: center;
     position: fixed;
@@ -76,7 +77,7 @@ const Menu = styled.div`
   align-items: center;
   justify-content: flex-end;
   width: 96%;
-  @media screen and (max-width: 759px) {
+  @media ${breakpoint.md} {
     flex-direction: column;
     width: 100%;
   }
@@ -86,7 +87,7 @@ const ListItem = styled.li`
   list-style-type: none;
   padding: ${(props) => (props.log ? "11px 20px" : "15px 20px")};
   transition: all 0.4s;
-  @media screen and (max-width: 759px) {
+  @media ${breakpoint.md} {
     padding: 0px;
     width: 100%;
   }
@@ -97,7 +98,7 @@ const StyledLink = styled(Link)`
     margin-right: ${(props) => (props.account ? "0px" : "10px")};
     margin-left: ${(props) => (props.account ? "10px" : "0px")};
     font-size: 22px;
-    @media screen and (max-width: 759px) {
+    @media ${breakpoint.md} {
       margin-right: ${(props) => (props.account || props.log ? "10px" : "0px")};
       margin-left: ${(props) => (props.account || props.log ? "0px" : "10px")};
     }
@@ -109,7 +110,7 @@ const StyledLink = styled(Link)`
   align-items: center;
   justify-content: space-between;
   font-size: ${(props) => (props.log ? "14px" : "22px")};
-  @media screen and (max-width: 759px) {
+  @media ${breakpoint.md} {
     flex-direction: row;
     justify-content: space-between;
     font-size: 22px;

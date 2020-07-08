@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { Pagination, PaginationItem } from "@material-ui/lab";
+import { breakpoint } from "../helpers/mediaQueries";
+
 const CirclePagination = styled(Pagination)`
 &&
 {
   padding: 0 50px;
-  @media screen and (max-width: 759px)
+  @media ${breakpoint.md}
     {
       padding: 10px 0px;
     }
@@ -13,7 +15,7 @@ const CirclePagination = styled(Pagination)`
     display:flex;
     flex-direction:column;
     align-items:flex-start;
-    @media screen and (max-width: 759px)
+    @media ${breakpoint.md}
     {
       display: flex;
       flex-direction: row;
@@ -76,7 +78,7 @@ const CirclePagination = styled(Pagination)`
 const PaginationText = styled.div`
   margin: 0 5px;
   text-align: left;
-  @media screen and (max-width: 759px) {
+  @media ${breakpoint.md} {
     display: none;
   }
 `;
@@ -85,7 +87,7 @@ const StyledPaginationItem = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  @media screen and (max-width: 759px) {
+  @media ${breakpoint.md} {
     width: auto;
     margin: 0;
   }

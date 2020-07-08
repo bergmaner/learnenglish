@@ -18,6 +18,7 @@ import CircularPagination from "../../components/CircularPagination";
 import styled from "styled-components";
 import { Button } from "@material-ui/core";
 import { useParams } from "react-router-dom";
+import { breakpoint } from "../../helpers/mediaQueries";
 
 const StyledLink = styled(Link)`
   font-weight: bold;
@@ -44,18 +45,18 @@ const ImageWithPagination = styled.div`
   flex-direction: row;
   align-items: center;
   height: 420px;
-  @media screen and (max-width: 959px) {
+  @media ${breakpoint.lg} {
     height: 380px;
     width: 100%;
   }
-  @media screen and (max-width: 759px) {
+  @media ${breakpoint.md} {
     height: 360px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
   }
-  @media screen and (max-width: 559px) {
+  @media ${breakpoint.sm} {
     height: 340px;
   }
 `;
@@ -68,7 +69,7 @@ const Content = styled.div`
   justify-content: center;
   box-sizng: border-box;
   padding-bottom: 5px;
-  @media screen and (max-width: 959px) {
+  @media ${breakpoint.lg} {
     flex-direction: column;
     min-height: 440px;
     width: 100%;
@@ -86,17 +87,17 @@ const Examples = styled.div`
   justify-content: flex-start;
   height: 400px;
   box-sizing: border-box;
-  @media screen and (max-width: 959px) {
+  @media ${breakpoint.lg} {
     padding-top: 0;
     height: 90px;
     width: calc(100%-15px);
   }
-  @media screen and (max-width: 759px) {
+  @media ${breakpoint.md} {
     font-size: 16px;
     padding-top: 0;
     height: 100px;
   }
-  @media screen and (max-width: 559px) {
+  @media ${breakpoint.sm} {
     font-size: 14px;
     height: 120px;
   }
@@ -104,13 +105,13 @@ const Examples = styled.div`
 
 const WordImage = styled.img`
   width: 350px;
-  @media screen and (max-width: 959px) {
+  @media ${breakpoint.lg} {
     width: 300px;
   }
-  @media screen and (max-width: 759px) {
+  @media ${breakpoint.md} {
     width: 250px;
   }
-  @media screen and (max-width: 559px) {
+  @media ${breakpoint.sm} {
     width: 230px;
   }
 `;
@@ -120,7 +121,7 @@ const WordText = styled.div`
   font-weight: 700;
   font-size: 21px;
   margin: 5px;
-  @media screen and (max-width: 759px) {
+  @media ${breakpoint.md} {
     font-size: 16px;
   }
 `;
@@ -132,14 +133,14 @@ display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-@media screen and (max-width: 959px)
+@media ${breakpoint.lg}
 {
   padding: top: 50px;
   height: 350px;
   width: 100%;
   box-sizing: border-box;
 }
-@media screen and (max-width: 559px)
+@media ${breakpoint.sm}
 {
   height: 268px;
 }`;

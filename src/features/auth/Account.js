@@ -19,20 +19,21 @@ import {
 } from "../../features/auth/authSlice";
 import Line from "../../components/Chart";
 import Circular from "../../components/Circular";
+import { breakpoint } from "../../helpers/mediaQueries";
 
 const MainContent = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  @media screen and (max-width: 959px) {
+  @media ${breakpoint.lg} {
     flex-direction: column-reverse;
   }
 `;
 
 const FilterList = styled(List)`
   flex-wrap: wrap;
-  @media screen and (max-width: 959px) {
+  @media ${breakpoint.lg} {
     display: flex;
     justify-content: center;
   }
@@ -40,17 +41,17 @@ const FilterList = styled(List)`
 
 const Item = styled.div`
   width: 300px;
-  @media screen and (max-width: 959px) {
+  @media ${breakpoint.lg} {
     width: 150px;
   }
 `;
 
 const Chart = styled.div`
   width: 600px;
-  @media screen and (max-width: 959px) {
+  @media ${breakpoint.lg} {
     width: 480px;
   }
-  @media screen and (max-width: 559px) {
+  @media ${breakpoint.sm} {
     width: 300px;
   }
 `;

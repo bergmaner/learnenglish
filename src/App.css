@@ -14,7 +14,7 @@
   color: #a5a5a5;
   user-select: none;
 }
-@media screen and (max-width: 759px) {
+@media screen and (max-width: 759px){
   .App {
     width: calc(100% - 60px);
     left: 60px;

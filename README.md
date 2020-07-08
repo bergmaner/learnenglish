@@ -4,6 +4,7 @@
 it is a completely responsive application supporting the learning of English. Checks the level of skills and displays relevant questions, tasks and educational content
 ## Tech🔧
 - React
+- React Spring
 - React router dom
 - Styled Components
 - Material UI
