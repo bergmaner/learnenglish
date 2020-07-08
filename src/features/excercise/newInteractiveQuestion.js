@@ -93,15 +93,11 @@ export default () => {
           setTempInteractiveQuestions(doc.data().interactiveQuestions);
           setTempQuestions(doc.data().questions);
           setExists(true);
-          console.log("Document data:", doc.data().interactiveQuestions);
         } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
           setExists(false);
         }
       })
       .catch(function (error) {
-        console.log("Error getting document:", error);
       });
   };
 
@@ -114,7 +110,6 @@ export default () => {
     const arrFiltered = tempInteractiveQuestions.filter(
       (obj) => !uniq[obj.content] && (uniq[obj.content] = true)
     );
-    console.log("f", arrFiltered);
     if (exists) {
       Array.prototype.push.apply(
         tempInteractiveQuestions,

@@ -24,7 +24,6 @@ export const slice = createSlice({
       state.user = null;
     },
     setLevel: (state, action) => {
-      console.log(action.payload);
       if (state.user.level === -1) {
         if (action.payload >= 0 && action.payload <= 20) state.user.level = 0;
         else if (action.payload > 20 && action.payload <= 40)
@@ -72,8 +71,6 @@ export const slice = createSlice({
       };
 
       state.user.stats.push(stats);
-
-      console.log(...state.user.stats);
 
       db.collection("users").doc(state.user.uid).update({
         level: state.user.level,

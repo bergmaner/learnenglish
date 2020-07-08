@@ -15,12 +15,10 @@ const useAuthUser = () => {
 
   useEffect(() => {
     const setUser = async (user) => {
-      console.log(user);
       if (user) {
         let level = -1;
         let stats = [];
         let name = "";
-        console.log(`displayName: ${user.displayName} username: ${username}`);
         await db
           .collection("users")
           .doc(user.uid)
@@ -31,7 +29,6 @@ const useAuthUser = () => {
             } else name = user.displayName === null ? username : user.displayName;
             level = doc.exists ? doc.data().level : Number(-1);
             stats = doc.exists ? doc.data().stats : [];
-            console.log(stats);
             dispatch(
               login({
                 uid: user.uid,

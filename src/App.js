@@ -21,7 +21,6 @@ import "./App.css";
 
 function App() {
   const currentUser = useAuthUser();
-  console.log(currentUser);
   const navLinks = [
     {
       text: "Transport",

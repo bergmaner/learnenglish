@@ -1,8 +1,7 @@
 import React from "react";
 import { Snackbar } from "@material-ui/core";
 import styled from "styled-components";
-import MuiAlert from "@material-ui/lab/Alert";
-
+import Alert from "./Alert";
 const Snack = styled(Snackbar)`
   && {
     bottom: 10px;
@@ -44,19 +43,6 @@ const Snack = styled(Snackbar)`
     }
   }
 `;
-
-const Alert = ({ onClose, severity, children }) => {
-  return (
-    <MuiAlert
-      elevation={6}
-      variant="filled"
-      onClose={onClose}
-      severity={severity}
-    >
-      {children}
-    </MuiAlert>
-  );
-};
 
 const Message = ({ open, handleClose, correct }) => {
   return (

@@ -62,7 +62,6 @@ export default () => {
     auth()
       .signInWithEmailAndPassword(formValues.email, formValues.password)
       .catch((err) => {
-        console.log(err);
         setError(err.message);
       });
   }

@@ -26,11 +26,8 @@ export const educationSlice = createSlice({
     updateEducation: (state, action) => {
       let level = -1;
       state.activeWord = 0;
-      if (action.payload.user) {
-        level = action.payload.user.level;
-      } else {
-        level = -1;
-      }
+      if (action.payload.user) level = action.payload.user.level;
+
       if (!action.payload.user || level === -1) {
         const education = action.payload.education.filter((edc) => {
           return edc.difficulty === 0 ? true : "";
@@ -53,7 +50,8 @@ export const {
   goTo,
 } = educationSlice.actions;
 export const selectWords = (state) => state.rootReducer.education.words;
-export const selectActiveWord = (state) => state.rootReducer.education.activeWord;
+export const selectActiveWord = (state) =>
+  state.rootReducer.education.activeWord;
 export const fetchEducationAsync = (modul, user) => async (dispatch) => {
   const result = await db.collection("education").doc(modul).get();
   const obj = { education: result.data().education, user: user };

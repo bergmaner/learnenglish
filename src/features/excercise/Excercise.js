@@ -41,20 +41,20 @@ const Excercise = () => {
     if (user && questionsVisible !== undefined) {
       dispatch(fetchExcerciseAsync(modul, user));
     }
-  }, [user,dispatch,modul,questionsVisible]);
+  }, [user]);
 
   React.useEffect(() => {
     if (activeQuestion > questions.length - 1 && questions.length > 0) {
       dispatch(setQuestionsVisible(false));
     }
-  }, [activeQuestion,dispatch,questions.length]);
+  }, [activeQuestion]);
 
   React.useEffect(() => {
     if (activeInteractiveQuestion > 4) {
       dispatch(finishQuiz());
       dispatch(setLevel(score));
     }
-  }, [activeInteractiveQuestion,dispatch,score]);
+  }, [activeInteractiveQuestion]);
 
   return (
     <>

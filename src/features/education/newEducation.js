@@ -44,15 +44,11 @@ export default () => {
         if (doc.exists) {
           setTempEducation(doc.data().education);
           setExists(true);
-          console.log("Document data:", doc.data().education);
         } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
           setExists(false);
         }
       })
       .catch(function (error) {
-        console.log("Error getting document:", error);
       });
   };
 
@@ -62,12 +58,10 @@ export default () => {
       return edc;
     });
     values.education.map((edc, index) => (edc.image = education[index].image));
-    console.log(values.education);
     const uniq = {};
     const arrFiltered = tempEducation.filter(
       (obj) => !uniq[obj.content] && (uniq[obj.content] = true)
     );
-    console.log(arrFiltered);
     if (exists) {
       Array.prototype.push.apply(tempEducation, values.education);
       await db.collection("education").doc(modul).update({
@@ -106,7 +100,6 @@ export default () => {
           setProgress(progress);
         },
         (error) => {
-          console.log(error);
         },
         () => {
           storage
@@ -114,7 +107,6 @@ export default () => {
             .child(image.name)
             .getDownloadURL()
             .then((url) => {
-              console.log(url);
               setUrl(url);
               let newArr = [...education];
               newArr[index].image = url;

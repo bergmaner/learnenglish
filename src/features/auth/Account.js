@@ -115,16 +115,13 @@ const Account = () => {
             return item;
           return null;
         });
-        console.log(arr);
         break;
 
       case "month":
-        console.log(arr);
         arr = arr.filter((item) => {
           if (Number(item.date[1]) === month) return item;
           return null;
         });
-        console.log(arr);
         break;
       default:
         break;

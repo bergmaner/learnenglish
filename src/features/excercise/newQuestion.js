@@ -73,17 +73,12 @@ export default () => {
           setTempQuestions(doc.data().questions);
           setTempInteractiveQuestions(doc.data().interactiveQuestions);
           setExists(true);
-          console.log("Document data:", doc.data().questions);
         } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
           setExists(false);
         }
       })
       .catch(function (error) {
-        console.log("Error getting document:", error);
       });
-    console.log(questions);
   };
 
   const onSubmit = async (values) => {
@@ -107,7 +102,6 @@ export default () => {
         interactiveQuestions: tempInteractiveQuestions,
       });
     }
-    console.log(questions);
   };
 
   const clear = () => {

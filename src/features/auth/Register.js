@@ -42,10 +42,8 @@ const Register = () => {
       auth()
         .createUserWithEmailAndPassword(formValues.email, formValues.password)
         .catch((err) => {
-          console.log(err);
           setError(err.message);
         });
-      console.log(formValues);
     } else {
       setError(" Password and confirm Password must be identic");
     }

@@ -10,7 +10,6 @@ const Line = ({ data, width }) => {
   });
   return (
     <div>
-      {console.log(stats)}
       <Chart
         options={{
           chart: {
