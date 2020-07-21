@@ -27,4 +27,4 @@ it is a completely responsive application supporting the learning of English. Ch
 
 
 ## Live 📍
-[LIVE](https://bergmaner.github.io/learnEnglish)
+[LIVE](https://bergmaner.github.io/learnenglish)
